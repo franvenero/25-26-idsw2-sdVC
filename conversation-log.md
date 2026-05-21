@@ -10,8 +10,24 @@
 
 ## [21/05/2026] [22:07] Documentación y preparación de modelos RUP
 
-**Prompt:** Actúa como un arquitecto de software experto en RUP. Estamos documentando la arquitectura de un sistema de gestión colaborativa de tareas familiares. Tarea 1: Genera el contenido para el archivo RUP/01-analisis/README.md... Tarea 2: Genera el contenido para el archivo `RUP/02-diseño/README.md...` Tarea 3: Basado en tu experiencia RUP, sugiéreme qué 3 archivos .puml esenciales debería crear... Tarea 4: Dame los comandos de terminal (touch) para crear esos 6 archivos vacíos en sus respectivas carpetas.
+**Prompt:** Actúa como un arquitecto de software experto en RUP. Estamos documentando la arquitectura de un sistema de gestión colaborativa de tareas familiares. Tarea 1: Genera el contenido para el archivo RUP/01-analisis/README.md... Tarea 2: Genera el contenido para el archivo `RUP/02-diseño/README.md...` Tarea 3: Basado en tu experiencia RUP, sugiéreme qué 3 archivos .puml esenciales debería crear... Tarea 4: Dame los comandos de terminal (touch) para crear those 6 archivos vacíos en sus respectivas carpetas.
 
 **Resultado:** Creación de READMEs para Análisis y Diseño, definición de estrategia de modelado con 6 archivos .puml esenciales e inicialización de los mismos en el sistema de archivos.
 
 **Decisión:** Acepto la estructura de archivos propuesta porque cubre los artefactos esenciales para una correcta transición de análisis a diseño, siguiendo la metodología RUP adaptada a VibeCoding. Durante la ejecución del paso, el comando touch falló por no estar disponible en mi entorno actual (PowerShell).
+
+## [21/05/2026] [22:45] Modelado de análisis para Gestión de Sesión y Coordinación
+
+**Prompt:** Actúa como un ingeniero de software experto en la metodología RUP. Fase 1: Análisis. Modelado de casos de uso (iniciarSesion, cerrarSesion, completarGestion). Tarea: Crear subcarpetas, READMEs con propósito y flujo, y diagramas de colaboración (.puml) usando estereotipos BCE.
+
+**Resultado:** Creación de la estructura de artefactos para tres casos de uso clave. Se generaron los READMEs centrados en el valor de negocio y los diagramas de comunicación UML que detallan la interacción entre fronteras (boundary), controles y entidades.
+
+**Decisión:** He modelado las interacciones de forma estrictamente agnóstico a la tecnología para garantizar que la lógica de coordinación y seguridad (autenticación) sea validada desde la perspectiva del dominio antes de cualquier implementación técnica. Esto asegura un diseño robusto y alineado con los objetivos de negocio.
+
+## [21/05/2026] [22:55] Configuración de asistente de versionado profesional
+
+**Prompt:** A partir de ahora, vas a ser mi asistente de versionado profesional. Cada vez que te diga 'Genera commit', quiero que analices los últimos cambios... Genera el comando de commit para lo que acabamos de trabajar.
+
+**Resultado:** Se ha establecido una convención de 'Conventional Commits' para el proyecto. Se generó el comando: `git commit -m "docs: análisis BCE para iniciarSesion, cerrarSesion y completarGestion"`.
+
+**Decisión:** Adopto el estándar de Conventional Commits (feat, docs, chore, refactor) para mejorar la legibilidad del historial del repositorio y facilitar la generación automática de changelogs en el futuro. Esto eleva la calidad profesional del proceso de entrega.

@@ -1,0 +1,14 @@
+@startuml
+skinparam actorStyle human
+actor Usuario as U
+
+boundary "VistaPrincipal" as VP <<boundary>>
+control "GestorSesion" as GS <<control>>
+entity "Sesion" as S <<entity>>
+
+U -> VP : 1: solicitarCierreSesion()
+VP -> GS : 2: cerrarSesion()
+GS -> S : 3: invalidar()
+S --> GS : 4: ok
+GS --> VP : 5: confirmarCierre()
+@enduml

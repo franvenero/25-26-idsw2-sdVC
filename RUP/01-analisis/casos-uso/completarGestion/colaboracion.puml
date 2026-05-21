@@ -1,0 +1,15 @@
+@startuml
+skinparam actorStyle human
+actor Usuario as U
+
+boundary "HubColaboracion" as HC <<boundary>>
+control "CoordinadorColaboracion" as CC <<control>>
+entity "Grupo" as G <<entity>>
+entity "Tarea" as T <<entity>>
+
+U -> HC : 1: accederHub()
+HC -> CC : 2: obtenerEstadoColaboracion()
+CC -> G : 3: consultarGrupos()
+CC -> T : 4: consultarTareasPendientes()
+CC --> HC : 5: mostrarResumenGestion()
+@enduml

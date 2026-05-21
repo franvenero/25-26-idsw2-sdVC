@@ -1,0 +1,14 @@
+@startuml
+skinparam actorStyle human
+actor Usuario as U
+
+boundary "VistaLogin" as VL <<boundary>>
+control "GestorAutenticacion" as GA <<control>>
+entity "Usuario" as EntU <<entity>>
+
+U -> VL : 1: ingresarCredenciales(login, password)
+VL -> GA : 2: validarCredenciales(login, password)
+GA -> EntU : 3: verificarDatos()
+EntU --> GA : 4: confirmacion
+GA --> VL : 5: mostrarResultado()
+@enduml
