@@ -1,3 +1,3 @@
 # ¿Qué hace el sistema?
 
-> *En una frase. No qué gestiona: **qué hace**.*
+*Permite a los miembros de un grupo coordinar sus tareas diarias en un espacio común.*
