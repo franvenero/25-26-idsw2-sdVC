@@ -49,3 +49,11 @@ Sin embargo, he identificado un error de entendimiento: el CLI no ha generado lo
 **Resultado:** Modelado analático completo para flujos de navegación y lógica de negocio compleja. Se han definido las interacciones BCE para la visualización de listas (abrirTareas), la vinculación lógica entre entidades (relacionarTareas) y la extracción de la lógica de validación temporal (validarConflicto). Se actualizá el seguimiento en MEMORY.md y README.md.
 
 **Decisión:** He aceptado el modelado BCE para abrirTareas, relacionarTareas y validarConflicto. He validado que los diagramas de colaboración reflejan correctamente la delegación de responsabilidades
+
+## [23/05/2026] [17:40] Organización Modular de Análisis RUP
+
+**Prompt:** Actúa como un arquitecto de software experto en RUP. Organiza la estructura de análisis de mi proyecto creando directorios en RUP/01-analisis/casos-uso/ y agrupando los casos de uso en 4 módulos funcionales: gestion-sesion, gestion-grupos, gestion-tareas, y planificacion-configuracion.
+
+**Resultado:** Creación de los directorios para los 4 módulos funcionales. Movimiento de los casos de uso existentes a sus módulos correspondientes y generación de las subcarpetas con los archivos `README.md` y `colaboracion.puml` para los nuevos casos de uso. Propuesta de iniciar el análisis en `gestion-sesion`.
+
+**Decisión:** Acepto la organizacion de los casos de uso en 4 modulos funcionales.
