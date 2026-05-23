@@ -1,0 +1,26 @@
+@startuml
+skinparam actorStyle human
+actor Administrador as A
+
+boundary "VistaEdicionTarea" as VET <<boundary>>
+control "GestorTareas" as GT <<control>>
+entity "ConflictoHorario" as EntCH <<entity>>
+
+A -> VET : 1: solicitarGuardarCambios(nuevosDatosTemporales)
+VET -> GT : 2: validarYGuardar(nuevosDatosTemporales)
+
+group Lógica de Validación (validarConflicto)
+    GT -> EntCH : 3: evaluarSolapamientos(nuevosDatosTemporales)
+    EntCH --> GT : 4: resultadoValidacion (ok / conflicto)
+end
+
+alt Sin Conflicto (ok)
+    GT --> VET : 5a: confirmarGuardado()
+else Con Conflicto
+    GT --> VET : 5b: notificarConflicto(camposAfectados)
+    note right of VET
+        La vista muestra el error y 
+        permite al Administrador corregir
+    end note
+end
+@enduml

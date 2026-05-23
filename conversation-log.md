@@ -31,3 +31,21 @@
 **Resultado:** Se ha establecido una convención de 'Conventional Commits' para el proyecto. Se generó el comando: `git commit -m "docs: análisis BCE para iniciarSesion, cerrarSesion y completarGestion"`.
 
 **Decisión:** Adopto el estándar de Conventional Commits (feat, docs, chore, refactor) para mejorar la legibilidad del historial del repositorio y facilitar la generación automática de changelogs en el futuro. Esto eleva la calidad profesional del proceso de entrega.
+
+## [23/05/2026] [12:15] Análisis RUP para el módulo de Gestión de Tareas
+
+**Prompt:** Actúa como un Ingeniero de Software RUP. Vamos a realizar la Fase 1: Análisis para el módulo de 'Gestión de Tareas'. Analiza el modelo de dominio y la especificación de los casos de uso (Abrir, Crear, Editar, Eliminar, Marcar como Completada y relacionarTarea). Crea las carpetas correspondientes en RUP/01-analisis/casos-uso/, genera los archivos colaboracion.puml con diagramas BCE y los README.md explicativos.
+
+**Resultado:** Análisis detallado de la lógica de control para la gestión de tareas. Se han estructurado los artefactos de análisis (BCE) para cuatro casos de uso fundamentales, definiendo las responsabilidades del GestorTareas y su interacción con las entidades del dominio (Tarea, Grupo, ConflictoHorario).
+
+**Decisión:** He aceptado la estructura y el modelado BCE para el bloque inicial de gestión de tareas. La lógica de control definida en los controladores es coherente con el modelo de dominio.
+
+Sin embargo, he identificado un error de entendimiento: el CLI no ha generado los artefactos para los casos de uso abrirTarea, relacionarTarea y validarConflicto
+
+## [23/05/2026] [12:30] Extensión del Análisis RUP: Navegación, Relaciones y Validaciones
+
+**Prompt:** Actúa como un ingeniero de software RUP experto. Fase 1: Análisis (Realización de Casos de Uso). Procesa los diagramas de estado para abrirTareas, relacionarTareas y validarConflicto. Crea las carpetas, READMEs con lógica BCE y diagramas de colaboración .puml.
+
+**Resultado:** Modelado analático completo para flujos de navegación y lógica de negocio compleja. Se han definido las interacciones BCE para la visualización de listas (abrirTareas), la vinculación lógica entre entidades (relacionarTareas) y la extracción de la lógica de validación temporal (validarConflicto). Se actualizá el seguimiento en MEMORY.md y README.md.
+
+**Decisión:** He aceptado el modelado BCE para abrirTareas, relacionarTareas y validarConflicto. He validado que los diagramas de colaboración reflejan correctamente la delegación de responsabilidades

@@ -1,0 +1,23 @@
+@startuml
+skinparam actorStyle human
+actor Administrador as A
+
+boundary "VistaRelacionarTareas" as VRT <<boundary>>
+control "GestorTareas" as GT <<control>>
+entity "Tarea" as EntT <<entity>>
+entity "RelacionTareas" as EntRT <<entity>>
+
+A -> VRT : 1: solicitarIntroducirRelacion()
+VRT -> GT : 2: buscarTareasVinculables()
+GT -> EntT : 3: recuperarDisponibles()
+EntT --> GT : 4: listaTareasDisponibles
+GT --> VRT : 5: mostrarBuscador(listaTareasDisponibles)
+
+A -> VRT : 6: seleccionarTareaYTipoRelacion(idTareaVinculada, tipo)
+VRT -> GT : 7: establecerRelacion(idTareaActual, idTareaVinculada, tipo)
+
+GT -> EntRT : 8: <<create>> instanciarRelacion(tipo)
+GT -> EntT : 9: registrarVinculo()
+
+GT --> VRT : 10: confirmarVinculacion()
+@enduml

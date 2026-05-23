@@ -1,0 +1,30 @@
+@startuml
+skinparam actorStyle human
+actor Administrador as A
+
+boundary "VistaEditarTarea" as VET <<boundary>>
+control "GestorTareas" as GT <<control>>
+entity "Tarea" as EntT <<entity>>
+entity "ConflictoHorario" as EntCH <<entity>>
+
+A -> VET : 1: solicitarEdicion(idTarea)
+VET -> GT : 2: obtenerDatosTarea(idTarea)
+GT -> EntT : 3: recuperarEstado()
+EntT --> GT : 4: datosActuales
+GT --> VET : 5: mostrarDatos(datosActuales)
+
+A -> VET : 6: modificarDatos(nuevosDatos)
+VET -> GT : 7: validarYGuardar(nuevosDatos)
+
+group Validación de Conflictos
+    GT -> EntCH : 8: verificarConflictos(nuevosDatos)
+    EntCH --> GT : 9: resultadoValidacion
+end
+
+alt Sin Conflictos
+    GT -> EntT : 10: actualizarDatos(nuevosDatos)
+    GT --> VET : 11: confirmarExito()
+else Con Conflictos
+    GT --> VET : 12: notificarConflicto(detalles)
+end
+@enduml

@@ -1,0 +1,18 @@
+@startuml
+skinparam actorStyle human
+actor Administrador as A
+
+boundary "VistaCrearTarea" as VCT <<boundary>>
+control "GestorTareas" as GT <<control>>
+entity "Tarea" as EntT <<entity>>
+entity "Grupo" as EntG <<entity>>
+
+A -> VCT : 1: solicitarCrearTarea()
+VCT -> GT : 2: inicializarCreacion()
+GT -> EntT : 3: <<create>>
+A -> VCT : 4: introducirDatos(titulo, descripcion, fecha)
+VCT -> GT : 5: crearTarea(datos)
+GT -> EntT : 6: establecerAtributos(datos)
+GT -> EntG : 7: vincularTarea(tarea)
+GT --> VCT : 8: mostrarExito()
+@enduml

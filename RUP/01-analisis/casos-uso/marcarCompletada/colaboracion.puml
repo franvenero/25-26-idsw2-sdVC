@@ -1,0 +1,14 @@
+@startuml
+skinparam actorStyle human
+actor Usuario as U
+
+boundary "VistaTareas" as VT <<boundary>>
+control "GestorTareas" as GT <<control>>
+entity "Tarea" as EntT <<entity>>
+
+U -> VT : 1: marcarComoCompletada(idTarea)
+VT -> GT : 2: finalizarTarea(idTarea)
+GT -> EntT : 3: registrarFechaFinalizacion(ahora)
+GT -> EntT : 4: cambiarEstado(COMPLETADA)
+GT --> VT : 5: mostrarCambioEstado()
+@enduml

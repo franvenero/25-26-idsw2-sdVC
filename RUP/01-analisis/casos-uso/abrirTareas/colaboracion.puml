@@ -1,0 +1,31 @@
+@startuml
+skinparam actorStyle human
+actor Administrador as A
+
+boundary "VistaListaTareas" as VLT <<boundary>>
+control "GestorTareas" as GT <<control>>
+entity "Grupo" as EntG <<entity>>
+entity "Tarea" as EntT <<entity>>
+
+A -> VLT : 1: solicitarAbrirTareas()
+VLT -> GT : 2: obtenerListaTareas()
+GT -> EntG : 3: recuperarTareasAsociadas()
+EntG --> GT : 4: listaTareasBruta
+GT -> EntT : 5: obtenerDetalles()
+EntT --> GT : 6: datosDetallados
+GT --> VLT : 7: presentarLista(datosDetallados)
+
+A -> VLT : 8: solicitarFiltrarLista(criterios)
+VLT -> GT : 9: aplicarFiltros(criterios)
+GT --> VLT : 10: presentarListaFiltrada(datosFiltrados)
+
+A -> VLT : 11: seleccionarOpcionMantenimiento()
+note right of VLT
+  Permite redirigir a:
+  - crearTarea()
+  - editarTarea()
+  - eliminarTarea()
+  - marcarCompletada()
+end note
+VLT -> GT : 12: iniciarSubCasoDeUso()
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+skinparam actorStyle human
+actor Administrador as A
+
+boundary "VistaEliminarTarea" as VET <<boundary>>
+control "GestorTareas" as GT <<control>>
+entity "Tarea" as EntT <<entity>>
+
+A -> VET : 1: solicitarEliminacion(idTarea)
+VET -> GT : 2: confirmarEliminacion(idTarea)
+GT -> EntT : 3: validarEliminacion()
+EntT --> GT : 4: ok
+GT -> EntT : 5: <<destroy>>
+GT --> VET : 6: notificarEliminacion()
+@enduml
