@@ -1,0 +1,15 @@
+@startuml
+skinparam actorStyle human
+actor Usuario as U
+
+boundary "VistaAsignacion" as VA <<boundary>>
+control "GestorPlanificacion" as GP <<control>>
+entity "Usuario" as EntU <<entity>>
+entity "Tarea" as T <<entity>>
+
+U -> VA : 1: asignarUsuario(idUsuario)
+VA -> GP : 2: procesarAsignacion(idUsuario)
+GP -> EntU : 3: validarExistencia(idUsuario)
+GP -> T : 4: asignarResponsable(usuario)
+GP --> VA : 5: confirmarExito()
+@enduml

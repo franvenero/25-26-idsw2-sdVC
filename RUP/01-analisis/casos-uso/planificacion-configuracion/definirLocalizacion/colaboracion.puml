@@ -1,0 +1,15 @@
+@startuml
+skinparam actorStyle human
+actor Usuario as U
+
+boundary "VistaLocalizacion" as VL <<boundary>>
+control "GestorPlanificacion" as GP <<control>>
+entity "Localizacion" as L <<entity>>
+entity "Tarea" as T <<entity>>
+
+U -> VL : 1: definirLocalizacion(datosLoc)
+VL -> GP : 2: procesarDefinirLocalizacion(datosLoc)
+GP -> L : 3: <<create>> o actualizar(datosLoc)
+GP -> T : 4: vincularLocalizacion(localizacion)
+GP --> VL : 5: confirmarExito()
+@enduml

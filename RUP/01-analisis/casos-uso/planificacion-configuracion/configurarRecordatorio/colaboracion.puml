@@ -1,0 +1,15 @@
+@startuml
+skinparam actorStyle human
+actor Usuario as U
+
+boundary "VistaRecordatorio" as VR <<boundary>>
+control "GestorPlanificacion" as GP <<control>>
+entity "Recordatorio" as R <<entity>>
+entity "Tarea" as T <<entity>>
+
+U -> VR : 1: configurarRecordatorio(datosRec)
+VR -> GP : 2: añadirRecordatorio(datosRec)
+GP -> R : 3: <<create>>(datosRec)
+GP -> T : 4: añadirRecordatorioATarea(recordatorio)
+GP --> VR : 5: confirmarExito()
+@enduml

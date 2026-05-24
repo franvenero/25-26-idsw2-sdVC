@@ -1,0 +1,15 @@
+@startuml
+skinparam actorStyle human
+actor Usuario as U
+
+boundary "VistaHorario" as VH <<boundary>>
+control "GestorPlanificacion" as GP <<control>>
+entity "Horario" as H <<entity>>
+entity "Tarea" as T <<entity>>
+
+U -> VH : 1: establecerHorario(datosHorario)
+VH -> GP : 2: procesarEstablecerHorario(datosHorario)
+GP -> H : 3: <<create>> o actualizar(datosHorario)
+GP -> T : 4: vincularHorario(horario)
+GP --> VH : 5: confirmarExito()
+@enduml

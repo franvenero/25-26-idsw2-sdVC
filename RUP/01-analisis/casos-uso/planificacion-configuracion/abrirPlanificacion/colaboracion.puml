@@ -1,0 +1,21 @@
+@startuml
+skinparam actorStyle human
+actor Usuario as U
+
+boundary "VistaPlanificacion" as VP <<boundary>>
+control "GestorPlanificacion" as GP <<control>>
+entity "Tarea" as T <<entity>>
+entity "Horario" as H <<entity>>
+entity "Localizacion" as L <<entity>>
+entity "Recordatorio" as R <<entity>>
+entity "Usuario" as EntU <<entity>>
+
+U -> VP : 1: abrirPlanificacion(idTarea)
+VP -> GP : 2: cargarDatosPlanificacion(idTarea)
+GP -> T : 3: obtenerDetalles()
+GP -> H : 4: obtenerHorario()
+GP -> L : 5: obtenerLocalizacion()
+GP -> R : 6: obtenerRecordatorios()
+GP -> EntU : 7: obtenerAsignado()
+GP --> VP : 8: mostrarPlanificacion(datos)
+@enduml
