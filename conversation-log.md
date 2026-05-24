@@ -56,4 +56,13 @@ Sin embargo, he identificado un error de entendimiento: el CLI no ha generado lo
 
 **Resultado:** Creación de los directorios para los 4 módulos funcionales. Movimiento de los casos de uso existentes a sus módulos correspondientes y generación de las subcarpetas con los archivos `README.md` y `colaboracion.puml` para los nuevos casos de uso. Propuesta de iniciar el análisis en `gestion-sesion`.
 
-**Decisión:** Acepto la organizacion de los casos de uso en 4 modulos funcionales.
+Decisión: Acepto la organizacion de los casos de uso en 4 modulos funcionales.
+
+## [24/05/2026] [10:58] Análisis RUP: Gestión de Grupos
+
+**Prompt:** Actúa como un arquitecto RUP experto. Vamos a realizar la Fase 1: Análisis para el módulo gestion-grupos. Genera sus artefactos BCE (colaboracion.puml y README.md) para los casos de uso: abrirGrupos(), crearGrupo(), editarGrupo(), eliminarGrupo(), invitarUsuario(), editarMiembro(), eliminarMiembro(), abrirInvitaciones() y editarInvitacion().
+
+**Resultado:** Generación exitosa de los diagramas de colaboración BCE y documentación README para los 9 casos de uso del módulo 'gestion-grupos'. Se ha definido una lógica de coordinación robusta donde el `GestorGrupos` centraliza la validación de membresías, la creación de invitaciones y la gestión de miembros, asegurando la integridad referencial (ej. limpieza de miembros al eliminar un grupo).
+
+**Decisión:** He validado y aceptado el modelado BCE para la gestión de grupos. Se ha actualizado la memoria del proyecto (`MEMORY.md`) marcando este módulo como completado.
+

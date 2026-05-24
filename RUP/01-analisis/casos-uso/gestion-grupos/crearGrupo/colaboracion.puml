@@ -1,0 +1,18 @@
+@startuml
+skinparam actorStyle awesome
+
+actor Usuario as actor
+boundary FormularioGrupo as boundary
+control GestorGrupos as control
+entity Grupo as grupo
+entity MiembroGrupo as miembro
+
+actor -> boundary : ingresa datos del grupo
+boundary -> control : crearGrupo(datosGrupo, idCreador)
+control -> grupo : nuevo(datosGrupo)
+grupo --> control : instanciaGrupo
+control -> miembro : crear(instanciaGrupo, idCreador, rol: "ADMIN")
+miembro --> control : confirmacionMiembro
+control --> boundary : confirmacionExito
+boundary -> actor : muestra mensaje de éxito
+@enduml

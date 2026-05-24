@@ -1,0 +1,15 @@
+@startuml
+skinparam actorStyle awesome
+
+actor Usuario as actor
+boundary VistaInvitaciones as boundary
+control GestorGrupos as control
+entity Invitacion as invitacion
+
+actor -> boundary : solicita ver sus invitaciones
+boundary -> control : obtenerInvitacionesPendientes(idUsuario)
+control -> invitacion : buscarPorUsuario(idUsuario)
+invitacion --> control : listaInvitaciones
+control --> boundary : listaInvitaciones
+boundary -> actor : muestra invitaciones pendientes
+@enduml

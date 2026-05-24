@@ -1,0 +1,15 @@
+@startuml
+skinparam actorStyle awesome
+
+actor Usuario as actor
+boundary VistaMiembros as boundary
+control GestorGrupos as control
+entity MiembroGrupo as miembro
+
+actor -> boundary : solicita eliminar a un miembro
+boundary -> control : expulsarMiembro(idMiembro)
+control -> miembro : eliminar(idMiembro)
+miembro --> control : ok
+control --> boundary : confirmacionExito
+boundary -> actor : muestra mensaje de éxito
+@enduml

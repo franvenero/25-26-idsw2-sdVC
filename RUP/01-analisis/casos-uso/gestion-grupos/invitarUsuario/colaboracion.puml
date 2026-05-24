@@ -1,0 +1,21 @@
+@startuml
+skinparam actorStyle awesome
+
+actor Usuario as actor
+boundary FormularioInvitacion as boundary
+control GestorGrupos as control
+entity Usuario as usuarioEnt
+entity MiembroGrupo as miembro
+entity Invitacion as invitacion
+
+actor -> boundary : ingresa identificador de usuario
+boundary -> control : invitar(idGrupo, identificador)
+control -> usuarioEnt : buscar(identificador)
+usuarioEnt --> control : usuarioEncontrado
+control -> miembro : esMiembro(idGrupo, usuarioEncontrado.id)
+miembro --> control : false
+control -> invitacion : crear(idGrupo, usuarioEncontrado.id)
+invitacion --> control : ok
+control --> boundary : confirmacionExito
+boundary -> actor : muestra mensaje de éxito
+@enduml

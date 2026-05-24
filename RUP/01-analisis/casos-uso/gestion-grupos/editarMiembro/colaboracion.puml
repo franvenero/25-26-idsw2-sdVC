@@ -1,0 +1,17 @@
+@startuml
+skinparam actorStyle awesome
+
+actor Usuario as actor
+boundary VistaMiembros as boundary
+control GestorGrupos as control
+entity MiembroGrupo as miembro
+
+actor -> boundary : modifica rol/permisos de un miembro
+boundary -> control : actualizarRolMiembro(idMiembro, nuevoRol)
+control -> miembro : buscar(idMiembro)
+miembro --> control : instanciaMiembro
+control -> miembro : actualizar(nuevoRol)
+miembro --> control : ok
+control --> boundary : confirmacionExito
+boundary -> actor : muestra mensaje de éxito
+@enduml

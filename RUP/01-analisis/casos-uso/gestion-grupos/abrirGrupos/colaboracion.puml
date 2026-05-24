@@ -1,0 +1,15 @@
+@startuml
+skinparam actorStyle awesome
+
+actor Usuario as actor
+boundary VistaGrupos as boundary
+control GestorGrupos as control
+entity Grupo as entity
+
+actor -> boundary : solicita abrir vista de grupos
+boundary -> control : obtenerGruposUsuario(idUsuario)
+control -> entity : buscarPorUsuario(idUsuario)
+entity --> control : listaGrupos
+control --> boundary : listaGrupos
+boundary -> actor : muestra lista de grupos
+@enduml

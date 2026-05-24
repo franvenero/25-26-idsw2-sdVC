@@ -1,0 +1,22 @@
+@startuml
+skinparam actorStyle awesome
+
+actor Usuario as actor
+boundary VistaInvitaciones as boundary
+control GestorGrupos as control
+entity Invitacion as invitacion
+entity MiembroGrupo as miembro
+
+actor -> boundary : acepta o rechaza invitación
+boundary -> control : procesarInvitacion(idInvitacion, accion)
+control -> invitacion : buscar(idInvitacion)
+invitacion --> control : datosInvitacion
+alt accion == "ACEPTAR"
+    control -> miembro : crear(datosInvitacion.idGrupo, datosInvitacion.idUsuario, rol: "COLABORADOR")
+    miembro --> control : ok
+end
+control -> invitacion : eliminar(idInvitacion)
+invitacion --> control : ok
+control --> boundary : confirmacionExito
+boundary -> actor : muestra mensaje de éxito y actualiza lista
+@enduml
