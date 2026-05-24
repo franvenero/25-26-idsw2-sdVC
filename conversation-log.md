@@ -72,5 +72,14 @@ Decisión: Acepto la organizacion de los casos de uso en 4 modulos funcionales.
 
 **Resultado:** Generación completa de diagramas de colaboración BCE y documentación para el bloque técnico de planificación. Se ha establecido al `GestorPlanificacion` como el coordinador de las entidades técnicas (`Horario`, `Localizacion`, `Recordatorio`) en relación con la entidad central `Tarea`.
 
-**Decisión:** Con este módulo, doy por **concluida la Fase 1: Análisis**. He verificado que todos los casos de uso del sistema cuentan con su realización de análisis (BCE).Con esto, el sistema tiene una lógica de negocio completa y trazable, listo para avanzar a la Fase 2: Diseño.
+**Decisión:** Con este módulo, doy por **concluida la Fase 1: Análisis**. He verificado que todos los casos de uso del sistema cuentan con su realización de análisis (BCE). Con esto, el sistema tiene una lógica de negocio completa y trazable, listo para avanzar a la Fase 2: Diseño.
+
+## [24/05/2026] [12:34] Inicio de Fase 2 (Diseño): Arquitectura y Estructura
+
+**Prompt:** Actúa como un arquitecto RUP experto. Iniciamos la Fase 2: Diseño. Crea la estructura de carpetas, propón una Arquitectura de Capas y genera el README.md de diseño.
+
+**Resultado:** Inicialización formal de la fase de diseño técnico. Se ha establecido una **Arquitectura de 3 Capas (UI, BLL, DAL)** optimizada para .NET/Java, facilitando el desacoplamiento mediante interfaces y DTOs. Se han creado los directorios para diagramas de clases, secuencia y arquitectura.
+
+**Decisión:** He adoptado la arquitectura de 3 capas porque ofrece el mejor equilibrio entre mantenibilidad y escalabilidad para un sistema de gestión de tareas. 
+
 
