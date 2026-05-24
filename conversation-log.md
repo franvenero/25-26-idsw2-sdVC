@@ -72,6 +72,5 @@ Decisión: Acepto la organizacion de los casos de uso en 4 modulos funcionales.
 
 **Resultado:** Generación completa de diagramas de colaboración BCE y documentación para el bloque técnico de planificación. Se ha establecido al `GestorPlanificacion` como el coordinador de las entidades técnicas (`Horario`, `Localizacion`, `Recordatorio`) en relación con la entidad central `Tarea`.
 
-**Decisión:** Con este módulo, doy por **concluida la Fase 1: Análisis**. He verificado que todos los casos de uso del sistema cuentan con su realización de análisis (BCE), asegurando una transición fluida hacia la Fase 2: Diseño, donde se abordará la arquitectura técnica, el esquema de base de datos y los diagramas de secuencia detallados.
-
+**Decisión:** Con este módulo, doy por **concluida la Fase 1: Análisis**. He verificado que todos los casos de uso del sistema cuentan con su realización de análisis (BCE).Con esto, el sistema tiene una lógica de negocio completa y trazable, listo para avanzar a la Fase 2: Diseño.
 
