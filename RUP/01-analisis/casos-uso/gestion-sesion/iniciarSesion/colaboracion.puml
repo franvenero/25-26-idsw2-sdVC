@@ -1,14 +1,26 @@
-@startuml
-skinparam actorStyle human
-actor Usuario as U
+@startuml iniciarSesion-analisis
+skinparam linetype polyline
 
-boundary "VistaLogin" as VL <<boundary>>
-control "GestorAutenticacion" as GA <<control>>
-entity "Usuario" as EntU <<entity>>
+actor UsuarioNoRegistrado
+package iniciarSesion as "iniciarSesion()" {
+    rectangle #629EF9 LoginView
+    rectangle #b5bd68 IniciarSesionController
+    rectangle #F2AC4E UsuarioRepository
+    rectangle #F2AC4E Usuario
+    rectangle #F2AC4E Sesion
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-U -> VL : 1: ingresarCredenciales(login, password)
-VL -> GA : 2: validarCredenciales(login, password)
-GA -> EntU : 3: verificarDatos()
-EntU --> GA : 4: confirmacion
-GA --> VL : 5: mostrarResultado()
+UsuarioNoRegistrado -r-> LoginView: 1: iniciarSesion(usuario, contraseña)
+
+LoginView -d-> IniciarSesionController: 2: autenticar(usuario, contraseña)
+
+IniciarSesionController --> UsuarioRepository: 3: validarCredenciales(usuario, contraseña)
+
+UsuarioRepository -- Usuario
+
+IniciarSesionController --> Sesion: 4: crearSesion(usuario)
+
+LoginView -r-> SistemaDisponible: 5: sistemaDisponible(usuarioAutenticado)
+
 @enduml

@@ -82,4 +82,32 @@ Decisión: Acepto la organizacion de los casos de uso en 4 modulos funcionales.
 
 **Decisión:** He adoptado la arquitectura de 3 capas porque ofrece el mejor equilibrio entre mantenibilidad y escalabilidad para un sistema de gestión de tareas. 
 
+---
+
+## Sesión 11: Implementación de Protocolo de Rigor RUP y Auditoría "Tiburón Tranquilo"
+**Fecha**: 2026-05-25
+**Participantes**: Fran (Ingeniero) + Gemini CLI (Asistente RUP)
+**Estado**: COMPLETADA
+
+### Contexto de la Sesión
+- **Situación inicial**: El proyecto contaba con una estructura de análisis y diseño inicial, pero carecía de una referencia de calidad estricta y un protocolo de documentación profesional.
+- **Objetivo**: Elevar el rigor metodológico adoptando un nuevo protocolo de bitácora y utilizando la carpeta `_contexto/` como estándar de excelencia (plantillas del profesor).
+
+### Trabajo Realizado y Decisiones
+- **Artefactos modificados/creados**: 
+    - `conversation-log.md`: Adoptado nuevo formato de registro por sesiones.
+    - `RUP/01-analisis/casos-uso/gestion-sesion/iniciarSesion/colaboracion.puml`: Rediseñado bajo el estándar de rectángulos coloreados (BCE) y patrones de colaboración.
+    - `RUP/01-analisis/casos-uso/gestion-sesion/iniciarSesion/README.md`: Reescrito para incluir tablas de responsabilidades, trazabilidad y principios de análisis.
+- **Decisiones técnicas**: 
+    - **Adopción de Rectángulos en Análisis**: Se sustituyen los iconos UML estándar (Boundary/Control/Entity) por rectángulos con códigos de color específicos (#629EF9, #b5bd68, #F2AC4E) para alinearse con los ejemplos de `_contexto/` y mejorar la legibilidad técnica.
+    - **Patrón de Cierre de Estado**: Se añade la colaboración `:Sistema Disponible` para garantizar que cada caso de uso termine en un estado estable del sistema, no solo en un mensaje de retorno.
+
+### Lecciones Metodológicas (RUP)
+- **Independencia Tecnológica**: La auditoría detectó que los mensajes iniciales eran demasiado cercanos a la implementación. Se corrigieron hacia mensajes de "intención" (ej. `autenticar` en lugar de `validarCredenciales` en la frontera).
+- **Encapsulamiento de Datos**: Se reforzó el uso de `UsuarioRepository` como abstracción de acceso a datos, eliminando la dependencia directa del controlador sobre la lógica de persistencia.
+
+### Próximos Pasos
+- Continuar con la auditoría de rigor "Tiburón Tranquilo" para los casos de uso del módulo `gestion-tareas` (`crearTarea`, `abrirTareas`).
+- Iniciar la transición de estos modelos de análisis a diagramas de secuencia de diseño una vez validada la pureza del análisis.
+
 
