@@ -1,11 +1,61 @@
-# Caso de Uso: Abrir Tareas
+# Análisis: abrirTareas
 
-## Propósito Analítico
-Este caso de uso actúa como el punto de entrada principal o "hub" para la gestión de tareas dentro de un contexto activo (como un grupo). Su propósito es presentar la lista de tareas al administrador y coordinar la navegación hacia otras operaciones de gestión (crear, editar, eliminar, completar).
+> |[🏠️](/RUP/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |-|-|-|-|-|
 
-### Lógica del Controlador
-En el patrón BCE, el **Controlador (GestorTareas o GestorVistas)** tiene las siguientes responsabilidades para este flujo:
-1. **Recuperación de Datos**: Coordina con la entidad `Grupo` y las entidades `Tarea` asociadas para recuperar la lista actualizada.
-2. **Presentación (Distribución)**: Proporciona la información a la frontera (`VistaListaTareas`) para su visualización.
-3. **Filtros**: Procesa solicitudes de filtrado provenientes de la frontera para reducir el conjunto de entidades mostradas según el estado u otros criterios.
-4. **Enrutamiento**: Recibe las intenciones del usuario desde la vista (ej. "solicita editar tarea") y dirige el flujo de control hacia el caso de uso correspondiente.
+## Información del Artefacto
+- **Fase RUP**: Elaboración
+- **Disciplina**: Análisis
+- **Estatus**: Corregido (Rigor RUP)
+- **Patrón**: BCE / MVC conceptual
+
+## Propósito
+Análisis de colaboración del caso de uso `abrirTareas()` para permitir al usuario visualizar el listado de tareas pendientes y completadas dentro de un grupo familiar, facilitando la gestión centralizada.
+
+## Diagrama de Colaboración (BCE)
+
+<div align=center>
+
+|![Análisis abrirTareas](colaboracion.puml)|
+|-|
+|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+
+</div>
+
+## Clases de Análisis Identificadas
+
+### Clases Model (Naranja #F2AC4E)
+| Clase | Responsabilidad | Trazabilidad |
+| :--- | :--- | :--- |
+| **Tarea** | Entidad que representa la unidad de trabajo o recordatorio. | Modelo del Dominio |
+| **Grupo** | Contexto al que pertenecen las tareas. | Modelo del Dominio |
+| **TareaRepository** | Abstracción para el filtrado y recuperación de tareas por grupo. | Patrón Repository |
+
+### Clases View (Azul #629EF9)
+| Clase | Responsabilidad | Derivación |
+| :--- | :--- | :--- |
+| **ListarTareasView** | Presentar la lista de tareas y permitir la navegación a acciones CRUD. | Prototipo / UI |
+
+### Clases Controller (Verde #b5bd68)
+| Clase | Responsabilidad | Caso de Uso |
+| :--- | :--- | :--- |
+| **TareasController** | Coordina la obtención de tareas filtradas por el grupo activo. | abrirTareas() |
+
+### Colaboraciones (Verde Claro #CDEBA5)
+| Colaboración | Propósito | Invocación |
+| :--- | :--- | :--- |
+| **:Sistema Disponible** | Estado global de navegación del sistema. | Origen / Destino |
+
+## Mensajes de Colaboración
+
+| Origen | Destino | Mensaje | Intención |
+| :--- | :--- | :--- | :--- |
+| **:Sistema Disponible** | **ListarTareasView** | `1: abrirTareas()` | Iniciar visualización de tareas. |
+| **ListarTareasView** | **TareasController** | `2: listarTareas(g)` | Solicitar datos al controlador. |
+| **TareasController** | **TareaRepository** | `3: obtenerTareasPorGrupo(g)` | Recuperar entidades del dominio. |
+| **ListarTareasView** | **:Sistema Disponible** | `4: sistemaDisponible(u)` | Regresar al menú de navegación. |
+
+## Principios de Análisis Aplicados
+1. **Contextualización de Datos**: El controlador garantiza que solo se recuperen tareas pertenecientes al grupo en el que el usuario está operando.
+2. **Abstracción de Repositorio**: Se utiliza `TareaRepository` para desacoplar la lógica de filtrado de la gestión directa de entidades.
+3. **Navegación Circular**: Se mantiene la coherencia con el diagrama de estados al retornar a `:Sistema Disponible`.

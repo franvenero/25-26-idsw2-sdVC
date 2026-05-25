@@ -1,23 +1,24 @@
-@startuml
-skinparam actorStyle human
-actor Administrador as A
+@startuml relacionarTareas-analisis
+skinparam linetype polyline
 
-boundary "VistaRelacionarTareas" as VRT <<boundary>>
-control "GestorTareas" as GT <<control>>
-entity "Tarea" as EntT <<entity>>
-entity "RelacionTareas" as EntRT <<entity>>
+actor Usuario
+package relacionarTareas as "relacionarTareas()" {
+    rectangle #629EF9 RelacionarTareasView
+    rectangle #b5bd68 TareasController
+    rectangle #F2AC4E TareaRepository
+    rectangle #F2AC4E RelacionRepository
+    rectangle #F2AC4E Tarea
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-A -> VRT : 1: solicitarIntroducirRelacion()
-VRT -> GT : 2: buscarTareasVinculables()
-GT -> EntT : 3: recuperarDisponibles()
-EntT --> GT : 4: listaTareasDisponibles
-GT --> VRT : 5: mostrarBuscador(listaTareasDisponibles)
+SistemaDisponible -r-> RelacionarTareasView: 1: relacionarTareas(tarea)
 
-A -> VRT : 6: seleccionarTareaYTipoRelacion(idTareaVinculada, tipo)
-VRT -> GT : 7: establecerRelacion(idTareaActual, idTareaVinculada, tipo)
+RelacionarTareasView -d-> TareasController: 2: establecerVinculo(id1, id2, tipo)
 
-GT -> EntRT : 8: <<create>> instanciarRelacion(tipo)
-GT -> EntT : 9: registrarVinculo()
+TareasController --> RelacionRepository: 3: crearRelacion(id1, id2, tipo)
 
-GT --> VRT : 10: confirmarVinculacion()
+RelacionRepository -- Tarea
+
+RelacionarTareasView -r-> SistemaDisponible: 4: sistemaDisponible(usuario)
+
 @enduml

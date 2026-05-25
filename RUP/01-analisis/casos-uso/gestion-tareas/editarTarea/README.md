@@ -1,10 +1,60 @@
-# Caso de Uso: Editar Tarea
+# Análisis: editarTarea
 
-## Propósito Analítico
-Este caso de uso gestiona la modificación de la información de tareas existentes y asegura que los cambios no introduzcan inconsistencias, especialmente en la programación temporal.
+> |[🏠️](/RUP/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |-|-|-|-|-|
 
-### Lógica del Controlador
-1. **Recuperación**: Obtiene el estado actual de la entidad `Tarea` para su visualización en la frontera.
-2. **Validación de Reglas de Negocio**: Antes de persistir cambios, el **GestorTareas** consulta a la entidad `ConflictoHorario` para verificar que la nueva programación (si ha cambiado) no solape con otras responsabilidades del usuario o recursos.
-3. **Sincronización**: Actualiza los atributos de la `Tarea` y sus objetos asociados (`Horario`, `Localizacion`, `Recordatorio`).
-4. **Gestión de Errores**: Si se detecta un conflicto, el controlador debe gestionar el flujo de retorno a la vista con la información específica del error para que el usuario pueda corregirlo.
+## Información del Artefacto
+- **Fase RUP**: Elaboración
+- **Disciplina**: Análisis
+- **Estatus**: Corregido (Rigor RUP)
+- **Patrón**: BCE / MVC conceptual
+
+## Propósito
+Análisis de colaboración del caso de uso `editarTarea()` para permitir la modificación de atributos de una tarea existente, asegurando la consistencia de la información y su persistencia correcta.
+
+## Diagrama de Colaboración (BCE)
+
+<div align=center>
+
+|![Análisis editarTarea](colaboracion.puml)|
+|-|
+|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+
+</div>
+
+## Clases de Análisis Identificadas
+
+### Clases Model (Naranja #F2AC4E)
+| Clase | Responsabilidad | Trazabilidad |
+| :--- | :--- | :--- |
+| **Tarea** | Entidad que encapsula los datos a modificar. | Modelo del Dominio |
+| **TareaRepository** | Abstracción para la actualización persistente de las tareas. | Patrón Repository |
+
+### Clases View (Azul #629EF9)
+| Clase | Responsabilidad | Derivación |
+| :--- | :--- | :--- |
+| **EditarTareaView** | Interfaz para la edición de los atributos de la tarea. | Prototipo / UI |
+
+### Clases Controller (Verde #b5bd68)
+| Clase | Responsabilidad | Caso de Uso |
+| :--- | :--- | :--- |
+| **TareasController** | Coordina la lógica de actualización y validaciones de negocio. | editarTarea() |
+
+### Colaboraciones (Verde Claro #CDEBA5)
+| Colaboración | Propósito | Invocación |
+| :--- | :--- | :--- |
+| **:Sistema Disponible** | Estado global de retorno tras la edición. | Post-condición |
+
+## Mensajes de Colaboración
+
+| Origen | Destino | Mensaje | Intención |
+| :--- | :--- | :--- | :--- |
+| **:Sistema Disponible** | **EditarTareaView** | `1: editarTarea(t)` | Iniciar la edición de la tarea. |
+| **EditarTareaView** | **TareasController** | `2: actualizarTarea(id, d)` | Delegar la actualización de datos. |
+| **TareasController** | **TareaRepository** | `3: guardarCambios(id, d)` | Persistir las modificaciones. |
+| **EditarTareaView** | **:Sistema Disponible** | `4: sistemaDisponible(u)` | Regresar a la vista de tareas. |
+
+## Principios de Análisis Aplicados
+1. **Validación de Integridad**: El controlador asegura que los cambios cumplan con las reglas de negocio antes de invocar la persistencia.
+2. **Encapsulamiento de Persistencia**: El uso del repositorio evita que el controlador dependa de detalles de implementación de datos.
+3. **Flujo de Navegación Estándar**: Se respeta la transición al estado `:Sistema Disponible` tras la operación exitosa.

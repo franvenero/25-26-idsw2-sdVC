@@ -1,30 +1,23 @@
-@startuml
-skinparam actorStyle human
-actor Administrador as A
+@startuml editarTarea-analisis
+skinparam linetype polyline
 
-boundary "VistaEditarTarea" as VET <<boundary>>
-control "GestorTareas" as GT <<control>>
-entity "Tarea" as EntT <<entity>>
-entity "ConflictoHorario" as EntCH <<entity>>
+actor Usuario
+package editarTarea as "editarTarea()" {
+    rectangle #629EF9 EditarTareaView
+    rectangle #b5bd68 TareasController
+    rectangle #F2AC4E TareaRepository
+    rectangle #F2AC4E Tarea
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-A -> VET : 1: solicitarEdicion(idTarea)
-VET -> GT : 2: obtenerDatosTarea(idTarea)
-GT -> EntT : 3: recuperarEstado()
-EntT --> GT : 4: datosActuales
-GT --> VET : 5: mostrarDatos(datosActuales)
+SistemaDisponible -r-> EditarTareaView: 1: editarTarea(tarea)
 
-A -> VET : 6: modificarDatos(nuevosDatos)
-VET -> GT : 7: validarYGuardar(nuevosDatos)
+EditarTareaView -d-> TareasController: 2: actualizarTarea(id, datos)
 
-group Validación de Conflictos
-    GT -> EntCH : 8: verificarConflictos(nuevosDatos)
-    EntCH --> GT : 9: resultadoValidacion
-end
+TareasController --> TareaRepository: 3: guardarCambios(id, datos)
 
-alt Sin Conflictos
-    GT -> EntT : 10: actualizarDatos(nuevosDatos)
-    GT --> VET : 11: confirmarExito()
-else Con Conflictos
-    GT --> VET : 12: notificarConflicto(detalles)
-end
+TareaRepository -- Tarea
+
+EditarTareaView -r-> SistemaDisponible: 4: sistemaDisponible(usuario)
+
 @enduml

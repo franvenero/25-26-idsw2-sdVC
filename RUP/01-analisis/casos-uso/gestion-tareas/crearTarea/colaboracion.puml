@@ -1,18 +1,25 @@
-@startuml
-skinparam actorStyle human
-actor Administrador as A
+@startuml crearTarea-analisis
+skinparam linetype polyline
 
-boundary "VistaCrearTarea" as VCT <<boundary>>
-control "GestorTareas" as GT <<control>>
-entity "Tarea" as EntT <<entity>>
-entity "Grupo" as EntG <<entity>>
+actor Usuario
+package crearTarea as "crearTarea()" {
+    rectangle #629EF9 CrearTareaView
+    rectangle #b5bd68 TareasController
+    rectangle #F2AC4E TareaRepository
+    rectangle #F2AC4E Tarea
+    rectangle #F2AC4E Grupo
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-A -> VCT : 1: solicitarCrearTarea()
-VCT -> GT : 2: inicializarCreacion()
-GT -> EntT : 3: <<create>>
-A -> VCT : 4: introducirDatos(titulo, descripcion, fecha)
-VCT -> GT : 5: crearTarea(datos)
-GT -> EntT : 6: establecerAtributos(datos)
-GT -> EntG : 7: vincularTarea(tarea)
-GT --> VCT : 8: mostrarExito()
+SistemaDisponible -r-> CrearTareaView: 1: crearTarea()
+
+CrearTareaView -d-> TareasController: 2: registrarTarea(datos, grupo)
+
+TareasController --> TareaRepository: 3: crearTareaEnGrupo(datos, grupo)
+
+TareaRepository -- Tarea
+TareaRepository -- Grupo
+
+CrearTareaView -r-> SistemaDisponible: 4: sistemaDisponible(usuario)
+
 @enduml

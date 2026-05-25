@@ -1,15 +1,27 @@
-@startuml
-skinparam actorStyle human
-actor Usuario as U
+@startuml completarGestion-analisis
+skinparam linetype polyline
 
-boundary "HubColaboracion" as HC <<boundary>>
-control "CoordinadorColaboracion" as CC <<control>>
-entity "Grupo" as G <<entity>>
-entity "Tarea" as T <<entity>>
+actor Usuario
+package completarGestion as "completarGestion()" {
+    rectangle #629EF9 ResumenGestionView
+    rectangle #b5bd68 TareasController
+    rectangle #F2AC4E TareaRepository
+    rectangle #F2AC4E GrupoRepository
+    rectangle #F2AC4E Tarea
+    rectangle #F2AC4E Grupo
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-U -> HC : 1: accederHub()
-HC -> CC : 2: obtenerEstadoColaboracion()
-CC -> G : 3: consultarGrupos()
-CC -> T : 4: consultarTareasPendientes()
-CC --> HC : 5: mostrarResumenGestion()
+SistemaDisponible -r-> ResumenGestionView: 1: completarGestion()
+
+ResumenGestionView -d-> TareasController: 2: obtenerResumenColaboracion(usuario)
+
+TareasController --> GrupoRepository: 3: obtenerGruposActivos(usuario)
+TareasController --> TareaRepository: 4: obtenerTareasPendientes(usuario)
+
+GrupoRepository -- Grupo
+TareaRepository -- Tarea
+
+ResumenGestionView -r-> SistemaDisponible: 5: sistemaDisponible(usuario)
+
 @enduml

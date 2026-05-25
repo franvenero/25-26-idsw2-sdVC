@@ -1,15 +1,23 @@
-@startuml
-skinparam actorStyle awesome
+@startuml abrirGrupos-analisis
+skinparam linetype polyline
 
-actor Usuario as actor
-boundary VistaGrupos as boundary
-control GestorGrupos as control
-entity Grupo as entity
+actor Usuario
+package abrirGrupos as "abrirGrupos()" {
+    rectangle #629EF9 ListarGruposView
+    rectangle #b5bd68 GruposController
+    rectangle #F2AC4E GrupoRepository
+    rectangle #F2AC4E Grupo
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-actor -> boundary : solicita abrir vista de grupos
-boundary -> control : obtenerGruposUsuario(idUsuario)
-control -> entity : buscarPorUsuario(idUsuario)
-entity --> control : listaGrupos
-control --> boundary : listaGrupos
-boundary -> actor : muestra lista de grupos
+SistemaDisponible -r-> ListarGruposView: 1: abrirGrupos()
+
+ListarGruposView -d-> GruposController: 2: listarGrupos(usuario)
+
+GruposController --> GrupoRepository: 3: obtenerGruposPorUsuario(usuario)
+
+GrupoRepository -- Grupo
+
+ListarGruposView -r-> SistemaDisponible: 4: sistemaDisponible(usuario)
+
 @enduml

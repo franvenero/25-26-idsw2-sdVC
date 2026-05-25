@@ -1,15 +1,60 @@
-# Abrir Grupos
+# Análisis: abrirGrupos
 
-Este caso de uso permite al usuario visualizar la lista de grupos a los que pertenece o que administra.
+> |[🏠️](/RUP/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |-|-|-|-|-|
 
-## Flujo Principal
-1. El **Usuario** solicita abrir la vista de grupos.
-2. La **VistaGrupos** (Boundary) solicita al **GestorGrupos** (Control) los grupos asociados al usuario.
-3. El **GestorGrupos** consulta la entidad **Grupo** para obtener la lista correspondiente.
-4. El **GestorGrupos** retorna la lista a la **VistaGrupos**.
-5. La **VistaGrupos** presenta la información al usuario.
+## Información del Artefacto
+- **Fase RUP**: Elaboración
+- **Disciplina**: Análisis
+- **Estatus**: Corregido (Rigor RUP)
+- **Patrón**: BCE / MVC conceptual
 
-## Responsabilidades BCE
-- **VistaGrupos (Boundary):** Interfaz de usuario que muestra la lista de grupos y captura la intención de navegación.
-- **GestorGrupos (Control):** Coordina la recuperación de datos y la lógica de negocio para filtrar grupos por usuario.
-- **Grupo (Entity):** Almacena y provee acceso a la información persistente de los grupos.
+## Propósito
+Análisis de colaboración del caso de uso `abrirGrupos()` para permitir al usuario visualizar y gestionar sus grupos familiares, asegurando la trazabilidad con el estado de sistema disponible.
+
+## Diagrama de Colaboración (BCE)
+
+<div align=center>
+
+|![Análisis abrirGrupos](colaboracion.puml)|
+|-|
+|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+
+</div>
+
+## Clases de Análisis Identificadas
+
+### Clases Model (Naranja #F2AC4E)
+| Clase | Responsabilidad | Trazabilidad |
+| :--- | :--- | :--- |
+| **Grupo** | Entidad que representa al grupo familiar y sus miembros. | Modelo del Dominio |
+| **GrupoRepository** | Abstracción para el acceso conceptual a los datos de grupos. | Patrón Repository |
+
+### Clases View (Azul #629EF9)
+| Clase | Responsabilidad | Derivación |
+| :--- | :--- | :--- |
+| **ListarGruposView** | Presentar la lista de grupos y manejar la navegación. | Prototipo / UI |
+
+### Clases Controller (Verde #b5bd68)
+| Clase | Responsabilidad | Caso de Uso |
+| :--- | :--- | :--- |
+| **GruposController** | Coordina la recuperación de grupos asociados al usuario. | abrirGrupos() |
+
+### Colaboraciones (Verde Claro #CDEBA5)
+| Colaboración | Propósito | Invocación |
+| :--- | :--- | :--- |
+| **:Sistema Disponible** | Estado de espera del sistema antes y después del CU. | Origen / Destino |
+
+## Mensajes de Colaboración
+
+| Origen | Destino | Mensaje | Intención |
+| :--- | :--- | :--- | :--- |
+| **:Sistema Disponible** | **ListarGruposView** | `1: abrirGrupos()` | Iniciar la visualización de grupos. |
+| **ListarGruposView** | **GruposController** | `2: listarGrupos(u)` | Solicitar datos al control. |
+| **GruposController** | **GrupoRepository** | `3: obtenerGruposPorUsuario(u)` | Recuperar entidades del dominio. |
+| **ListarGruposView** | **:Sistema Disponible** | `4: sistemaDisponible(u)` | Regresar al estado estable. |
+
+## Principios de Análisis Aplicados
+1. **Patrón de Navegación**: El caso de uso nace de `:Sistema Disponible` y muere en él, respetando el diagrama de contexto.
+2. **Separación MVC**: La lógica de obtención de datos está delegada al controlador y repositorio.
+3. **Pureza Conceptual**: Los mensajes describen "qué" se hace, no "cómo" (ej. no hay SQL ni HTTP).

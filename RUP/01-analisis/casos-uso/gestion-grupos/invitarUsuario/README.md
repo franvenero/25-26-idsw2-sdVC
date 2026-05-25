@@ -1,17 +1,65 @@
-# Invitar Usuario
+# Análisis: invitarUsuario
 
-Este caso de uso permite a un administrador invitar a otros usuarios a unirse a su grupo.
+> |[🏠️](/RUP/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |-|-|-|-|-|
 
-## Flujo Principal
-1. El **Usuario** ingresa el correo o nombre de usuario del invitado.
-2. El **GestorGrupos** (Control) busca al **Usuario** (Entity) en el sistema.
-3. El **GestorGrupos** valida con la entidad **MiembroGrupo** que el usuario no sea ya parte del grupo.
-4. Si no es miembro, el **GestorGrupos** crea una nueva **Invitacion** (Entity).
-5. Se notifica al usuario que la invitación ha sido enviada.
+## Información del Artefacto
+- **Fase RUP**: Elaboración
+- **Disciplina**: Análisis
+- **Estatus**: Corregido (Rigor RUP)
+- **Patrón**: BCE / MVC conceptual
 
-## Responsabilidades BCE
-- **FormularioInvitacion (Boundary):** Interfaz para buscar e invitar usuarios.
-- **GestorGrupos (Control):** Realiza las validaciones de existencia y pertenencia previa antes de proceder.
-- **Usuario (Entity):** Provee la información de los usuarios registrados en el sistema.
-- **MiembroGrupo (Entity):** Utilizada para verificar el estado actual de pertenencia.
-- **Invitacion (Entity):** Registra la invitación pendiente para el usuario.
+## Propósito
+Análisis de colaboración del caso de uso `invitarUsuario()` para permitir a un administrador de grupo invitar a nuevos miembros, asegurando que el invitado exista y no forme parte ya del grupo.
+
+## Diagrama de Colaboración (BCE)
+
+<div align=center>
+
+|![Análisis invitarUsuario](colaboracion.puml)|
+|-|
+|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+
+</div>
+
+## Clases de Análisis Identificadas
+
+### Clases Model (Naranja #F2AC4E)
+| Clase | Responsabilidad | Trazabilidad |
+| :--- | :--- | :--- |
+| **Usuario** | Entidad que representa al usuario potencial invitado. | Modelo del Dominio |
+| **MiembroGrupo** | Entidad utilizada para verificar la no pertenencia previa. | Modelo del Dominio |
+| **Invitacion** | Entidad que representa la nueva solicitud de unión. | Modelo del Dominio |
+| **UsuarioRepository** | Provee acceso a la validación de existencia del invitado. | Patrón Repository |
+| **MiembroRepository** | Provee acceso a la comprobación de membresías actuales. | Patrón Repository |
+| **InvitacionRepository** | Gestiona la persistencia de la nueva invitación. | Patrón Repository |
+
+### Clases View (Azul #629EF9)
+| Clase | Responsabilidad | Derivación |
+| :--- | :--- | :--- |
+| **EnviarInvitacionView** | Capturar el identificador del invitado y confirmar envío. | Prototipo / UI |
+
+### Clases Controller (Verde #b5bd68)
+| Clase | Responsabilidad | Caso de Uso |
+| :--- | :--- | :--- |
+| **InvitacionesController** | Coordina las validaciones previas y la creación de la invitación. | invitarUsuario() |
+
+### Colaboraciones (Verde Claro #CDEBA5)
+| Colaboración | Propósito | Invocación |
+| :--- | :--- | :--- |
+| **:Sistema Disponible** | Estado global de retorno tras el envío. | Post-condición |
+
+## Mensajes de Colaboración
+
+| Origen | Destino | Mensaje | Intención |
+| :--- | :--- | :--- | :--- |
+| **:Sistema Disponible** | **EnviarInvitacionView** | `1: invitarUsuario(g)` | Iniciar flujo de invitación. |
+| **EnviarInvitacionView** | **InvitacionesController** | `2: enviarInvitacion(g, id)` | Delegar proceso de invitación. |
+| **InvitacionesController** | **UsuarioRepository** | `3: validarExistencia(id)` | Confirmar que el usuario existe. |
+| **InvitacionesController** | **MiembroRepository** | `4: verificarPertenencia(g, id)` | Evitar duplicidad de membresía. |
+| **InvitacionesController** | **InvitacionRepository** | `5: crearInvitacion(g, id)` | Registrar la invitación pendiente. |
+| **EnviarInvitacionView** | **:Sistema Disponible** | `6: sistemaDisponible(u)` | Regresar al menú principal. |
+
+## Principios de Análisis Aplicados
+1. **Validación Preventiva**: El controlador centraliza las reglas de negocio (existencia y no pertenencia) antes de proceder a la creación del registro.
+2. **Abstracción de Repositorios**: Se utilizan tres repositorios distintos para mantener la pureza de responsabilidades sobre cada entidad.

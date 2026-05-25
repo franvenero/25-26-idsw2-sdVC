@@ -1,15 +1,25 @@
-@startuml
-skinparam actorStyle human
-actor Usuario as U
+@startuml asignarTareaAUsuario-analisis
+skinparam linetype polyline
 
-boundary "VistaAsignacion" as VA <<boundary>>
-control "GestorPlanificacion" as GP <<control>>
-entity "Usuario" as EntU <<entity>>
-entity "Tarea" as T <<entity>>
+actor Usuario
+package asignarTareaAUsuario as "asignarTareaAUsuario()" {
+    rectangle #629EF9 AsignacionView
+    rectangle #b5bd68 PlanificacionController
+    rectangle #F2AC4E PlanificacionRepository
+    rectangle #F2AC4E Tarea
+    rectangle #F2AC4E Usuario as UserEnt
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-U -> VA : 1: asignarUsuario(idUsuario)
-VA -> GP : 2: procesarAsignacion(idUsuario)
-GP -> EntU : 3: validarExistencia(idUsuario)
-GP -> T : 4: asignarResponsable(usuario)
-GP --> VA : 5: confirmarExito()
+SistemaDisponible -r-> AsignacionView: 1: asignarTarea(tarea)
+
+AsignacionView -d-> PlanificacionController: 2: registrarAsignacion(idTarea, idUsuario)
+
+PlanificacionController --> PlanificacionRepository: 3: vincularResponsable(idTarea, idUsuario)
+
+PlanificacionRepository -- Tarea
+PlanificacionRepository -- UserEnt
+
+AsignacionView -r-> SistemaDisponible: 4: sistemaDisponible(usuario)
+
 @enduml

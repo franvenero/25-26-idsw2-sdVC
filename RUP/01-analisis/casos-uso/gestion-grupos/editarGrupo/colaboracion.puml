@@ -1,17 +1,23 @@
-@startuml
-skinparam actorStyle awesome
+@startuml editarGrupo-analisis
+skinparam linetype polyline
 
-actor Usuario as actor
-boundary FormularioGrupo as boundary
-control GestorGrupos as control
-entity Grupo as grupo
+actor Usuario
+package editarGrupo as "editarGrupo()" {
+    rectangle #629EF9 EditarGrupoView
+    rectangle #b5bd68 GruposController
+    rectangle #F2AC4E GrupoRepository
+    rectangle #F2AC4E Grupo
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-actor -> boundary : modifica datos del grupo
-boundary -> control : actualizarGrupo(idGrupo, nuevosDatos)
-control -> grupo : buscar(idGrupo)
-grupo --> control : instanciaGrupo
-control -> grupo : actualizar(nuevosDatos)
-grupo --> control : confirmacionActualizacion
-control --> boundary : confirmacionExito
-boundary -> actor : muestra mensaje de éxito
+SistemaDisponible -r-> EditarGrupoView: 1: editarGrupo(grupo)
+
+EditarGrupoView -d-> GruposController: 2: actualizarGrupo(id, datos)
+
+GruposController --> GrupoRepository: 3: guardarCambios(id, datos)
+
+GrupoRepository -- Grupo
+
+EditarGrupoView -r-> SistemaDisponible: 4: sistemaDisponible(usuario)
+
 @enduml

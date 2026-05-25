@@ -1,15 +1,25 @@
-@startuml
-skinparam actorStyle human
-actor Usuario as U
+@startuml configurarRecordatorio-analisis
+skinparam linetype polyline
 
-boundary "VistaRecordatorio" as VR <<boundary>>
-control "GestorPlanificacion" as GP <<control>>
-entity "Recordatorio" as R <<entity>>
-entity "Tarea" as T <<entity>>
+actor Usuario
+package configurarRecordatorio as "configurarRecordatorio()" {
+    rectangle #629EF9 RecordatorioView
+    rectangle #b5bd68 PlanificacionController
+    rectangle #F2AC4E PlanificacionRepository
+    rectangle #F2AC4E Tarea
+    rectangle #F2AC4E Recordatorio
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-U -> VR : 1: configurarRecordatorio(datosRec)
-VR -> GP : 2: añadirRecordatorio(datosRec)
-GP -> R : 3: <<create>>(datosRec)
-GP -> T : 4: añadirRecordatorioATarea(recordatorio)
-GP --> VR : 5: confirmarExito()
+SistemaDisponible -r-> RecordatorioView: 1: configurarRecordatorio(tarea)
+
+RecordatorioView -d-> PlanificacionController: 2: registrarRecordatorio(idTarea, datos)
+
+PlanificacionController --> PlanificacionRepository: 3: crearRecordatorioParaTarea(idTarea, datos)
+
+PlanificacionRepository -- Tarea
+PlanificacionRepository -- Recordatorio
+
+RecordatorioView -r-> SistemaDisponible: 4: sistemaDisponible(usuario)
+
 @enduml

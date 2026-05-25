@@ -1,11 +1,61 @@
-# Caso de Uso: Relacionar Tareas
+# Análisis: relacionarTareas
 
-## Propósito Analítico
-Este caso de uso define el proceso analítico para establecer dependencias lógicas o cronológicas entre dos tareas (por ejemplo, predecesora y sucesora).
+> |[🏠️](/RUP/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |-|-|-|-|-|
 
-### Lógica del Controlador
-Utilizando el enfoque BCE, el **Controlador (GestorTareas)** asume el rol de mediador para garantizar que las vinculaciones sean válidas y coherentes:
-1. **Búsqueda y Filtrado**: Recupera las entidades `Tarea` elegibles para ser vinculadas con la tarea actual, excluyendo aquellas que puedan causar referencias circulares.
-2. **Gestión de la Intención**: Presenta a través de la frontera (`VistaRelacionarTareas`) las opciones para seleccionar la tarea destino y el tipo de relación.
-3. **Instanciación de la Relación**: Tras la confirmación, el controlador coordina la creación de la entidad `RelacionTareas` o actualiza los atributos de las entidades `Tarea` involucradas para reflejar el vínculo.
-4. **Confirmación**: Notifica a la frontera el éxito o el abandono/cancelación de la operación por parte del administrador.
+## Información del Artefacto
+- **Fase RUP**: Elaboración
+- **Disciplina**: Análisis
+- **Estatus**: Corregido (Rigor RUP)
+- **Patrón**: BCE / MVC conceptual
+
+## Propósito
+Análisis de colaboración del caso de uso `relacionarTareas()` para permitir la creación de dependencias lógicas (predecesora/sucesora) entre actividades, facilitando la planificación secuencial.
+
+## Diagrama de Colaboración (BCE)
+
+<div align=center>
+
+|![Análisis relacionarTareas](colaboracion.puml)|
+|-|
+|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+
+</div>
+
+## Clases de Análisis Identificadas
+
+### Clases Model (Naranja #F2AC4E)
+| Clase | Responsabilidad | Trazabilidad |
+| :--- | :--- | :--- |
+| **Tarea** | Entidades que serán vinculadas. | Modelo del Dominio |
+| **RelacionRepository** | Abstracción para la creación y validación de vínculos entre tareas. | Patrón Repository |
+| **TareaRepository** | Provee acceso a las entidades para validación de existencia. | Patrón Repository |
+
+### Clases View (Azul #629EF9)
+| Clase | Responsabilidad | Derivación |
+| :--- | :--- | :--- |
+| **RelacionarTareasView** | Interfaz para seleccionar la tarea destino y el tipo de vínculo. | Prototipo / UI |
+
+### Clases Controller (Verde #b5bd68)
+| Clase | Responsabilidad | Caso de Uso |
+| :--- | :--- | :--- |
+| **TareasController** | Orquesta la creación de la relación y evita referencias circulares. | relacionarTareas() |
+
+### Colaboraciones (Verde Claro #CDEBA5)
+| Colaboración | Propósito | Invocación |
+| :--- | :--- | :--- |
+| **:Sistema Disponible** | Estado global de retorno tras la vinculación. | Post-condición |
+
+## Mensajes de Colaboración
+
+| Origen | Destino | Mensaje | Intención |
+| :--- | :--- | :--- | :--- |
+| **:Sistema Disponible** | **RelacionarTareasView** | `1: relacionarTareas(t)` | Iniciar flujo de vinculación. |
+| **RelacionarTareasView** | **TareasController** | `2: establecerVinculo(id1, id2, t)` | Delegar creación de la relación. |
+| **TareasController** | **RelacionRepository** | `3: crearRelacion(id1, id2, t)` | Persistir el vínculo en el dominio. |
+| **RelacionarTareasView** | **:Sistema Disponible** | `4: sistemaDisponible(u)` | Regresar a la vista de gestión. |
+
+## Principios de Análisis Aplicados
+1. **Validación de Dependencias**: El controlador asume la lógica de negocio necesaria para prevenir errores lógicos en la red de tareas.
+2. **Abstracción de Relaciones**: Se introduce `RelacionRepository` para manejar la complejidad de las asociaciones N:M o jerárquicas entre tareas.
+3. **Consistencia de Navegación**: Se mantiene el patrón de retorno a `:Sistema Disponible`.

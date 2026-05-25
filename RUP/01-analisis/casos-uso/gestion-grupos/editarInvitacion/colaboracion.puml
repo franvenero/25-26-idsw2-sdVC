@@ -1,22 +1,30 @@
-@startuml
-skinparam actorStyle awesome
+@startuml editarInvitacion-analisis
+skinparam linetype polyline
 
-actor Usuario as actor
-boundary VistaInvitaciones as boundary
-control GestorGrupos as control
-entity Invitacion as invitacion
-entity MiembroGrupo as miembro
+actor Usuario
+package editarInvitacion as "editarInvitacion()" {
+    rectangle #629EF9 ListarInvitacionesView
+    rectangle #b5bd68 InvitacionesController
+    rectangle #F2AC4E InvitacionRepository
+    rectangle #F2AC4E MiembroRepository
+    rectangle #F2AC4E Invitacion
+    rectangle #F2AC4E MiembroGrupo
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-actor -> boundary : acepta o rechaza invitación
-boundary -> control : procesarInvitacion(idInvitacion, accion)
-control -> invitacion : buscar(idInvitacion)
-invitacion --> control : datosInvitacion
-alt accion == "ACEPTAR"
-    control -> miembro : crear(datosInvitacion.idGrupo, datosInvitacion.idUsuario, rol: "COLABORADOR")
-    miembro --> control : ok
+SistemaDisponible -r-> ListarInvitacionesView: 1: procesarInvitacion(invitacion, respuesta)
+
+ListarInvitacionesView -d-> InvitacionesController: 2: resolverInvitacion(id, respuesta)
+
+InvitacionesController --> InvitacionRepository: 3: actualizarEstado(id, respuesta)
+
+alt respuesta == ACEPTADA
+    InvitacionesController --> MiembroRepository: 4: crearMiembro(grupo, usuario)
+    MiembroRepository -- MiembroGrupo
 end
-control -> invitacion : eliminar(idInvitacion)
-invitacion --> control : ok
-control --> boundary : confirmacionExito
-boundary -> actor : muestra mensaje de éxito y actualiza lista
+
+InvitacionRepository -- Invitacion
+
+ListarInvitacionesView -r-> SistemaDisponible: 5: sistemaDisponible(usuario)
+
 @enduml

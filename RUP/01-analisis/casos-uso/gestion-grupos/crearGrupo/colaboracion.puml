@@ -1,18 +1,25 @@
-@startuml
-skinparam actorStyle awesome
+@startuml crearGrupo-analisis
+skinparam linetype polyline
 
-actor Usuario as actor
-boundary FormularioGrupo as boundary
-control GestorGrupos as control
-entity Grupo as grupo
-entity MiembroGrupo as miembro
+actor Usuario
+package crearGrupo as "crearGrupo()" {
+    rectangle #629EF9 CrearGrupoView
+    rectangle #b5bd68 GruposController
+    rectangle #F2AC4E GrupoRepository
+    rectangle #F2AC4E Grupo
+    rectangle #F2AC4E MiembroGrupo
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-actor -> boundary : ingresa datos del grupo
-boundary -> control : crearGrupo(datosGrupo, idCreador)
-control -> grupo : nuevo(datosGrupo)
-grupo --> control : instanciaGrupo
-control -> miembro : crear(instanciaGrupo, idCreador, rol: "ADMIN")
-miembro --> control : confirmacionMiembro
-control --> boundary : confirmacionExito
-boundary -> actor : muestra mensaje de éxito
+SistemaDisponible -r-> CrearGrupoView: 1: crearGrupo()
+
+CrearGrupoView -d-> GruposController: 2: registrarGrupo(datos, creador)
+
+GruposController --> GrupoRepository: 3: crearGrupoConAdministrador(datos, creador)
+
+GrupoRepository -- Grupo
+GrupoRepository -- MiembroGrupo
+
+CrearGrupoView -r-> SistemaDisponible: 4: sistemaDisponible(usuario)
+
 @enduml

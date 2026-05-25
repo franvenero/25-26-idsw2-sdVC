@@ -110,4 +110,33 @@ Decisión: Acepto la organizacion de los casos de uso en 4 modulos funcionales.
 - Continuar con la auditoría de rigor "Tiburón Tranquilo" para los casos de uso del módulo `gestion-tareas` (`crearTarea`, `abrirTareas`).
 - Iniciar la transición de estos modelos de análisis a diagramas de secuencia de diseño una vez validada la pureza del análisis.
 
+---
+
+## Sesión 12: Purificación Masiva de Análisis y Estandarización BCE
+**Fecha**: 2026-05-25 [13:15]
+**Participantes**: Fran (Ingeniero) + Gemini CLI (Asistente RUP)
+**Estado**: COMPLETADA
+
+### Contexto de la Sesión
+- **Situación inicial**: Los módulos de `gestion-grupos`, `gestion-tareas`, `gestion-sesion` y `planificacion-configuracion` tenían artefactos de análisis funcionales pero inconsistentes visualmente y con deudas en la aplicación del patrón Repository y estados de sistema.
+- **Objetivo**: Aplicar de forma sistemática el "Gold Standard" de `iniciarSesion` a todos los casos de uso del sistema para concluir la Fase 1: Análisis con rigor absoluto.
+
+### Trabajo Realizado y Decisiones
+- **Artefactos modificados/creados**: 
+    - Reestructuración total de 21 casos de uso en las carpetas `RUP/01-analisis/casos-uso/`.
+    - Actualización de todos los `colaboracion.puml` al estándar de rectángulos coloreados (#629EF9, #b5bd68, #F2AC4E).
+    - Refactorización de los `README.md` para incluir trazabilidad y principios de análisis.
+- **Decisiones técnicas**: 
+    - **Especialización de Repositorios**: Se introdujeron `TareaRepository`, `GrupoRepository`, `InvitacionRepository` y `PlanificacionRepository` para encapsular la persistencia conceptual y las validaciones complejas (solapamientos, integridad en cascada).
+    - **Controladores Cohesivos**: Se consolidaron las responsabilidades en controladores específicos (`MembresiasController`, `InvitacionesController`, `PlanificacionController`) para evitar "God Objects".
+    - **Coherencia de Ciclo de Vida**: Se forzó que cada CU regrese explícitamente a `:Sistema Disponible` o `:Sistema No Disponible`, alineando el análisis con el diagrama de estados global.
+
+### Lecciones Metodológicas (RUP)
+- **Rigor Visual como Herramienta de Diseño**: El uso de rectángulos BCE en lugar de iconos facilitó la identificación de flujos de control mal delegados.
+- **Atomicidad en Análisis**: Se identificó que la eliminación de grupos requiere una orquestación en cascada que debe quedar explícita en el análisis para que el diseño no omita estas responsabilidades de integridad.
+
+### Próximos Pasos
+- Ejecutar commit de la purificación completa del análisis.
+- Iniciar la **Sesión 13** enfocada en el **Diseño Técnico** (Fase 2) del Vertical Slice de `iniciarSesion`.
+
 

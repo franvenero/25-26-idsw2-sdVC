@@ -1,21 +1,31 @@
-@startuml
-skinparam actorStyle awesome
+@startuml invitarUsuario-analisis
+skinparam linetype polyline
 
-actor Usuario as actor
-boundary FormularioInvitacion as boundary
-control GestorGrupos as control
-entity Usuario as usuarioEnt
-entity MiembroGrupo as miembro
-entity Invitacion as invitacion
+actor Usuario
+package invitarUsuario as "invitarUsuario()" {
+    rectangle #629EF9 EnviarInvitacionView
+    rectangle #b5bd68 InvitacionesController
+    rectangle #F2AC4E InvitacionRepository
+    rectangle #F2AC4E UsuarioRepository
+    rectangle #F2AC4E MiembroRepository
+    rectangle #F2AC4E Invitacion
+    rectangle #F2AC4E Usuario as UserEnt
+    rectangle #F2AC4E MiembroGrupo
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-actor -> boundary : ingresa identificador de usuario
-boundary -> control : invitar(idGrupo, identificador)
-control -> usuarioEnt : buscar(identificador)
-usuarioEnt --> control : usuarioEncontrado
-control -> miembro : esMiembro(idGrupo, usuarioEncontrado.id)
-miembro --> control : false
-control -> invitacion : crear(idGrupo, usuarioEncontrado.id)
-invitacion --> control : ok
-control --> boundary : confirmacionExito
-boundary -> actor : muestra mensaje de éxito
+SistemaDisponible -r-> EnviarInvitacionView: 1: invitarUsuario(grupo)
+
+EnviarInvitacionView -d-> InvitacionesController: 2: enviarInvitacion(grupo, idUsuario)
+
+InvitacionesController --> UsuarioRepository: 3: validarExistencia(idUsuario)
+InvitacionesController --> MiembroRepository: 4: verificarPertenencia(grupo, idUsuario)
+InvitacionesController --> InvitacionRepository: 5: crearInvitacion(grupo, idUsuario)
+
+UsuarioRepository -- UserEnt
+MiembroRepository -- MiembroGrupo
+InvitacionRepository -- Invitacion
+
+EnviarInvitacionView -r-> SistemaDisponible: 6: sistemaDisponible(usuario)
+
 @enduml

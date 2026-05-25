@@ -1,15 +1,25 @@
-@startuml
-skinparam actorStyle human
-actor Usuario as U
+@startuml definirLocalizacion-analisis
+skinparam linetype polyline
 
-boundary "VistaLocalizacion" as VL <<boundary>>
-control "GestorPlanificacion" as GP <<control>>
-entity "Localizacion" as L <<entity>>
-entity "Tarea" as T <<entity>>
+actor Usuario
+package definirLocalizacion as "definirLocalizacion()" {
+    rectangle #629EF9 LocalizacionView
+    rectangle #b5bd68 PlanificacionController
+    rectangle #F2AC4E PlanificacionRepository
+    rectangle #F2AC4E Tarea
+    rectangle #F2AC4E Localizacion
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-U -> VL : 1: definirLocalizacion(datosLoc)
-VL -> GP : 2: procesarDefinirLocalizacion(datosLoc)
-GP -> L : 3: <<create>> o actualizar(datosLoc)
-GP -> T : 4: vincularLocalizacion(localizacion)
-GP --> VL : 5: confirmarExito()
+SistemaDisponible -r-> LocalizacionView: 1: definirLocalizacion(tarea)
+
+LocalizacionView -d-> PlanificacionController: 2: registrarLocalizacion(idTarea, datos)
+
+PlanificacionController --> PlanificacionRepository: 3: establecerLocalizacionDeTarea(idTarea, datos)
+
+PlanificacionRepository -- Tarea
+PlanificacionRepository -- Localizacion
+
+LocalizacionView -r-> SistemaDisponible: 4: sistemaDisponible(usuario)
+
 @enduml

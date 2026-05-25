@@ -1,15 +1,59 @@
-# Editar Grupo
+# Análisis: editarGrupo
 
-Este caso de uso permite modificar la información básica de un grupo existente.
+> |[🏠️](/RUP/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |-|-|-|-|-|
 
-## Flujo Principal
-1. El **Usuario** modifica los campos deseados en la interfaz.
-2. El **FormularioGrupo** (Boundary) envía los cambios al **GestorGrupos** (Control).
-3. El **GestorGrupos** localiza la entidad **Grupo** correspondiente.
-4. El **GestorGrupos** solicita a la entidad que actualice sus datos.
-5. Se notifica el éxito de la operación al usuario.
+## Información del Artefacto
+- **Fase RUP**: Elaboración
+- **Disciplina**: Análisis
+- **Estatus**: Corregido (Rigor RUP)
+- **Patrón**: BCE / MVC conceptual
 
-## Responsabilidades BCE
-- **FormularioGrupo (Boundary):** Permite la edición de los atributos del grupo.
-- **GestorGrupos (Control):** Gestiona la lógica de actualización y validación de permisos (implícito).
-- **Grupo (Entity):** Encapsula los datos del grupo y su persistencia.
+## Propósito
+Análisis de colaboración del caso de uso `editarGrupo()` para permitir la actualización de la información descriptiva de un grupo familiar.
+
+## Diagrama de Colaboración (BCE)
+
+<div align=center>
+
+|![Análisis editarGrupo](colaboracion.puml)|
+|-|
+|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+
+</div>
+
+## Clases de Análisis Identificadas
+
+### Clases Model (Naranja #F2AC4E)
+| Clase | Responsabilidad | Trazabilidad |
+| :--- | :--- | :--- |
+| **Grupo** | Entidad que encapsula los datos del grupo a modificar. | Modelo del Dominio |
+| **GrupoRepository** | Abstracción para la actualización persistente de los datos. | Patrón Repository |
+
+### Clases View (Azul #629EF9)
+| Clase | Responsabilidad | Derivación |
+| :--- | :--- | :--- |
+| **EditarGrupoView** | Interfaz para la edición de atributos del grupo. | Prototipo / UI |
+
+### Clases Controller (Verde #b5bd68)
+| Clase | Responsabilidad | Caso de Uso |
+| :--- | :--- | :--- |
+| **GruposController** | Coordina la búsqueda y actualización del grupo. | editarGrupo() |
+
+### Colaboraciones (Verde Claro #CDEBA5)
+| Colaboración | Propósito | Invocación |
+| :--- | :--- | :--- |
+| **:Sistema Disponible** | Estado global del sistema al que se retorna. | Post-condición |
+
+## Mensajes de Colaboración
+
+| Origen | Destino | Mensaje | Intención |
+| :--- | :--- | :--- | :--- |
+| **:Sistema Disponible** | **EditarGrupoView** | `1: editarGrupo(g)` | Iniciar la edición del grupo. |
+| **EditarGrupoView** | **GruposController** | `2: actualizarGrupo(id, d)` | Delegar la lógica de negocio. |
+| **GruposController** | **GrupoRepository** | `3: guardarCambios(id, d)` | Persistir las modificaciones. |
+| **EditarGrupoView** | **:Sistema Disponible** | `4: sistemaDisponible(u)` | Regresar al menú principal. |
+
+## Principios de Análisis Aplicados
+1. **Delegación de Persistencia**: El controlador no conoce el mecanismo de guardado, solo invoca la intención al repositorio.
+2. **Coherencia de Estado**: Se asegura que el flujo de edición comience con una entidad válida.

@@ -1,26 +1,23 @@
-@startuml
-skinparam actorStyle human
-actor Administrador as A
+@startuml validarConflicto-analisis
+skinparam linetype polyline
 
-boundary "VistaEdicionTarea" as VET <<boundary>>
-control "GestorTareas" as GT <<control>>
-entity "ConflictoHorario" as EntCH <<entity>>
+actor Usuario
+package validarConflicto as "validarConflicto()" {
+    rectangle #629EF9 DetalleTareaView
+    rectangle #b5bd68 TareasController
+    rectangle #F2AC4E TareaRepository
+    rectangle #F2AC4E Tarea
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-A -> VET : 1: solicitarGuardarCambios(nuevosDatosTemporales)
-VET -> GT : 2: validarYGuardar(nuevosDatosTemporales)
+SistemaDisponible -r-> DetalleTareaView: 1: validarHorario(datosTemporales)
 
-group Lógica de Validación (validarConflicto)
-    GT -> EntCH : 3: evaluarSolapamientos(nuevosDatosTemporales)
-    EntCH --> GT : 4: resultadoValidacion (ok / conflicto)
-end
+DetalleTareaView -d-> TareasController: 2: verificarConflictos(id, datosTemporales)
 
-alt Sin Conflicto (ok)
-    GT --> VET : 5a: confirmarGuardado()
-else Con Conflicto
-    GT --> VET : 5b: notificarConflicto(camposAfectados)
-    note right of VET
-        La vista muestra el error y 
-        permite al Administrador corregir
-    end note
-end
+TareasController --> TareaRepository: 3: buscarSolapamientos(id, datosTemporales)
+
+TareaRepository -- Tarea
+
+DetalleTareaView -r-> SistemaDisponible: 4: sistemaDisponible(usuario)
+
 @enduml

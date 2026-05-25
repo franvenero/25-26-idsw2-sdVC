@@ -1,31 +1,25 @@
-@startuml
-skinparam actorStyle human
-actor Administrador as A
+@startuml abrirTareas-analisis
+skinparam linetype polyline
 
-boundary "VistaListaTareas" as VLT <<boundary>>
-control "GestorTareas" as GT <<control>>
-entity "Grupo" as EntG <<entity>>
-entity "Tarea" as EntT <<entity>>
+actor Usuario
+package abrirTareas as "abrirTareas()" {
+    rectangle #629EF9 ListarTareasView
+    rectangle #b5bd68 TareasController
+    rectangle #F2AC4E TareaRepository
+    rectangle #F2AC4E Tarea
+    rectangle #F2AC4E Grupo
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-A -> VLT : 1: solicitarAbrirTareas()
-VLT -> GT : 2: obtenerListaTareas()
-GT -> EntG : 3: recuperarTareasAsociadas()
-EntG --> GT : 4: listaTareasBruta
-GT -> EntT : 5: obtenerDetalles()
-EntT --> GT : 6: datosDetallados
-GT --> VLT : 7: presentarLista(datosDetallados)
+SistemaDisponible -r-> ListarTareasView: 1: abrirTareas()
 
-A -> VLT : 8: solicitarFiltrarLista(criterios)
-VLT -> GT : 9: aplicarFiltros(criterios)
-GT --> VLT : 10: presentarListaFiltrada(datosFiltrados)
+ListarTareasView -d-> TareasController: 2: listarTareas(grupo)
 
-A -> VLT : 11: seleccionarOpcionMantenimiento()
-note right of VLT
-  Permite redirigir a:
-  - crearTarea()
-  - editarTarea()
-  - eliminarTarea()
-  - marcarCompletada()
-end note
-VLT -> GT : 12: iniciarSubCasoDeUso()
+TareasController --> TareaRepository: 3: obtenerTareasPorGrupo(grupo)
+
+TareaRepository -- Tarea
+TareaRepository -- Grupo
+
+ListarTareasView -r-> SistemaDisponible: 4: sistemaDisponible(usuario)
+
 @enduml

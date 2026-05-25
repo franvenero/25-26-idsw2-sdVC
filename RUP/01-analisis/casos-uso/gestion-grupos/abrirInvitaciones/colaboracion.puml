@@ -1,15 +1,23 @@
-@startuml
-skinparam actorStyle awesome
+@startuml abrirInvitaciones-analisis
+skinparam linetype polyline
 
-actor Usuario as actor
-boundary VistaInvitaciones as boundary
-control GestorGrupos as control
-entity Invitacion as invitacion
+actor Usuario
+package abrirInvitaciones as "abrirInvitaciones()" {
+    rectangle #629EF9 ListarInvitacionesView
+    rectangle #b5bd68 InvitacionesController
+    rectangle #F2AC4E InvitacionRepository
+    rectangle #F2AC4E Invitacion
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-actor -> boundary : solicita ver sus invitaciones
-boundary -> control : obtenerInvitacionesPendientes(idUsuario)
-control -> invitacion : buscarPorUsuario(idUsuario)
-invitacion --> control : listaInvitaciones
-control --> boundary : listaInvitaciones
-boundary -> actor : muestra invitaciones pendientes
+SistemaDisponible -r-> ListarInvitacionesView: 1: abrirInvitaciones()
+
+ListarInvitacionesView -d-> InvitacionesController: 2: obtenerInvitaciones(usuario)
+
+InvitacionesController --> InvitacionRepository: 3: buscarPendientesPorUsuario(usuario)
+
+InvitacionRepository -- Invitacion
+
+ListarInvitacionesView -r-> SistemaDisponible: 4: sistemaDisponible(usuario)
+
 @enduml

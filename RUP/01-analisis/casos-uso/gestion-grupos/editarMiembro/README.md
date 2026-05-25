@@ -1,15 +1,59 @@
-# Editar Miembro
+# Análisis: editarMiembro
 
-Este caso de uso permite modificar el rol o los permisos de un usuario dentro de un grupo.
+> |[🏠️](/RUP/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |-|-|-|-|-|
 
-## Flujo Principal
-1. El **Usuario** (administrador) selecciona a un miembro y cambia su rol.
-2. El **GestorGrupos** (Control) recibe la solicitud de actualización.
-3. El **GestorGrupos** localiza el registro de **MiembroGrupo** (Entity).
-4. El **GestorGrupos** actualiza el rol en la entidad.
-5. Se confirma la actualización al administrador.
+## Información del Artefacto
+- **Fase RUP**: Elaboración
+- **Disciplina**: Análisis
+- **Estatus**: Corregido (Rigor RUP)
+- **Patrón**: BCE / MVC conceptual
 
-## Responsabilidades BCE
-- **VistaMiembros (Boundary):** Lista los integrantes del grupo y ofrece opciones de edición.
-- **GestorGrupos (Control):** Coordina el cambio de privilegios dentro del grupo.
-- **MiembroGrupo (Entity):** Almacena la relación específica de un usuario con un grupo y sus facultades.
+## Propósito
+Análisis de colaboración del caso de uso `editarMiembro()` para permitir la modificación de roles y permisos de los integrantes de un grupo familiar.
+
+## Diagrama de Colaboración (BCE)
+
+<div align=center>
+
+|![Análisis editarMiembro](colaboracion.puml)|
+|-|
+|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+
+</div>
+
+## Clases de Análisis Identificadas
+
+### Clases Model (Naranja #F2AC4E)
+| Clase | Responsabilidad | Trazabilidad |
+| :--- | :--- | :--- |
+| **MiembroGrupo** | Entidad que representa la relación y el rol del usuario en el grupo. | Modelo del Dominio |
+| **MiembroRepository** | Abstracción para la actualización persistente de las membresías. | Patrón Repository |
+
+### Clases View (Azul #629EF9)
+| Clase | Responsabilidad | Derivación |
+| :--- | :--- | :--- |
+| **GestionarMiembrosView** | Presentar la lista de miembros y permitir la edición de sus roles. | Prototipo / UI |
+
+### Clases Controller (Verde #b5bd68)
+| Clase | Responsabilidad | Caso de Uso |
+| :--- | :--- | :--- |
+| **MembresiasController** | Coordina la lógica de actualización de permisos y validaciones de rango. | editarMiembro() |
+
+### Colaboraciones (Verde Claro #CDEBA5)
+| Colaboración | Propósito | Invocación |
+| :--- | :--- | :--- |
+| **:Sistema Disponible** | Estado global de retorno tras la actualización. | Post-condición |
+
+## Mensajes de Colaboración
+
+| Origen | Destino | Mensaje | Intención |
+| :--- | :--- | :--- | :--- |
+| **:Sistema Disponible** | **GestionarMiembrosView** | `1: editarMiembro(g)` | Iniciar gestión de integrantes. |
+| **GestionarMiembrosView** | **MembresiasController** | `2: actualizarRol(id, rol)` | Delegar cambio de privilegios. |
+| **MembresiasController** | **MiembroRepository** | `3: guardarCambios(id, rol)` | Persistir la modificación. |
+| **GestionarMiembrosView** | **:Sistema Disponible** | `4: sistemaDisponible(u)` | Regresar al menú principal. |
+
+## Principios de Análisis Aplicados
+1. **Separación de Concernientes**: El controlador de membresías se encarga exclusivamente de la relación Usuario-Grupo, liberando de carga al gestor general de grupos.
+2. **Abstracción de Persistencia**: El repositorio encapsula el acceso a la tabla de relación/entidad de membresía.

@@ -1,14 +1,23 @@
-@startuml
-skinparam actorStyle human
-actor Usuario as U
+@startuml marcarCompletada-analisis
+skinparam linetype polyline
 
-boundary "VistaTareas" as VT <<boundary>>
-control "GestorTareas" as GT <<control>>
-entity "Tarea" as EntT <<entity>>
+actor Usuario
+package marcarCompletada as "marcarCompletada()" {
+    rectangle #629EF9 ListarTareasView
+    rectangle #b5bd68 TareasController
+    rectangle #F2AC4E TareaRepository
+    rectangle #F2AC4E Tarea
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-U -> VT : 1: marcarComoCompletada(idTarea)
-VT -> GT : 2: finalizarTarea(idTarea)
-GT -> EntT : 3: registrarFechaFinalizacion(ahora)
-GT -> EntT : 4: cambiarEstado(COMPLETADA)
-GT --> VT : 5: mostrarCambioEstado()
+SistemaDisponible -r-> ListarTareasView: 1: completarTarea(tarea)
+
+ListarTareasView -d-> TareasController: 2: registrarFinalizacion(idTarea)
+
+TareasController --> TareaRepository: 3: cambiarEstadoACompletada(idTarea)
+
+TareaRepository -- Tarea
+
+ListarTareasView -r-> SistemaDisponible: 4: sistemaDisponible(usuario)
+
 @enduml

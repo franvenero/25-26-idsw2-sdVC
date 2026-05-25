@@ -1,11 +1,60 @@
-# Caso de Uso: Validar Conflicto
+# Análisis: validarConflicto
 
-## Propósito Analítico
-Aunque a menudo se invoca como un subflujo o una inclusión de otros casos de uso más amplios (como `editarTarea` o `crearTarea`), este análisis separa la responsabilidad de validar cruces y solapamientos de horarios para mantener alta cohesión.
+> |[🏠️](/RUP/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
+> |-|-|-|-|-|
 
-### Lógica del Controlador
-Dentro del patrón BCE, el **Controlador (GestorTareas o un Validador especializado)** interactúa fuertemente con las entidades del modelo temporal:
-1. **Recepción de Datos Previos**: Recibe de la frontera los datos propuestos que implican temporalidad o asignación de recursos.
-2. **Evaluación de Reglas de Negocio**: Interactúa con la entidad `ConflictoHorario` (o con las entidades que representan la disponibilidad) para ejecutar el algoritmo de solapamiento de horarios.
-3. **Decisión de Flujo**: Retorna el resultado (booleano o lista de errores) hacia el flujo principal.
-4. **Retroalimentación**: Si existe conflicto, instruye a la frontera para que presente de forma clara los campos o periodos afectados, permitiendo al usuario tomar una decisión informada (corregir o cancelar).
+## Información del Artefacto
+- **Fase RUP**: Elaboración
+- **Disciplina**: Análisis
+- **Estatus**: Corregido (Rigor RUP)
+- **Patrón**: BCE / MVC conceptual
+
+## Propósito
+Análisis de colaboración del caso de uso `validarConflicto()` para detectar solapamientos temporales o de recursos entre tareas, garantizando la viabilidad de la planificación familiar.
+
+## Diagrama de Colaboración (BCE)
+
+<div align=center>
+
+|![Análisis validarConflicto](colaboracion.puml)|
+|-|
+|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+
+</div>
+
+## Clases de Análisis Identificadas
+
+### Clases Model (Naranja #F2AC4E)
+| Clase | Responsabilidad | Trazabilidad |
+| :--- | :--- | :--- |
+| **Tarea** | Entidad sujeta a validación cronológica. | Modelo del Dominio |
+| **TareaRepository** | Abstracción para la búsqueda de colisiones temporales en el conjunto de tareas. | Patrón Repository |
+
+### Clases View (Azul #629EF9)
+| Clase | Responsabilidad | Derivación |
+| :--- | :--- | :--- |
+| **DetalleTareaView** | Presentar alertas de conflicto y permitir la corrección de horarios. | Prototipo / UI |
+
+### Clases Controller (Verde #b5bd68)
+| Clase | Responsabilidad | Caso de Uso |
+| :--- | :--- | :--- |
+| **TareasController** | Orquesta el proceso de validación cruzada entre tareas del mismo contexto. | validarConflicto() |
+
+### Colaboraciones (Verde Claro #CDEBA5)
+| Colaboración | Propósito | Invocación |
+| :--- | :--- | :--- |
+| **:Sistema Disponible** | Estado global de retorno tras la validación. | Post-condición |
+
+## Mensajes de Colaboración
+
+| Origen | Destino | Mensaje | Intención |
+| :--- | :--- | :--- | :--- |
+| **:Sistema Disponible** | **DetalleTareaView** | `1: validarHorario(d)` | Iniciar verificación de colisión. |
+| **DetalleTareaView** | **TareasController** | `2: verificarConflictos(id, d)` | Delegar el cálculo de solapamientos. |
+| **TareasController** | **TareaRepository** | `3: buscarSolapamientos(id, d)` | Consultar colisiones en el dominio. |
+| **DetalleTareaView** | **:Sistema Disponible** | `4: sistemaDisponible(u)` | Finalizar validación y regresar. |
+
+## Principios de Análisis Aplicados
+1. **Cohesión Funcional**: Se separa la lógica de validación de conflictos como una responsabilidad específica del controlador de tareas, permitiendo su reutilización en flujos de creación y edición.
+2. **Consultas de Dominio**: El repositorio asume la carga de buscar en el conjunto de entidades aquellas que interfieran con la propuesta temporal, manteniendo al controlador enfocado en la decisión de negocio.
+3. **Transparencia de Estados**: Sigue el ciclo de vida estándar del sistema definido por las colaboraciones globales.

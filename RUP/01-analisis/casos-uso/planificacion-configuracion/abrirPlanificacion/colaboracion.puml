@@ -1,21 +1,29 @@
-@startuml
-skinparam actorStyle human
-actor Usuario as U
+@startuml abrirPlanificacion-analisis
+skinparam linetype polyline
 
-boundary "VistaPlanificacion" as VP <<boundary>>
-control "GestorPlanificacion" as GP <<control>>
-entity "Tarea" as T <<entity>>
-entity "Horario" as H <<entity>>
-entity "Localizacion" as L <<entity>>
-entity "Recordatorio" as R <<entity>>
-entity "Usuario" as EntU <<entity>>
+actor Usuario
+package abrirPlanificacion as "abrirPlanificacion()" {
+    rectangle #629EF9 PlanificacionView
+    rectangle #b5bd68 PlanificacionController
+    rectangle #F2AC4E PlanificacionRepository
+    rectangle #F2AC4E Tarea
+    rectangle #F2AC4E Horario
+    rectangle #F2AC4E Localizacion
+    rectangle #F2AC4E Recordatorio
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-U -> VP : 1: abrirPlanificacion(idTarea)
-VP -> GP : 2: cargarDatosPlanificacion(idTarea)
-GP -> T : 3: obtenerDetalles()
-GP -> H : 4: obtenerHorario()
-GP -> L : 5: obtenerLocalizacion()
-GP -> R : 6: obtenerRecordatorios()
-GP -> EntU : 7: obtenerAsignado()
-GP --> VP : 8: mostrarPlanificacion(datos)
+SistemaDisponible -r-> PlanificacionView: 1: abrirPlanificacion(tarea)
+
+PlanificacionView -d-> PlanificacionController: 2: obtenerDetallesPlanificacion(idTarea)
+
+PlanificacionController --> PlanificacionRepository: 3: buscarConfiguracionCompleta(idTarea)
+
+PlanificacionRepository -- Tarea
+PlanificacionRepository -- Horario
+PlanificacionRepository -- Localizacion
+PlanificacionRepository -- Recordatorio
+
+PlanificacionView -r-> SistemaDisponible: 4: sistemaDisponible(usuario)
+
 @enduml

@@ -1,15 +1,23 @@
-@startuml
-skinparam actorStyle human
-actor Administrador as A
+@startuml eliminarTarea-analisis
+skinparam linetype polyline
 
-boundary "VistaEliminarTarea" as VET <<boundary>>
-control "GestorTareas" as GT <<control>>
-entity "Tarea" as EntT <<entity>>
+actor Usuario
+package eliminarTarea as "eliminarTarea()" {
+    rectangle #629EF9 ListarTareasView
+    rectangle #b5bd68 TareasController
+    rectangle #F2AC4E TareaRepository
+    rectangle #F2AC4E Tarea
+}
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
 
-A -> VET : 1: solicitarEliminacion(idTarea)
-VET -> GT : 2: confirmarEliminacion(idTarea)
-GT -> EntT : 3: validarEliminacion()
-EntT --> GT : 4: ok
-GT -> EntT : 5: <<destroy>>
-GT --> VET : 6: notificarEliminacion()
+SistemaDisponible -r-> ListarTareasView: 1: eliminarTarea(tarea)
+
+ListarTareasView -d-> TareasController: 2: procesarEliminacion(idTarea)
+
+TareasController --> TareaRepository: 3: eliminarTarea(idTarea)
+
+TareaRepository -- Tarea
+
+ListarTareasView -r-> SistemaDisponible: 4: sistemaDisponible(usuario)
+
 @enduml
