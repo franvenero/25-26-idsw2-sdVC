@@ -1,0 +1,30 @@
+@startuml eliminarProfesor-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":Profesores Abierto" as ProfesoresAbierto
+rectangle #CDEBA5 ":Profesor Abierto" as ProfesorAbierto
+rectangle #CDEBA5 ":Collaboration AbrirProfesores" as AbrirProfesores
+
+package eliminarProfesor as "eliminarProfesor()" {
+    rectangle #629EF9 EliminarProfesorView
+    rectangle #b5bd68 ProfesorController
+    rectangle #F2AC4E ProfesorRepository
+    rectangle #F2AC4E Profesor
+}
+
+ProfesoresAbierto --> EliminarProfesorView: eliminarProfesor(profesorId)
+ProfesorAbierto --> EliminarProfesorView: eliminarProfesor(profesorId)
+
+EliminarProfesorView -d-> ProfesorController: cargarProfesorParaEliminacion(profesorId) : Profesor
+
+ProfesorController --> ProfesorRepository: obtenerPorId(profesorId) : Profesor
+
+ProfesorRepository -- Profesor
+
+EliminarProfesorView --> ProfesorController: eliminarProfesor(profesorId) : void
+
+ProfesorController --> ProfesorRepository: eliminar(profesorId) : void
+
+EliminarProfesorView ..> AbrirProfesores: <<include>> abrirProfesores()
+
+@enduml

@@ -1,0 +1,28 @@
+@startuml crearRecurso-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":Recursos Abierto" as RecursosAbierto
+rectangle #CDEBA5 ":Collaboration EditarRecurso" as EditarRecurso
+
+package crearRecurso as "crearRecurso()" {
+    rectangle #629EF9 CrearRecursoView
+    rectangle #b5bd68 RecursoController
+    rectangle #F2AC4E RecursoRepository
+    rectangle #F2AC4E Recurso
+}
+
+RecursosAbierto -r-> CrearRecursoView: crearRecurso()
+
+CrearRecursoView -d-> RecursoController: validarDatosMínimos(codigo, nombre) : boolean
+
+RecursoController --> RecursoRepository: verificarUnicidad(codigo) : boolean
+
+CrearRecursoView --> RecursoController: crearRecurso(codigo, nombre) : Recurso
+
+RecursoController --> RecursoRepository: crear(codigo, nombre) : Recurso
+
+RecursoRepository -- Recurso
+
+CrearRecursoView ..> EditarRecurso: <<include>> editarRecurso(recursoNuevo)
+
+@enduml

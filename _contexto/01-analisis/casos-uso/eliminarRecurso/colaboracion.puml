@@ -1,0 +1,30 @@
+@startuml eliminarRecurso-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":Recursos Abierto" as RecursosAbierto
+rectangle #CDEBA5 ":Recurso Abierto" as RecursoAbierto
+rectangle #CDEBA5 ":Collaboration AbrirRecursos" as AbrirRecursos
+
+package eliminarRecurso as "eliminarRecurso()" {
+    rectangle #629EF9 EliminarRecursoView
+    rectangle #b5bd68 RecursoController
+    rectangle #F2AC4E RecursoRepository
+    rectangle #F2AC4E Recurso
+}
+
+RecursosAbierto --> EliminarRecursoView: eliminarRecurso(recursoId)
+RecursoAbierto --> EliminarRecursoView: eliminarRecurso(recursoId)
+
+EliminarRecursoView -d-> RecursoController: cargarRecursoParaEliminación(recursoId) : Recurso
+
+RecursoController --> RecursoRepository: obtenerPorId(recursoId) : Recurso
+
+RecursoRepository -- Recurso
+
+EliminarRecursoView --> RecursoController: eliminarRecurso(recursoId) : void
+
+RecursoController --> RecursoRepository: eliminar(recursoId) : void
+
+EliminarRecursoView ..> AbrirRecursos: <<include>> abrirRecursos()
+
+@enduml

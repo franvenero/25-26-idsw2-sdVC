@@ -1,0 +1,37 @@
+@startuml generarHorario-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
+rectangle #CDEBA5 ":Collaboration ConsultarHorario" as ConsultarHorario
+rectangle #CDEBA5 ":Collaboration CompletarGestion" as CompletarGestion
+
+package generarHorario as "generarHorario()" {
+    rectangle #629EF9 GenerarHorarioView
+    rectangle #b5bd68 HorarioController
+    rectangle #F2AC4E HorarioRepository
+    rectangle #F2AC4E HorarioGenerator
+    rectangle #F2AC4E Validador
+    rectangle #F2AC4E Horario
+}
+
+SistemaDisponible --> GenerarHorarioView: generarHorario()
+
+GenerarHorarioView -d-> HorarioController: procesarGeneracion() : ResultadoGeneracion
+
+HorarioController --> Validador: verificarDatosMinimos() : boolean
+
+HorarioController --> HorarioRepository: existeHorario() : boolean
+HorarioController --> HorarioRepository: verificarDatosDisponibles() : DatosDisponibles
+
+HorarioController --> HorarioGenerator: ejecutarGeneracion() : Horario
+
+HorarioGenerator --> HorarioRepository: cargarDatosMaestros() : DatosMaestros
+HorarioGenerator --> HorarioRepository: guardarHorario(horario) : boolean
+
+HorarioRepository -- Horario
+HorarioRepository -- Validador
+
+GenerarHorarioView ..> ConsultarHorario: <<include>> consultarHorario() [generación exitosa]
+GenerarHorarioView ..> CompletarGestion: <<include>> completarGestion() [cancelación/error]
+
+@enduml

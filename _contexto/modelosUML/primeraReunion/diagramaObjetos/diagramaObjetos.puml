@@ -1,0 +1,59 @@
+@startuml Diagrama de Objetos - Primera Reunión
+top to bottom direction
+skinparam classAttributeIconSize 0
+
+' Nivel 1: Tarea
+package "Nivel 1" {
+  object tarea1 {
+    titulo = "Recoger a los niños"
+  }
+}
+
+' Nivel 2: Usuario
+package "Nivel 2" {
+  object usuario1 {
+    nombre = "José Manuel Breñosa"
+  }
+}
+
+' Nivel 3: Grupo
+package "Nivel 3" {
+  object grupo1 {
+    nombre = "Familia"
+  }
+}
+
+' Nivel 4: Resto de clases
+package "Nivel 4" {
+  object conflictoHorario1 {
+    tipo = "Solapamiento de horario"
+  }
+  object localizacion1 {
+    lugar = "Colegio"
+  }
+  object horario1 {
+    rango = "14:30"
+  }
+  object recordatorio1 {
+    medio = "Notificación"
+  }
+  object relacionTareas1 {
+    tipo = "No tiene dependencias"
+  }
+}
+
+' Relaciones principales
+grupo1 *-- tarea1 : es gestionada <
+usuario1 o-- tarea1 : participa en >
+usuario1 o-- grupo1 : pertenece a >
+tarea1 *-- tarea1 : subtarea de >
+
+' Relaciones con el resto
+tarea1 <-- conflictoHorario1 : afecta a <
+usuario1 <-- conflictoHorario1 : notifica a <
+tarea1 --> localizacion1 : se realiza en >
+tarea1 --> horario1 : se programa en >
+tarea1 --> recordatorio1 : notifica >
+tarea1 --> relacionTareas1 : se relaciona con >
+
+@enduml

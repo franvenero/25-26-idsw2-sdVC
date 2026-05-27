@@ -1,0 +1,32 @@
+@startuml editarRecurso-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":Recursos Abierto" as RecursosAbierto
+rectangle #CDEBA5 ":Recurso Abierto" as RecursoAbierto
+rectangle #CDEBA5 ":Collaboration CrearRecurso" as CrearRecurso
+rectangle #CDEBA5 ":Collaboration AbrirRecursos" as AbrirRecursos
+
+package editarRecurso as "editarRecurso()" {
+    rectangle #629EF9 EditarRecursoView
+    rectangle #b5bd68 RecursoController
+    rectangle #F2AC4E RecursoRepository
+    rectangle #F2AC4E Recurso
+}
+
+RecursosAbierto --> EditarRecursoView: editarRecurso(recursoId)
+RecursoAbierto --> EditarRecursoView: editarRecurso(recursoId)
+CrearRecurso --> EditarRecursoView: editarRecurso(recursoNuevo)
+
+EditarRecursoView -d-> RecursoController: cargarRecursoParaEdición(recursoId) : Recurso
+
+RecursoController --> RecursoRepository: obtenerPorId(recursoId) : Recurso
+
+EditarRecursoView --> RecursoController: modificarCampos(recursoId, cambios) : boolean
+
+RecursoController --> RecursoRepository: actualizar(recurso) : boolean
+
+RecursoRepository -- Recurso
+
+EditarRecursoView ..> AbrirRecursos: <<include>> abrirRecursos()
+
+@enduml

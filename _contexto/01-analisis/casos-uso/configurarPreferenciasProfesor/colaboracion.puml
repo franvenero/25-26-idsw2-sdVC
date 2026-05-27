@@ -1,0 +1,34 @@
+@startuml configurarPreferenciasProfesor-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":Profesor Abierto" as ProfesorAbierto
+rectangle #CDEBA5 ":Collaboration EditarProfesor" as EditarProfesor
+
+package configurarPreferenciasProfesor as "configurarPreferenciasProfesor()" {
+    rectangle #629EF9 ConfigurarPreferenciasProfesorView
+    rectangle #b5bd68 PreferenciasProfesorController
+    rectangle #F2AC4E ProfesorRepository
+    rectangle #F2AC4E RecursoRepository
+    rectangle #F2AC4E Profesor
+    rectangle #F2AC4E PreferenciasRecurso
+    rectangle #F2AC4E Recurso
+}
+
+ProfesorAbierto -r-> ConfigurarPreferenciasProfesorView: configurarPreferenciasProfesor(profesorId)
+
+ConfigurarPreferenciasProfesorView -d-> PreferenciasProfesorController: cargarPreferenciasProfesor(profesorId)
+
+PreferenciasProfesorController --> ProfesorRepository: obtenerConPreferencias(profesorId) : Profesor
+PreferenciasProfesorController --> RecursoRepository: obtenerRecursosDisponibles() : List<Recurso>
+
+ConfigurarPreferenciasProfesorView --> PreferenciasProfesorController: modificarOrdenPrioridad(nuevoOrden) : boolean
+
+PreferenciasProfesorController --> ProfesorRepository: actualizarPreferencias(profesorId, preferencias) : boolean
+
+ProfesorRepository -- Profesor
+ProfesorRepository -- PreferenciasRecurso
+RecursoRepository -- Recurso
+
+ConfigurarPreferenciasProfesorView ..> EditarProfesor: <<include>> editarProfesor(profesorId)
+
+@enduml

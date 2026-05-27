@@ -1,0 +1,30 @@
+@startuml eliminarEdificio-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":Edificios Abierto" as EdificiosAbierto
+rectangle #CDEBA5 ":Edificio Abierto" as EdificioAbierto
+rectangle #CDEBA5 ":Collaboration AbrirEdificios" as AbrirEdificios
+
+package eliminarEdificio as "eliminarEdificio()" {
+    rectangle #629EF9 EliminarEdificioView
+    rectangle #b5bd68 EdificioController
+    rectangle #F2AC4E EdificioRepository
+    rectangle #F2AC4E Edificio
+}
+
+EdificiosAbierto --> EliminarEdificioView: eliminarEdificio(edificioId)
+EdificioAbierto --> EliminarEdificioView: eliminarEdificio(edificioId)
+
+EliminarEdificioView -d-> EdificioController: cargarEdificioParaEliminacion(edificioId) : Edificio
+
+EdificioController --> EdificioRepository: obtenerPorId(edificioId) : Edificio
+
+EdificioRepository -- Edificio
+
+EliminarEdificioView --> EdificioController: eliminarEdificio(edificioId) : void
+
+EdificioController --> EdificioRepository: eliminar(edificioId) : void
+
+EliminarEdificioView ..> AbrirEdificios: <<include>> abrirEdificios()
+
+@enduml

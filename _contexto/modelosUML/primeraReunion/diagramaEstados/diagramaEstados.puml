@@ -1,0 +1,24 @@
+@startuml diagramaEstados
+state "Creada" as Creada
+state "Programada" as Programada
+state "Recordada" as Recordada
+state "En ejecución" as EnEjecucion
+state "En conflicto" as Conflicto
+state "Finalizada" as Finalizada
+state "Cancelada" as Cancelada
+
+[*] --> Creada
+Creada --> Programada : Asignar horarios/localizaciónes
+Programada --> Recordada : Programar recordatorio
+Recordada --> EnEjecucion : Iniciar tarea
+Programada --> EnEjecucion : Iniciar tarea
+EnEjecucion --> Finalizada : Completar tarea
+EnEjecucion --> Cancelada : Cancelar tarea
+Programada --> Conflicto : Surge conflicto
+Recordada --> Conflicto : Surge conflicto
+EnEjecucion --> Conflicto : Surge conflicto
+Conflicto --> Cancelada : Cancelar tarea
+Conflicto --> Programada : Resolver conflicto
+Finalizada --> [*]
+Cancelada --> [*]
+@enduml

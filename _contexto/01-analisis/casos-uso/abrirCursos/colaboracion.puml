@@ -1,0 +1,34 @@
+@startuml abrirCursos-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
+package abrirCursos as "abrirCursos()" {
+    rectangle #629EF9 AbrirCursosView
+    rectangle #b5bd68 CursosController
+    rectangle #F2AC4E CursoRepository
+    rectangle #F2AC4E Curso
+}
+
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponibleSalida
+rectangle #CDEBA5 ":Collaboration CrearCurso" as CrearCurso
+rectangle #CDEBA5 ":Collaboration EditarCurso" as EditarCurso
+rectangle #CDEBA5 ":Collaboration EliminarCurso" as EliminarCurso
+
+SistemaDisponible -r-> AbrirCursosView: abrirCursos()
+
+AbrirCursosView -d-> CursosController: listarCursos() : List<Curso>
+
+CursosController --> CursoRepository: obtenerTodos() : List<Curso>
+
+CursoRepository -- Curso
+
+AbrirCursosView --> CursosController: filtrarCursos(criterio) : List<Curso>
+
+CursosController --> CursoRepository: buscarPorCriterio(criterio) : List<Curso>
+
+AbrirCursosView ..> SistemaDisponibleSalida: completarGestion()
+AbrirCursosView ..> CrearCurso: crearCurso()
+AbrirCursosView ..> EditarCurso: editarCurso()
+AbrirCursosView ..> EliminarCurso: eliminarCurso()
+
+@enduml

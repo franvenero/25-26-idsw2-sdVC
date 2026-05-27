@@ -1,0 +1,28 @@
+@startuml crearEdificio-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":Edificios Abierto" as EdificiosAbierto
+rectangle #CDEBA5 ":Collaboration EditarEdificio" as EditarEdificio
+
+package crearEdificio as "crearEdificio()" {
+    rectangle #629EF9 CrearEdificioView
+    rectangle #b5bd68 EdificioController
+    rectangle #F2AC4E EdificioRepository
+    rectangle #F2AC4E Edificio
+}
+
+EdificiosAbierto -r-> CrearEdificioView: crearEdificio()
+
+CrearEdificioView -d-> EdificioController: validarDatosMínimos(codigo, nombre) : boolean
+
+EdificioController --> EdificioRepository: verificarUnicidad(codigo) : boolean
+
+CrearEdificioView --> EdificioController: crearEdificio(codigo, nombre) : Edificio
+
+EdificioController --> EdificioRepository: crear(codigo, nombre) : Edificio
+
+EdificioRepository -- Edificio
+
+CrearEdificioView ..> EditarEdificio: <<include>> editarEdificio(edificioNuevo)
+
+@enduml

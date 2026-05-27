@@ -1,0 +1,44 @@
+@startuml completarGestion-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
+package completarGestion as "completarGestion()" {
+    rectangle #629EF9 GestionView
+    rectangle #b5bd68 CompletarGestionController
+    rectangle #F2AC4E PermisosRepository
+    rectangle #F2AC4E OpcionesMenu
+    rectangle #F2AC4E Sesion
+}
+
+rectangle #CDEBA5 ":Collaboration AbrirProgramas" as AbrirProgramas
+rectangle #CDEBA5 ":Collaboration AbrirCursos" as AbrirCursos
+rectangle #CDEBA5 ":Collaboration AbrirProfesores" as AbrirProfesores
+rectangle #CDEBA5 ":Collaboration AbrirEdificios" as AbrirEdificios
+rectangle #CDEBA5 ":Collaboration AbrirAulas" as AbrirAulas
+rectangle #CDEBA5 ":Collaboration AbrirRecursos" as AbrirRecursos
+rectangle #CDEBA5 ":Collaboration AsignarProfesor" as AsignarProfesor
+rectangle #CDEBA5 ":Collaboration GenerarHorario" as GenerarHorario
+rectangle #CDEBA5 ":Collaboration ConsultarHorario" as ConsultarHorario
+rectangle #CDEBA5 ":Collaboration CerrarSesion" as CerrarSesion
+
+SistemaDisponible -r-> GestionView : disponibilizarSistema()
+
+GestionView -d-> CompletarGestionController: habilitarOpciones(administrador)
+
+CompletarGestionController --> Sesion: getUsuario() : Usuario
+CompletarGestionController --> PermisosRepository: obtenerOpciones(usuario) : List<Opcion>
+CompletarGestionController --> OpcionesMenu: crearOpciones(opciones) : OpcionesMenu
+
+GestionView --> OpcionesMenu: getOpciones() : List<Opcion>
+GestionView ..> AbrirProgramas: abrirProgramas()
+GestionView ..> AbrirCursos: abrirCursos()
+GestionView ..> AbrirProfesores: abrirProfesores()
+GestionView ..> AbrirEdificios: abrirEdificios()
+GestionView ..> AbrirAulas: abrirAulas()
+GestionView ..> AbrirRecursos: abrirRecursos()
+GestionView ..> AsignarProfesor: asignarProfesorACurso()
+GestionView ..> GenerarHorario: generarHorario()
+GestionView ..> ConsultarHorario: consultarHorario()
+GestionView ..> CerrarSesion: cerrarSesion()
+
+@enduml

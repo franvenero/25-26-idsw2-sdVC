@@ -1,0 +1,30 @@
+@startuml eliminarCurso-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":Cursos Abierto" as CursosAbierto
+rectangle #CDEBA5 ":Curso Abierto" as CursoAbierto
+rectangle #CDEBA5 ":Collaboration AbrirCursos" as AbrirCursos
+
+package eliminarCurso as "eliminarCurso()" {
+    rectangle #629EF9 EliminarCursoView
+    rectangle #b5bd68 CursoController
+    rectangle #F2AC4E CursoRepository
+    rectangle #F2AC4E Curso
+}
+
+CursosAbierto --> EliminarCursoView: eliminarCurso(cursoId)
+CursoAbierto --> EliminarCursoView: eliminarCurso(cursoId)
+
+EliminarCursoView -d-> CursoController: cargarCursoParaEliminacion(cursoId) : Curso
+
+CursoController --> CursoRepository: obtenerPorId(cursoId) : Curso
+
+CursoRepository -- Curso
+
+EliminarCursoView --> CursoController: eliminarCurso(cursoId) : void
+
+CursoController --> CursoRepository: eliminar(cursoId) : void
+
+EliminarCursoView ..> AbrirCursos: <<include>> abrirCursos()
+
+@enduml

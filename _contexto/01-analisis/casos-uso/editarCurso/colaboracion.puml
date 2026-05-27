@@ -1,0 +1,36 @@
+@startuml editarCurso-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":Cursos Abierto" as CursosAbierto
+rectangle #CDEBA5 ":Curso Abierto" as CursoAbierto
+rectangle #CDEBA5 ":Collaboration CrearCurso" as CrearCurso
+rectangle #CDEBA5 ":Collaboration AbrirCursos" as AbrirCursos
+
+package editarCurso as "editarCurso()" {
+    rectangle #629EF9 EditarCursoView
+    rectangle #b5bd68 CursoController
+    rectangle #F2AC4E CursoRepository
+    rectangle #F2AC4E ProgramaRepository
+    rectangle #F2AC4E Curso
+    rectangle #F2AC4E Programa
+}
+
+CursosAbierto --> EditarCursoView: editarCurso(cursoId)
+CursoAbierto --> EditarCursoView: editarCurso(cursoId)
+CrearCurso --> EditarCursoView: editarCurso(cursoNuevo)
+
+EditarCursoView -d-> CursoController: cargarCursoParaEdición(cursoId) : Curso
+
+CursoController --> CursoRepository: obtenerPorId(cursoId) : Curso
+CursoController --> ProgramaRepository: listarProgramas() : List<Programa>
+
+EditarCursoView --> CursoController: modificarCampos(cursoId, cambios, id_programa) : boolean
+
+CursoController --> CursoRepository: actualizar(curso) : boolean
+
+CursoRepository -- Curso
+ProgramaRepository -- Programa
+
+EditarCursoView ..> AbrirCursos: <<include>> abrirCursos()
+
+@enduml

@@ -1,0 +1,35 @@
+@startuml crearAula-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":Aulas Abierto" as AulasAbierto
+rectangle #CDEBA5 ":Collaboration EditarAula" as EditarAula
+
+package crearAula as "crearAula()" {
+    rectangle #629EF9 CrearAulaView
+    rectangle #b5bd68 AulaController
+    rectangle #F2AC4E AulaRepository
+    rectangle #F2AC4E EdificioRepository
+    rectangle #F2AC4E Aula
+    rectangle #F2AC4E Edificio
+}
+
+AulasAbierto -r-> CrearAulaView: crearAula()
+
+CrearAulaView -d-> AulaController: cargarEdificios() : List<Edificio>
+
+AulaController --> EdificioRepository: listarEdificios() : List<Edificio>
+
+CrearAulaView -d-> AulaController: validarDatosMínimos(codigo, nombre, edificio) : boolean
+
+AulaController --> AulaRepository: verificarUnicidad(codigo) : boolean
+
+CrearAulaView --> AulaController: crearAula(codigo, nombre, id_edificio) : Aula
+
+AulaController --> AulaRepository: crear(codigo, nombre, id_edificio) : Aula
+
+AulaRepository -- Aula
+EdificioRepository -- Edificio
+
+CrearAulaView ..> EditarAula: <<include>> editarAula(aulaNueva)
+
+@enduml

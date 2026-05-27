@@ -1,0 +1,83 @@
+@startuml crearCurso-analisis-secuencia
+
+skinparam linetype polyline
+
+' Actores externos
+actor ":Cursos Abierto" as CursosAbierto
+participant ":Collaboration EditarCurso" as EditarCurso
+
+' Clases de análisis - Vista (Boundary)
+boundary "CrearCursoView" as Vista <<boundary>>
+
+' Clases de análisis - Control  
+control "CursoController" as Controlador <<control>>
+
+' Clases de análisis - Entidad (Entity)
+entity "CursoRepository" as Repositorio <<entity>>
+entity "Curso" as CursoEntity <<entity>>
+
+title Análisis de Colaboración: crearCurso()
+
+== Flujo Principal: Crear Curso Académico ==
+
+CursosAbierto -> Vista : 1: crearCurso()
+activate Vista
+
+Vista -> Vista : 2: presenta solicitud de\ndatos mínimos del curso
+note right
+**Sistema presenta solicitud de datos mínimos del curso**
+• Nombre del curso (obligatorio)
+
+**Sistema permite solicitar:**
+• crear curso
+• cancelar creación
+end note
+
+Vista -> Controlador : 3: validarDatosMínimos(nombre)
+activate Controlador
+
+Controlador -> Repositorio : 4: verificarUnicidad(nombre)
+activate Repositorio
+Repositorio --> Controlador : 5: esÚnico : boolean
+deactivate Repositorio
+
+Controlador --> Vista : 6: validaciónCorrecta : boolean
+deactivate Controlador
+
+Vista -> Controlador : 7: crearCurso(nombre)
+activate Controlador
+
+Controlador -> Repositorio : 8: crear(nombre) : Curso
+activate Repositorio
+
+Repositorio -> CursoEntity : 9: new Curso(nombre)
+activate CursoEntity
+note right
+**Curso creado con datos mínimos:**
+• Nombre: [proporcionado]
+• Otros campos: valores por defecto
+• Estado: activo
+• ID: generado automáticamente
+end note
+
+CursoEntity --> Repositorio : 10: cursoNuevo : Curso
+deactivate CursoEntity
+
+Repositorio -> Repositorio : 11: persistir(cursoNuevo)
+Repositorio --> Controlador : 12: cursoCreado : Curso
+deactivate Repositorio
+
+Controlador --> Vista : 13: cursoCreado : Curso
+deactivate Controlador
+
+Vista -> EditarCurso : 14: <<include>> editarCurso(cursoNuevo)
+note right
+**Transferencia automática C→U**
+• Curso básico creado
+• Edición completa automática
+• "El delgado" → "El gordo"
+end note
+
+deactivate Vista
+
+@enduml

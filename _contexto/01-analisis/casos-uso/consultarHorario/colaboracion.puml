@@ -1,0 +1,31 @@
+@startuml consultarHorario-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
+rectangle #CDEBA5 ":Horario Abierto" as HorarioAbierto
+rectangle #CDEBA5 ":Collaboration GenerarHorario" as GenerarHorario
+rectangle #CDEBA5 ":Collaboration CompletarGestion" as CompletarGestion
+
+package consultarHorario as "consultarHorario()" {
+    rectangle #629EF9 ConsultarHorarioView
+    rectangle #b5bd68 HorarioController
+    rectangle #F2AC4E HorarioRepository
+    rectangle #F2AC4E Horario
+}
+
+SistemaDisponible --> ConsultarHorarioView: consultarHorario()
+HorarioAbierto --> ConsultarHorarioView: consultarHorario()
+GenerarHorario --> ConsultarHorarioView: consultarHorario(horarioGenerado)
+
+ConsultarHorarioView -d-> HorarioController: procesarConsulta() : ResultadoConsulta
+
+HorarioController --> HorarioRepository: cargarHorario() : Horario
+HorarioController --> HorarioRepository: existeHorario() : boolean
+
+HorarioRepository --> Horario: obtenerDatosCompletos() : DatosHorario
+
+HorarioRepository -- Horario
+
+ConsultarHorarioView ..> CompletarGestion: <<include>> completarGestion() [al salir]
+
+@enduml

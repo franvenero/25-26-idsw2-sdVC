@@ -1,0 +1,34 @@
+@startuml abrirRecursos-analisis
+skinparam linetype polyline
+
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
+package abrirRecursos as "abrirRecursos()" {
+    rectangle #629EF9 ListarRecursosView
+    rectangle #b5bd68 RecursosController
+    rectangle #F2AC4E RecursoRepository
+    rectangle #F2AC4E Recurso
+}
+
+rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponibleSalida
+rectangle #CDEBA5 ":Collaboration CrearRecurso" as CrearRecurso
+rectangle #CDEBA5 ":Collaboration EditarRecurso" as EditarRecurso
+rectangle #CDEBA5 ":Collaboration EliminarRecurso" as EliminarRecurso
+
+SistemaDisponible -r-> ListarRecursosView: abrirRecursos()
+
+ListarRecursosView -d-> RecursosController: listarRecursos() : List<Recurso>
+
+RecursosController --> RecursoRepository: obtenerTodos() : List<Recurso>
+
+RecursoRepository -- Recurso
+
+ListarRecursosView --> RecursosController: filtrarRecursos(criterio) : List<Recurso>
+
+RecursosController --> RecursoRepository: buscarPorCriterio(criterio) : List<Recurso>
+
+ListarRecursosView ..> SistemaDisponibleSalida: completarGestion()
+ListarRecursosView ..> CrearRecurso: crearRecurso()
+ListarRecursosView ..> EditarRecurso: editarRecurso()
+ListarRecursosView ..> EliminarRecurso: eliminarRecurso()
+
+@enduml
