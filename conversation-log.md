@@ -82,61 +82,11 @@ Decisión: Acepto la organizacion de los casos de uso en 4 modulos funcionales.
 
 **Decisión:** He adoptado la arquitectura de 3 capas porque ofrece el mejor equilibrio entre mantenibilidad y escalabilidad para un sistema de gestión de tareas. 
 
----
 
-## Sesión 11: Implementación de Protocolo de Rigor RUP y Auditoría "Tiburón Tranquilo"
-**Fecha**: 2026-05-25
-**Participantes**: Fran (Ingeniero) + Gemini CLI (Asistente RUP)
-**Estado**: COMPLETADA
+## [29/05/2026] [14:05] Establecimiento de Protocolo de Registro Dual
 
-### Contexto de la Sesión
-- **Situación inicial**: El proyecto contaba con una estructura de análisis y diseño inicial, pero carecía de una referencia de calidad estricta y un protocolo de documentación profesional.
-- **Objetivo**: Elevar el rigor metodológico adoptando un nuevo protocolo de bitácora y utilizando la carpeta `_contexto/` como estándar de excelencia (plantillas del profesor).
+**Prompt:** a partir de ahora, cuando te diga bienvenido, comenzar� una nueva sesion, las sesiones contienen a su vez muchos conversation log, entonces cuando yo te diga guarda registro significa que tienes que guardar en el archivo conversation-log.md el prompt que te he dado, el resultado que me has dado debajo y finalmente la decision. Cuando te diga guarda sesion eso es para que me hagas un resumen de todo lo que te he preguntado y has hecho en toda la sesion, este resumen de la sesion lo vas a escribir en el archivo sesion-log.md entendido?
 
-### Trabajo Realizado y Decisiones
-- **Artefactos modificados/creados**: 
-    - `conversation-log.md`: Adoptado nuevo formato de registro por sesiones.
-    - `RUP/01-analisis/casos-uso/gestion-sesion/iniciarSesion/colaboracion.puml`: Rediseñado bajo el estándar de rectángulos coloreados (BCE) y patrones de colaboración.
-    - `RUP/01-analisis/casos-uso/gestion-sesion/iniciarSesion/README.md`: Reescrito para incluir tablas de responsabilidades, trazabilidad y principios de análisis.
-- **Decisiones técnicas**: 
-    - **Adopción de Rectángulos en Análisis**: Se sustituyen los iconos UML estándar (Boundary/Control/Entity) por rectángulos con códigos de color específicos (#629EF9, #b5bd68, #F2AC4E) para alinearse con los ejemplos de `_contexto/` y mejorar la legibilidad técnica.
-    - **Patrón de Cierre de Estado**: Se añade la colaboración `:Sistema Disponible` para garantizar que cada caso de uso termine en un estado estable del sistema, no solo en un mensaje de retorno.
+**Resultado:** Se ha configurado un nuevo flujo de trabajo para la gesti�n de bit�coras. Se diferencia ahora entre "registros de conversaci�n" (detallados por tarea) y "res�menes de sesi�n" (archivo sesion-log.md), mejorando la granularidad y la capacidad de revisi�n del progreso del proyecto.
 
-### Lecciones Metodológicas (RUP)
-- **Independencia Tecnológica**: La auditoría detectó que los mensajes iniciales eran demasiado cercanos a la implementación. Se corrigieron hacia mensajes de "intención" (ej. `autenticar` en lugar de `validarCredenciales` en la frontera).
-- **Encapsulamiento de Datos**: Se reforzó el uso de `UsuarioRepository` como abstracción de acceso a datos, eliminando la dependencia directa del controlador sobre la lógica de persistencia.
-
-### Próximos Pasos
-- Continuar con la auditoría de rigor "Tiburón Tranquilo" para los casos de uso del módulo `gestion-tareas` (`crearTarea`, `abrirTareas`).
-- Iniciar la transición de estos modelos de análisis a diagramas de secuencia de diseño una vez validada la pureza del análisis.
-
----
-
-## Sesión 12: Purificación Masiva de Análisis y Estandarización BCE
-**Fecha**: 2026-05-25 [20:22]
-**Participantes**: Fran (Ingeniero) + Gemini CLI (Asistente RUP)
-**Estado**: COMPLETADA
-
-### Contexto de la Sesión
-- **Situación inicial**: Los módulos de `gestion-grupos`, `gestion-tareas`, `gestion-sesion` y `planificacion-configuracion` tenían artefactos de análisis funcionales pero inconsistentes visualmente y con deudas en la aplicación del patrón Repository y estados de sistema.
-- **Objetivo**: Aplicar de forma sistemática el "Gold Standard" de `iniciarSesion` a todos los casos de uso del sistema para concluir la Fase 1: Análisis con rigor absoluto.
-
-### Trabajo Realizado y Decisiones
-- **Artefactos modificados/creados**: 
-    - Reestructuración total de 21 casos de uso en las carpetas `RUP/01-analisis/casos-uso/`.
-    - Actualización de todos los `colaboracion.puml` al estándar de rectángulos coloreados (#629EF9, #b5bd68, #F2AC4E).
-    - Refactorización de los `README.md` para incluir trazabilidad y principios de análisis.
-- **Decisiones técnicas**: 
-    - **Especialización de Repositorios**: Se introdujeron `TareaRepository`, `GrupoRepository`, `InvitacionRepository` y `PlanificacionRepository` para encapsular la persistencia conceptual y las validaciones complejas (solapamientos, integridad en cascada).
-    - **Controladores Cohesivos**: Se consolidaron las responsabilidades en controladores específicos (`MembresiasController`, `InvitacionesController`, `PlanificacionController`) para evitar "God Objects".
-    - **Coherencia de Ciclo de Vida**: Se forzó que cada CU regrese explícitamente a `:Sistema Disponible` o `:Sistema No Disponible`, alineando el análisis con el diagrama de estados global.
-
-### Lecciones Metodológicas (RUP)
-- **Rigor Visual como Herramienta de Diseño**: El uso de rectángulos BCE en lugar de iconos facilitó la identificación de flujos de control mal delegados.
-- **Atomicidad en Análisis**: Se identificó que la eliminación de grupos requiere una orquestación en cascada que debe quedar explícita en el análisis para que el diseño no omita estas responsabilidades de integridad.
-
-### Próximos Pasos
-- Ejecutar commit de la purificación completa del análisis.
-- Iniciar la **Sesión 13** enfocada en el **Diseño Técnico** (Fase 2) del Vertical Slice de `iniciarSesion`.
-
-
+**Decisi�n:** Adopto este protocolo para garantizar una trazabilidad impecable tanto a nivel de micro-decisiones (conversaci�n) como de macro-objetivos (sesi�n), facilitando la auditor�a y la continuidad del desarrollo siguiendo los est�ndares de rigor establecidos.
