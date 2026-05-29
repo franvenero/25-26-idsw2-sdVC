@@ -1,0 +1,73 @@
+@startuml secuencia_iniciar_sesion
+
+skinparam Style strictuml
+skinparam SequenceMessageAlignment center
+skinparam BackgroundColor white
+
+participant "UI: LoginPage" as UI <<React>> #629EF9
+participant "API: AxiosClient" as AX <<Axios>> #629EF9
+participant "Router: AuthRouter" as API <<FastAPI>> #b5bd68
+participant "Schema: UserLogin" as Pyd <<Pydantic>> #b5bd68
+participant "Service: AuthService" as Srv <<Logic>> #b5bd68
+participant "Repo: UserRepository" as Repo <<Repository>> #F2AC4E
+participant "DB: PostgreSQL" as DB <<SQLAlchemy>> #F2AC4E
+
+autonumber
+
+== Proceso de Autenticación ==
+
+User -> UI : Ingresar(username, password)
+UI -> UI : ValidarFormatoLocal()
+
+UI -> AX : post('/auth/login', {credentials})
+activate AX
+    AX -> API : HTTP POST /api/v1/auth/login
+    activate API
+        
+        API -> Pyd : Validate(data)
+        activate Pyd
+        deactivate Pyd
+        
+        note right of API : Si falla validación (422)
+        
+        API -> Srv : authenticate_user(username, password)
+        activate Srv
+            
+            Srv -> Repo : find_by_username(username)
+            activate Repo
+                Repo -> DB : SELECT * FROM users WHERE username = ?
+                activate DB
+                DB --> Repo : UserObject
+                deactivate DB
+            Repo --> Srv : user
+            deactivate Repo
+            
+            alt user is not None
+                Srv -> Srv : verify_password(password, user.hashed_password)
+                note right : Uso de bcrypt.verify()
+                
+                alt password valid
+                    Srv -> Srv : create_access_token(user.id)
+                    Srv --> API : JWT_Token
+                else password invalid
+                    Srv --> API : Raise AuthenticationError
+                end
+            else user not found
+                Srv --> API : Raise AuthenticationError
+            end
+        deactivate Srv
+        
+        alt Success
+            API --> AX : HTTP 200 OK (access_token)
+        else AuthenticationError
+            API --> AX : HTTP 401 Unauthorized
+        end
+    deactivate API
+    
+    AX --> UI : Response(data, status)
+deactivate AX
+
+UI -> UI : AlmacenarToken(localStorage)
+UI -> User : MostrarMensajeExito()
+
+@enduml

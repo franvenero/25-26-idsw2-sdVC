@@ -83,10 +83,19 @@ Decisión: Acepto la organizacion de los casos de uso en 4 modulos funcionales.
 **Decisión:** He adoptado la arquitectura de 3 capas porque ofrece el mejor equilibrio entre mantenibilidad y escalabilidad para un sistema de gestión de tareas. 
 
 
-## [29/05/2026] [14:05] Establecimiento de Protocolo de Registro Dual
+## [29/05/2026] [17:05] Establecimiento de Protocolo de Registro Dual
 
-**Prompt:** a partir de ahora, cuando te diga bienvenido, comenzar� una nueva sesion, las sesiones contienen a su vez muchos conversation log, entonces cuando yo te diga guarda registro significa que tienes que guardar en el archivo conversation-log.md el prompt que te he dado, el resultado que me has dado debajo y finalmente la decision. Cuando te diga guarda sesion eso es para que me hagas un resumen de todo lo que te he preguntado y has hecho en toda la sesion, este resumen de la sesion lo vas a escribir en el archivo sesion-log.md entendido?
+**Prompt:** a partir de ahora, cuando te diga bienvenido, comenzará una nueva sesion, las sesiones contienen a su vez muchos conversation log, entonces cuando yo te diga guarda registro significa que tienes que guardar en el archivo conversation-log.md el prompt que te he dado, el resultado que me has dado debajo y finalmente la decision. Cuando te diga guarda sesion eso es para que me hagas un resumen de todo lo que te he preguntado y has hecho en toda la sesion, este resumen de la sesion lo vas a escribir en el archivo sesion-log.md entendido?
 
-**Resultado:** Se ha configurado un nuevo flujo de trabajo para la gesti�n de bit�coras. Se diferencia ahora entre "registros de conversaci�n" (detallados por tarea) y "res�menes de sesi�n" (archivo sesion-log.md), mejorando la granularidad y la capacidad de revisi�n del progreso del proyecto.
+**Resultado:** Se ha configurado un nuevo flujo de trabajo para la gestión de bitácoras. Se diferencia ahora entre "registros de conversación" (detallados por tarea) y "resúmenes de sesión" (archivo sesion-log.md), mejorando la granularidad y la capacidad de revisión del progreso del proyecto.
 
-**Decisi�n:** Adopto este protocolo para garantizar una trazabilidad impecable tanto a nivel de micro-decisiones (conversaci�n) como de macro-objetivos (sesi�n), facilitando la auditor�a y la continuidad del desarrollo siguiendo los est�ndares de rigor establecidos.
+**Decisi�n:** Adopto este protocolo para garantizar una trazabilidad impecable tanto a nivel de micro-decisiones (conversación) como de macro-objetivos (sesión), facilitando la auditoría y la continuidad del desarrollo siguiendo los estándares de rigor establecidos.
+---
+
+## [29/05/2026] [17:20] Diseño Técnico: Realización de 'iniciarSesion' (Vertical Slice)
+
+**Prompt:** Actúa como un Arquitecto de Software Senior y experto en RUP. Estamos en la Fase 02-Diseño: Realización Técnica de Casos de Uso. Vamos a modelar nuestro 'Corte Vertical' (Vertical Slice) maestro con el caso de uso iniciarSesion. CONTEXTO TECNOLÓGICO: Stack oficial: Frontend en React (Axios/Fetch), Backend en Python con FastAPI, y Persistencia en PostgreSQL usando SQLAlchemy y patrón Repository. TAREA: Crea la subcarpeta RUP/02-diseño/diagramas-secuencia/iniciarSesion/. Genera un archivo README.md técnico... Genera el código PlantUML en secuencia.puml...
+
+**Resultado:** Se ha modelado el diseño técnico detallado para la autenticación. Se definió el contrato de la API (OAuth2 Password Flow), se mapearon los componentes BCE a componentes físicos (React, FastAPI, SQLAlchemy) y se generó un diagrama de secuencia técnico que integra validación Pydantic, lógica de AuthService, acceso vía Repository y seguridad JWT.
+
+**Decisión:** He aplicado un diseño estricto de desacoplamiento entre la capa de API (Router) y la lógica de negocio (Service), utilizando el patrón Repository para la persistencia. Esta estructura garantiza que la lógica de autenticación sea testeable de forma aislada y que el cambio de motor de base de datos o de framework de frontend no afecte al núcleo de seguridad del sistema.
