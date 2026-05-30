@@ -1,0 +1,79 @@
+@startuml
+skinparam style strictuml
+skinparam packageStyle rectangle
+
+title Diagrama de Clases de Diseño Técnico - Iniciar Sesión (Vertical Slice)
+
+package "Capa UI (React)" {
+    class LoginPage <<View>> {
+        - credentials: UserLoginSchema
+        + handleLogin(): void
+        + render(): JSX.Element
+    }
+
+    class AuthContext <<StateManagement>> {
+        - token: string
+        - user: UserInfo
+        + login(credentials: UserLoginSchema): Promise<void>
+        + logout(): void
+    }
+}
+
+package "Capa DTO/Schemas (Pydantic)" {
+    class UserLoginSchema <<Schema>> {
+        + username: str
+        + password: str
+    }
+
+    class TokenResponse <<Schema>> {
+        + access_token: str
+        + token_type: str
+    }
+}
+
+package "Capa Router (FastAPI)" {
+    class AuthRouter <<Router>> {
+        + login_for_access_token(form_data: UserLoginSchema, service: AuthService): TokenResponse
+    }
+}
+
+package "Capa Servicio (Lógica)" {
+    class AuthService <<Service>> {
+        - repository: UserRepository
+        - SECRET_KEY: str
+        - ALGORITHM: str
+        + authenticate_user(username: str, password: str): UserModel
+        + create_access_token(data: dict): str
+        + verify_password(plain_password: str, hashed_password: str): bool
+    }
+}
+
+package "Capa Datos (SQLAlchemy/PostgreSQL)" {
+    class UserRepository <<Repository>> {
+        - db_session: Session
+        + get_by_username(username: str): UserModel
+    }
+
+    class UserModel <<Entity>> {
+        + id: UUID
+        + username: String
+        + hashed_password: String
+        + is_active: Boolean
+    }
+}
+
+'' Relaciones de Dependencia y Asociación
+LoginPage ..> AuthContext : utiliza
+AuthContext ..> AuthRouter : llama (HTTP POST /login)
+AuthRouter ..> AuthService : inyecta
+AuthRouter ..> UserLoginSchema : recibe
+AuthRouter ..> TokenResponse : retorna
+
+AuthService ..> UserRepository : inyecta
+AuthService ..> UserModel : valida
+AuthService ..> TokenResponse : genera
+
+UserRepository ..> UserModel : consulta
+UserRepository ..> "Session" : utiliza
+
+@enduml

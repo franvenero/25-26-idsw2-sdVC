@@ -89,13 +89,13 @@ Decisión: Acepto la organizacion de los casos de uso en 4 modulos funcionales.
 
 **Resultado:** Se ha configurado un nuevo flujo de trabajo para la gestión de bitácoras. Se diferencia ahora entre "registros de conversación" (detallados por tarea) y "resúmenes de sesión" (archivo sesion-log.md), mejorando la granularidad y la capacidad de revisión del progreso del proyecto.
 
-**Decisi�n:** Adopto este protocolo para garantizar una trazabilidad impecable tanto a nivel de micro-decisiones (conversación) como de macro-objetivos (sesión), facilitando la auditoría y la continuidad del desarrollo siguiendo los estándares de rigor establecidos.
+**Decisión:** Adopto este protocolo para garantizar una trazabilidad impecable tanto a nivel de micro-decisiones (conversación) como de macro-objetivos (sesión), facilitando la auditoría y la continuidad del desarrollo siguiendo los estándares de rigor establecidos.
 ---
 
-## [29/05/2026] [17:20] Diseño Técnico: Realización de 'iniciarSesion' (Vertical Slice)
+## [30/05/2026] [17:58] Diseño Técnico: Diagrama de Clases 'iniciarSesion' (Vertical Slice)
 
-**Prompt:** Actúa como un Arquitecto de Software Senior y experto en RUP. Estamos en la Fase 02-Diseño: Realización Técnica de Casos de Uso. Vamos a modelar nuestro 'Corte Vertical' (Vertical Slice) maestro con el caso de uso iniciarSesion. CONTEXTO TECNOLÓGICO: Stack oficial: Frontend en React (Axios/Fetch), Backend en Python con FastAPI, y Persistencia en PostgreSQL usando SQLAlchemy y patrón Repository. TAREA: Crea la subcarpeta RUP/02-diseño/diagramas-secuencia/iniciarSesion/. Genera un archivo README.md técnico... Genera el código PlantUML en secuencia.puml...
+**Prompt:** Actúa como un Arquitecto de Software Senior experto en RUP. Vamos a completar el diseño técnico de nuestro Corte Vertical (iniciarSesion). TAREA: Crea la subcarpeta RUP/02-diseño/diagramas-clases/iniciarSesion/. Genera el Diagrama de Clases de Diseño Técnico (clases-diseno.puml). Debe reflejar estrictamente nuestro stack (React, FastAPI, PostgreSQL) e incluir: Capa UI, DTO, Router, Servicio y Datos... Genera un breve README.md...
 
-**Resultado:** Se ha modelado el diseño técnico detallado para la autenticación. Se definió el contrato de la API (OAuth2 Password Flow), se mapearon los componentes BCE a componentes físicos (React, FastAPI, SQLAlchemy) y se generó un diagrama de secuencia técnico que integra validación Pydantic, lógica de AuthService, acceso vía Repository y seguridad JWT.
+**Resultado:** Se ha completado el diseño de clases técnico para el inicio de sesión. Se crearon los artefactos en `RUP/02-diseño/diagramas-clases/iniciarSesion/`, incluyendo un diagrama PlantUML detallado con tipos de datos explícitos del stack (str, UUID, JSX.Element) y estereotipos de arquitectura. Se redactó un README.md que detalla la inyección de dependencias en el backend y el uso de Context API en el frontend.
 
-**Decisión:** He aplicado un diseño estricto de desacoplamiento entre la capa de API (Router) y la lógica de negocio (Service), utilizando el patrón Repository para la persistencia. Esta estructura garantiza que la lógica de autenticación sea testeable de forma aislada y que el cambio de motor de base de datos o de framework de frontend no afecte al núcleo de seguridad del sistema.
+**Decisión:** He validado y aceptado este diseño de clases porque materializa con éxito la transición desde la abstracción del análisis (BCE) hacia una arquitectura física real y ejecutable.
