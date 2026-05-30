@@ -1,0 +1,38 @@
+@startuml
+skinparam style strictuml
+autonumber
+
+actor Usuario
+participant "NavBar : View" as View
+participant "AuthContext : Provider" as Context
+participant "AuthRouter : Router" as Router
+participant "AuthService : Service" as Service
+participant "BlacklistRepo : Repository" as Repo
+
+Usuario -> View : Clic en "Cerrar Sesión"
+View -> Context : logout()
+activate Context
+
+Context -> Router : POST /api/auth/logout (JWT)
+activate Router
+
+Router -> Service : invalidate_token(token)
+activate Service
+
+Service -> Repo : add(token, exp)
+activate Repo
+Repo --> Service : success
+deactivate Repo
+
+Service --> Router : success
+deactivate Service
+
+Router --> Context : 200 OK (Sesión cerrada)
+deactivate Router
+
+Context -> Context : clearSession() (Elimina JWT de LocalStorage/State)
+Context --> View : actualiza estado (user=null)
+deactivate Context
+
+View -> Usuario : Redirige a /login
+@enduml

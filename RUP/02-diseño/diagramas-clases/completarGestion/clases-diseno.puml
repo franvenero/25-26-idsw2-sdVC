@@ -1,0 +1,31 @@
+@startuml
+skinparam style strictuml
+
+title Diagrama de Clases de Diseño - Completar Gestión
+
+package "Capa UI (React)" {
+    class ProtectedRoute <<Layout>> {
+        - isAuthenticated: boolean
+        + checkAuth(): void
+    }
+    
+    class DashboardPage <<View>> {
+        + render(): JSX.Element
+    }
+    
+    class AuthContext <<StateManagement>> {
+        + verifySession(): Promise<boolean>
+    }
+}
+
+package "Capa Router (FastAPI)" {
+    class UserRouter <<Router>> {
+        + get_current_user(token: str): UserInfo
+    }
+}
+
+ProtectedRoute ..> AuthContext : utiliza
+AuthContext ..> UserRouter : API GET /users/me
+ProtectedRoute ..> DashboardPage : redirige si OK
+
+@enduml

@@ -28,3 +28,38 @@
 
 ---
 **Arquitecto de Software:** Gemini CLI Agent
+
+---
+
+# Resumen de Sesión - Sesión 15
+**Fecha:** 30 de mayo de 2026
+**Estado:** COMPLETADA
+
+## 1. Objetivos de la Sesión
+- Completar el diseño técnico (realización física) del ramillete funcional `gestion-sesion`.
+- Refinar el protocolo de versionado para evitar commits automáticos ("fantasma").
+- Documentar detalladamente la interacción entre componentes físicos mediante diagramas de clases y secuencia.
+
+## 2. Actividad Realizada
+- **Refinamiento de Protocolo:** Se estableció que los commits solo se ejecutarán bajo la instrucción explícita "ejecuta commit".
+- **Diseño Técnico (iniciarSesion):** Finalización del Diagrama de Clases Técnico, mapeando responsabilidades a React Context, FastAPI Routers y SQLAlchemy Repositories.
+- **Diseño Técnico (cerrarSesion):** 
+    - Creación de Diagrama de Clases y Secuencia.
+    - Modelado de la invalidación de tokens mediante `TokenBlacklistRepository` y limpieza de estado en `AuthContext`.
+- **Diseño Técnico (completarGestion):** 
+    - Implementación del patrón **Guard** mediante `ProtectedRoute` en React.
+    - Modelado de la validación proactiva de sesión contra el backend.
+- **Documentación:** Generación de archivos `README.md` técnicos para cada caso de uso del ramillete, detallando la lógica de inyección de dependencias y flujo de datos.
+
+## 3. Decisiones Arquitectónicas Clave
+- **Estrategia Zero-Trust:** Se optó por una validación proactiva de la sesión en cada acceso a rutas protegidas, garantizando que el estado del sistema refleje fielmente la validez del token en el backend.
+- **Invalidación Persistente:** Uso de una lista negra de tokens para mitigar riesgos de reutilización tras el cierre de sesión manual.
+- **Desacoplamiento UI-API:** Uso de un `AuthContext` centralizado para abstraer la complejidad de la comunicación con la API del resto de la interfaz de usuario.
+
+## 4. Estado del Proyecto al Finalizar la Sesión
+- **Módulo gestion-sesion:** 100% Diseñado técnicamente y documentado.
+- **Trazabilidad:** Alineación total entre los modelos de análisis (BCE) y los nuevos modelos de diseño físico.
+- **Workspace:** Cambios preparados en el árbol de trabajo, pendientes de commit final.
+
+---
+**Arquitecto de Software:** Gemini CLI Agent

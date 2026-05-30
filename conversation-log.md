@@ -99,3 +99,12 @@ Decisión: Acepto la organizacion de los casos de uso en 4 modulos funcionales.
 **Resultado:** Se ha completado el diseño de clases técnico para el inicio de sesión. Se crearon los artefactos en `RUP/02-diseño/diagramas-clases/iniciarSesion/`, incluyendo un diagrama PlantUML detallado con tipos de datos explícitos del stack (str, UUID, JSX.Element) y estereotipos de arquitectura. Se redactó un README.md que detalla la inyección de dependencias en el backend y el uso de Context API en el frontend.
 
 **Decisión:** He validado y aceptado este diseño de clases porque materializa con éxito la transición desde la abstracción del análisis (BCE) hacia una arquitectura física real y ejecutable.
+---
+
+## [30/05/2026] [18:27] Diseño Técnico: Ramillete Gestión de Sesión (Cerrar y Completar)
+
+**Prompt:** He decidido adoptar una estrategia iterativa por 'ramilletes' funcionales. Nuestro objetivo ahora es terminar el diseño técnico del módulo gestion-sesion. TAREA: Para los casos de uso cerrarSesion y completarGestion, genera sus respectivos Diagramas de Secuencia de Diseño y Diagramas de Clases de Diseño... Modela la eliminación del token JWT, la invalidación en el backend (blacklist) y la redirección segura al Dashboard verificando el token.
+
+**Resultado:** Se han generado los artefactos técnicos para completar el módulo `gestion-sesion`. Para `cerrarSesion`, se modeló el flujo de invalidación dual (cliente/servidor) mediante un `TokenBlacklistRepository`. Para `completarGestion`, se diseñó la lógica de interceptación de rutas en React (`ProtectedRoute`) y la validación proactiva contra el backend. Se crearon diagramas de clases, secuencia y archivos README explicativos en sus respectivas carpetas dentro de `RUP/02-diseño/`.
+
+**Decisión:** He validado y aceptado este diseño técnico porque consolida una arquitectura de seguridad "zero-trust" para la sesión y cierra con éxito nuestro primer "ramillete" iterativo.

@@ -1,0 +1,34 @@
+@startuml
+skinparam style strictuml
+autonumber
+
+participant "ProtectedRoute : Guard" as Guard
+participant "AuthContext : Provider" as Context
+participant "UserRouter : Router" as Router
+participant "Dashboard : View" as View
+
+[-> Guard : Acceso a Dashboard
+activate Guard
+
+Guard -> Context : verifySession()
+activate Context
+
+Context -> Router : GET /api/users/me (JWT)
+activate Router
+
+note over Router : FastAPI verifica JWT\ny extrae usuario
+Router --> Context : 200 OK (User Data)
+deactivate Router
+
+Context --> Guard : authorized = true
+deactivate Context
+
+Guard -> View : render()
+activate View
+View --> Guard : JSX
+deactivate View
+
+[<-- Guard : Dashboard cargado
+deactivate Guard
+
+@enduml

@@ -1,0 +1,43 @@
+@startuml
+skinparam style strictuml
+
+title Diagrama de Clases de Diseño - Cerrar Sesión
+
+package "Capa UI (React)" {
+    class NavBar <<View>> {
+        + onLogoutClick(): void
+    }
+    
+    class AuthContext <<StateManagement>> {
+        - token: string
+        + logout(): Promise<void>
+        - clearSession(): void
+    }
+}
+
+package "Capa Router (FastAPI)" {
+    class AuthRouter <<Router>> {
+        + logout(token: str, service: AuthService): MessageResponse
+    }
+}
+
+package "Capa Servicio (Lógica)" {
+    class AuthService <<Service>> {
+        - repository: TokenBlacklistRepository
+        + invalidate_token(token: str): void
+    }
+}
+
+package "Capa Datos (Redis/PostgreSQL)" {
+    class TokenBlacklistRepository <<Repository>> {
+        + add(token: str, expires_at: datetime): void
+        + is_blacklisted(token: str): bool
+    }
+}
+
+NavBar ..> AuthContext : llama logout()
+AuthContext ..> AuthRouter : API POST /auth/logout
+AuthRouter ..> AuthService : inyecta
+AuthService ..> TokenBlacklistRepository : inyecta
+
+@enduml
