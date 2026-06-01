@@ -137,4 +137,15 @@ Decisión: Acepto la organizacion de los casos de uso en 4 modulos funcionales.
 
 **Resultado:** Se ha desplegado la arquitectura de autenticación en el frontend. Se definieron interfaces TypeScript robustas para el dominio de seguridad, se implementó un servicio de API especializado (`auth.service.ts`) para la comunicación asíncrona y se creó un proveedor de contexto global (`AuthContext.tsx`) utilizando la Context API de React. El sistema ahora gestiona de forma transparente el ciclo de vida del token JWT y el estado de sesión del usuario.
 
-**Decisión:** He validado y aprobado el despliegue de esta infraestructura de soporte en el frontend porque materializa fielmente el desacoplamiento de capas definido en nuestro diagrama de clases de diseño. 
+**Decisión:** He validado y aprobado el despliegue de esta infraestructura de soporte en el frontend porque materializa fielmente el desacoplamiento de capas definido en nuestro diagrama de clases de diseño.
+
+---
+
+## [01/06/2026] [18:12] Fase 03: Construcción - Frontend de iniciarSesion (Interfaz y Configuración)
+
+**Prompt:** Actúa como un Ingeniero de Software Frontend Senior experto en React, TypeScript y enrutamiento... Diseña e implementa los componentes visuales y el sistema de enrutamiento... Implementa ProtectedRoute.tsx, LoginPage.tsx y actualiza App.tsx... Además, crea el archivo package.json y tsconfig.json para el proyecto.
+
+**Resultado:** Se ha completado el "Corte Vertical" del frontend para el inicio de sesión. Se implementó la `LoginPage` con manejo de estados asíncronos (loading/error) y el componente `ProtectedRoute` para blindar el acceso al `Dashboard`. Se configuró el enrutamiento global en `App.tsx` integrando el `AuthProvider`. Finalmente, se generaron los archivos de configuración técnica (`package.json`, `tsconfig.json`) necesarios para el ecosistema Vite + TypeScript.
+
+**Decisión:** 
+ He aprobado la entrega de la capa de presentación y el sistema de navegación protegida, logrando completar de extremo a extremo el primer "Corte Vertical" funcional del proyecto.Durante el despliegue, asumí el control de la infraestructura técnica realizando una auditoría sobre el archivo tsconfig.json provisto por el CLI. Corregí manualmente las directivas obsoletas (esModuleInterop y moduleResolution) para elevarlas a los estándares modernos de compilación exigidos por Vite y TypeScript 5+.
