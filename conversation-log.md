@@ -108,3 +108,13 @@ Decisión: Acepto la organizacion de los casos de uso en 4 modulos funcionales.
 **Resultado:** Se han generado los artefactos técnicos para completar el módulo `gestion-sesion`. Para `cerrarSesion`, se modeló el flujo de invalidación dual (cliente/servidor) mediante un `TokenBlacklistRepository`. Para `completarGestion`, se diseñó la lógica de interceptación de rutas en React (`ProtectedRoute`) y la validación proactiva contra el backend. Se crearon diagramas de clases, secuencia y archivos README explicativos en sus respectivas carpetas dentro de `RUP/02-diseño/`.
 
 **Decisión:** He validado y aceptado este diseño técnico porque consolida una arquitectura de seguridad "zero-trust" para la sesión y cierra con éxito nuestro primer "ramillete" iterativo.
+
+---
+
+## [01/06/2026] [17:13] Fase 03: Construcción - Inicialización de Estructura Física
+
+**Prompt:** Actúa como un Ingeniero de Software Senior experto en desarrollo Full-Stack (FastAPI + React). Hemos concluido con éxito el diseño del ramillete gestion-sesion y nos encontramos trabajando en la rama aislada desarrollo-fastapi-react. Entramos formalmente en la Fase 03: Construcción. REGLA DE CONTROL DE GIT: Tienes ESTRICTAMENTE PROHIBIDO ejecutar comandos git add, git commit o git push por tu cuenta. Tu entorno es de solo desarrollo sobre los archivos de código. TAREA: Basándote estrictamente en el diseño estipulado en RUP/02-diseño/configuracion-proyecto.md, inicializa la estructura física de código del proyecto creando las carpetas raíces /backend e /frontend en la raíz del repositorio con su arquitectura interna...
+
+**Resultado:** Se ha inicializado la estructura de carpetas y archivos base para el backend (FastAPI) y frontend (React). En el backend, se creó el andamiaje `app/` con sus subcapas y un `main.py` funcional con configuración CORS y un endpoint `/health`. En el frontend, se estructuró `src/` y se configuró `services/api.ts` con una instancia de Axios preparada para comunicación asíncrona y manejo de JWT.
+
+**Decisión:** He aprobado la materialización física del andamiaje base en la rama aislada desarrollo-fastapi-react. La estructuración del frontend en React deja el entorno limpio y listo para el consumo asíncrono y seguro de la API. Con esta infraestructura física firmemente asentada y blindada bajo nuestra política de gestión de configuración, doy por abierta la construcción del ramillete gestion-sesion
