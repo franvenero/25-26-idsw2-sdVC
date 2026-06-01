@@ -128,3 +128,13 @@ Decisión: Acepto la organizacion de los casos de uso en 4 modulos funcionales.
 **Resultado:** Implementación integral de la capa de backend para el inicio de sesión. Se han desarrollado los componentes de configuración (JWT, CORS, DB), modelos de datos (SQLAlchemy), esquemas de validación (Pydantic), repositorios de persistencia, servicios de autenticación y el router de API. El sistema ahora permite recibir credenciales, validarlas contra la base de datos (hashing con bcrypt) y retornar un token JWT válido.
 
 **Decisión:** He validado la implementación física del backend tras realizar una auditoría técnica estricta sobre el código generado por la IA. Durante la revisión, detecté un desvío crítico en auth_router.py: la herramienta introdujo un acoplamiento fuerte al instanciar manualmente el repositorio y el servicio dentro del endpoint, rompiendo el Principio de Inversión de Control (IoC) y violando las especificaciones de nuestro documento de diseño técnico. Tras identificar este error, denegué la versión inicial y ordené una refactorización inmediata para reestructurar el router
+
+---
+
+## [01/06/2026] [17:58] Fase 03: Construcción - Frontend de iniciarSesion (Infraestructura)
+
+**Prompt:** Actúa como un Ingeniero de Software Frontend Senior experto en React, TypeScript y gestión de estado. Estamos en la Fase 03: Construcción - Módulo Gestión de Sesión (Frontend de iniciarSesion). REGLAS DE CONTROL DE PROYECTO: Tienes ESTRICTAMENTE PROHIBIDO ejecutar comandos de Git (git add, git commit, etc.). Escribe los archivos completos, tipados con TypeScript estricto, limpios y listos para producción. Nada de comentarios evasivos. TAREA: Implementa la infraestructura de autenticación global en la carpeta /frontend poblando las capas correspondientes de forma desacoplada según nuestros diagramas de clases de diseño.
+
+**Resultado:** Se ha desplegado la arquitectura de autenticación en el frontend. Se definieron interfaces TypeScript robustas para el dominio de seguridad, se implementó un servicio de API especializado (`auth.service.ts`) para la comunicación asíncrona y se creó un proveedor de contexto global (`AuthContext.tsx`) utilizando la Context API de React. El sistema ahora gestiona de forma transparente el ciclo de vida del token JWT y el estado de sesión del usuario.
+
+**Decisión:** He validado y aprobado el despliegue de esta infraestructura de soporte en el frontend porque materializa fielmente el desacoplamiento de capas definido en nuestro diagrama de clases de diseño. 
