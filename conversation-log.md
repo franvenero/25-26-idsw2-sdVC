@@ -118,3 +118,13 @@ Decisión: Acepto la organizacion de los casos de uso en 4 modulos funcionales.
 **Resultado:** Se ha inicializado la estructura de carpetas y archivos base para el backend (FastAPI) y frontend (React). En el backend, se creó el andamiaje `app/` con sus subcapas y un `main.py` funcional con configuración CORS y un endpoint `/health`. En el frontend, se estructuró `src/` y se configuró `services/api.ts` con una instancia de Axios preparada para comunicación asíncrona y manejo de JWT.
 
 **Decisión:** He aprobado la materialización física del andamiaje base en la rama aislada desarrollo-fastapi-react. La estructuración del frontend en React deja el entorno limpio y listo para el consumo asíncrono y seguro de la API. Con esta infraestructura física firmemente asentada y blindada bajo nuestra política de gestión de configuración, doy por abierta la construcción del ramillete gestion-sesion
+
+---
+
+## [01/06/2026] [17:33] Fase 03: Construcción - Backend de iniciarSesion
+
+**Prompt:** Actúa como un Ingeniero de Software Backend Senior experto en FastAPI y arquitecturas limpias. Estamos en la Fase 03: Construcción - Módulo Gestión de Sesión (Backend de iniciarSesion). REGLAS DE CONTROL DE PROYECTO: Tienes ESTRICTAMENTE PROHIBIDO ejecutar comandos de Git (git add, git commit, etc.). No uses fragmentos o comentarios evasivos como # ... rest of code .... Escribe los archivos completos, limpios y listos para producción. TAREA: Implementa la lógica completa de backend para el caso de uso iniciarSesion en la carpeta /backend.
+
+**Resultado:** Implementación integral de la capa de backend para el inicio de sesión. Se han desarrollado los componentes de configuración (JWT, CORS, DB), modelos de datos (SQLAlchemy), esquemas de validación (Pydantic), repositorios de persistencia, servicios de autenticación y el router de API. El sistema ahora permite recibir credenciales, validarlas contra la base de datos (hashing con bcrypt) y retornar un token JWT válido.
+
+**Decisión:** He validado la implementación física del backend tras realizar una auditoría técnica estricta sobre el código generado por la IA. Durante la revisión, detecté un desvío crítico en auth_router.py: la herramienta introdujo un acoplamiento fuerte al instanciar manualmente el repositorio y el servicio dentro del endpoint, rompiendo el Principio de Inversión de Control (IoC) y violando las especificaciones de nuestro documento de diseño técnico. Tras identificar este error, denegué la versión inicial y ordené una refactorización inmediata para reestructurar el router

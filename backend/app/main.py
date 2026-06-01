@@ -1,30 +1,34 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.routers import auth_router
+from app.core.config import settings
+from app.core.database import engine, Base
+
+# Inicialización de la base de datos (para desarrollo)
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    title="Sistema de Gestión de Tareas Compartidas",
+    title=settings.PROJECT_NAME,
     description="API para la coordinación de tareas diarias en un espacio común.",
     version="1.0.0",
-    docs_url="/api/v1/docs",
-    redoc_url="/api/v1/redoc",
-    openapi_url="/api/v1/openapi.json"
+    docs_url=f"{settings.API_V1_STR}/docs",
+    redoc_url=f"{settings.API_V1_STR}/redoc",
+    openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
 
 # Configuración de CORS
-origins = [
-    "http://localhost:5173",  # Puerto por defecto de Vite
-    "http://127.0.0.1:5173",
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=[str(origin) for origin in settings.BACKEND_CORS_ORIGINS],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-@app.get("/api/v1/health", tags=["Health"])
+# Registro de Routers
+app.include_router(auth_router.router, prefix=settings.API_V1_STR)
+
+@app.get(f"{settings.API_V1_STR}/health", tags=["Health"])
 async def health_check():
     return {
         "status": "healthy",
