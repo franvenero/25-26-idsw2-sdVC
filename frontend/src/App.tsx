@@ -1,45 +1,28 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AuthProvider, useAuth } from './context/AuthContext';
+import { AuthProvider } from './context/AuthContext';
 import LoginPage from './pages/LoginPage';
+import DashboardPage from './pages/DashboardPage';
 import ProtectedRoute from './components/ProtectedRoute';
 
-const Dashboard: React.FC = () => {
-  const { logout } = useAuth();
-  
-  return (
-    <div style={{ padding: '2rem', fontFamily: 'sans-serif' }}>
-      <h1>Bienvenido al Sistema de Gestión de Tareas</h1>
-      <p>Has iniciado sesión correctamente.</p>
-      <button 
-        onClick={logout}
-        style={{
-          padding: '0.5rem 1rem',
-          backgroundColor: '#d32f2f',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer'
-        }}
-      >
-        Cerrar Sesión
-      </button>
-    </div>
-  );
-};
-
+/**
+ * Componente raíz de la aplicación.
+ * Configura el proveedor de autenticación y el árbol de rutas.
+ */
 const App: React.FC = () => {
   return (
     <AuthProvider>
       <Router>
         <Routes>
+          {/* Ruta Pública */}
           <Route path="/login" element={<LoginPage />} />
           
+          {/* Rutas Protegidas */}
           <Route element={<ProtectedRoute />}>
-            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
           </Route>
 
-          {/* Redirección por defecto */}
+          {/* Redirección por defecto y manejo de rutas no encontradas */}
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>

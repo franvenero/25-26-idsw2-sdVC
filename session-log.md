@@ -63,3 +63,39 @@
 
 ---
 **Arquitecto de Software:** Gemini CLI Agent
+
+---
+
+# Resumen de Sesión - Sesión 16
+**Fecha:** 1 de junio de 2026
+**Estado:** COMPLETADA
+
+## 1. Objetivos de la Sesión
+- Iniciar formalmente la Fase 03: Construcción.
+- Materializar el "Corte Vertical" del caso de uso `iniciarSesion` en el stack tecnológico definido (FastAPI + React).
+- Garantizar la trazabilidad entre los diagramas de diseño y la implementación física.
+
+## 2. Actividad Realizada
+- **Andamiaje de Proyecto:** Creación de las estructuras raíz `/backend` y `/frontend` siguiendo el patrón de arquitectura limpia.
+- **Construcción Backend (iniciarSesion):**
+    - Implementación de modelos SQLAlchemy, esquemas Pydantic y repositorios.
+    - Desarrollo del `AuthService` y `auth_router` con hashing de contraseñas (bcrypt) y generación de JWT.
+    - Refactorización para asegurar la Inversión de Control (IoC) en los endpoints.
+- **Construcción Frontend (iniciarSesion):**
+    - Configuración de `AuthContext` y `auth.service.ts` para gestión de estado global y comunicación asíncrona.
+    - Desarrollo de componentes de interfaz: `LoginPage.tsx` (con manejo de estados de carga/error) y `DashboardPage.tsx`.
+    - Implementación de `ProtectedRoute.tsx` para el blindaje de rutas y configuración de enrutamiento con `react-router-dom`.
+- **Configuración Técnica:** Inicialización de `package.json` y `tsconfig.json` con estándares modernos de TypeScript 5+.
+
+## 3. Decisiones Arquitectónicas Clave
+- **Fidelidad al Diseño:** Se mantuvo una correspondencia 1:1 entre los componentes físicos y los diagramas de clases de diseño técnico.
+- **Seguridad en Capas:** Validación de datos en la entrada (Pydantic), en el transporte (JWT) y en la persistencia (hashing).
+- **Navegación Protegida:** Uso de un patrón de "Guard" en el frontend para centralizar la lógica de autorización antes del renderizado de componentes sensibles.
+
+## 4. Estado del Proyecto al Finalizar la Sesión
+- **Fase de Construcción:** Iniciada exitosamente.
+- **Corte Vertical (iniciarSesion):** 100% Implementado y funcional (Backend + Frontend).
+- **Módulo gestion-sesion:** En proceso de finalización técnica de los casos de uso restantes (`cerrarSesion`, `completarGestion`).
+
+---
+**Arquitecto de Software:** Gemini CLI Agent
