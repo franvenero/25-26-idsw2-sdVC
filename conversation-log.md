@@ -158,7 +158,18 @@ Decisión: Acepto la organizacion de los casos de uso en 4 modulos funcionales.
 
 **Resultado:** Implementación completa de la interfaz de usuario para el inicio de sesión. Se creó la `DashboardPage.tsx` como vista protegida y se refinó la `LoginPage.tsx` con manejo de estados asíncronos y estilos profesionales. Se configuró el enrutamiento global en `App.tsx` utilizando `react-router-dom`, asegurando que el acceso al dashboard esté mediado por `ProtectedRoute`.
 
-**Decisión:** He consolidado la experiencia de usuario del módulo de sesión mediante una interfaz limpia y un flujo de navegación robusto.
+Decisión: He consolidado la experiencia de usuario del módulo de sesión mediante una interfaz limpia y un flujo de navegación robusto.
+
+---
+
+## [02/06/2026] [18:17] Fase 03: Construcción - Inicialización de Datos y Refactorización de Seguridad
+
+**Prompt:** Actúa como un Ingeniero de Software Backend Senior. El circuito de comunicación entre Frontend y Backend funciona perfectamente. Ahora necesitamos crear un script de inicialización de datos (seed.py) en la raíz de la carpeta /backend para insertar nuestro primer usuario de pruebas en la base de datos... Comprobar si el usuario con username 'admin' ya existe. Si no existe, debe crearlo con el username 'admin', la contraseña hash correspondiente y activado (is_active=True).
+
+**Resultado:** Se ha creado exitosamente `backend/seed.py` para la carga inicial de datos. Durante la implementación, se identificó y resolvió una incompatibilidad crítica entre `passlib` y `bcrypt` v5.0.0+ mediante la refactorización de `backend/app/core/security.py`, sustituyendo el framework `passlib` por el uso directo de la librería `bcrypt`. El script fue ejecutado y se confirmó la creación del usuario 'admin' en la base de datos `sql_app.db`.
+
+**Decisión:** He aprobado la inclusión del script de inicialización y la refactorización del módulo de seguridad. Esta acción asegura que el primer "Corte Vertical" sea plenamente funcional para pruebas de usuario.
+
 
 ---
 
