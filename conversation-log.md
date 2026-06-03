@@ -180,6 +180,16 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 **Decisión:** He validado y aprobado el cierre del módulo de Gestión de Sesión. Con la implementación del flujo de salida y el refinamiento del Dashboard, el primer ramillete funcional del proyecto (iniciar/cerrar sesión) queda completado de extremo a extremo, cumpliendo con los estándares de seguridad y usabilidad definidos en la fase de diseño.
 
+---
+
+## [03/06/2026] [14:28] Fase 03: Construcción - Backend Gestión de Tareas (RBAC y Persistencia)
+
+**Prompt:** Implementación de la capa de persistencia (SQLAlchemy) y validación (Pydantic) para el módulo de Gestión de Tareas, junto con la capa de servicios y routers integrando Control de Acceso Basado en Roles (RBAC) según las reglas de negocio de los actores del sistema.
+
+**Resultado:** Se ha desplegado el motor backend para la gestión de tareas. Se extendió el modelo `User` para soportar roles (`ADMIN`, `MEMBER`), se implementó el modelo `Task` con relaciones dinámicas y timestamps, y se desarrollaron los servicios y endpoints con lógica de filtrado y permisos estricta. Los administradores poseen control total, mientras que los miembros quedan restringidos a sus tareas asignadas y solo a la edición del estado.
+
+**Decisión:** He validado y aprobado la arquitectura de persistencia y el sistema de permisos RBAC para tareas. Esta implementación garantiza la integridad de los datos y el cumplimiento de las reglas de negocio familiares, asegurando que la coordinación entre miembros sea segura y regulada.
+
 
 ---
 

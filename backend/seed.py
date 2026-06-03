@@ -5,7 +5,7 @@ import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from app.core.database import SessionLocal
-from app.models.user import User
+from app.models.user import User, UserRole
 from app.core.security import get_password_hash
 
 def seed():
@@ -19,6 +19,7 @@ def seed():
             admin_user = User(
                 username="admin",
                 hashed_password=get_password_hash("admin"),
+                role=UserRole.ADMIN,
                 is_active=True
             )
             db.add(admin_user)
