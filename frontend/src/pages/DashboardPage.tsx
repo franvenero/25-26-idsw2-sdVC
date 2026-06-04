@@ -7,7 +7,7 @@ import TaskList from '../components/tasks/TaskList';
 
 const DashboardPage: React.FC = () => {
   const { user, logout } = useAuth();
-  const { tasks, isLoading, error, createTask, updateTaskStatus } = useTasks();
+  const { tasks, isLoading, error, createTask, updateTask, updateTaskStatus, deleteTask } = useTasks();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -110,6 +110,8 @@ const DashboardPage: React.FC = () => {
             isLoading={isLoading} 
             error={error} 
             onStatusChange={updateTaskStatus} 
+            onUpdate={updateTask}
+            onDelete={deleteTask}
           />
         </section>
       </main>

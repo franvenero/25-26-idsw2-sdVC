@@ -1,14 +1,32 @@
-import React from 'react';
-import { TaskResponse, TaskStatus } from '../../types/schemas';
+import React, { useState } from 'react';
+import { TaskResponse, TaskStatus, TaskUpdateSchema } from '../../types/schemas';
+import EditTaskModal from './EditTaskModal';
+import { useAuth } from '../../context/AuthContext';
+import { UserRole } from '../../types/auth';
 
 interface TaskItemProps {
   task: TaskResponse;
   onStatusChange: (taskId: number, newStatus: TaskStatus) => void;
+  onUpdate: (taskId: number, data: TaskUpdateSchema) => Promise<void>;
+  onDelete: (taskId: number) => Promise<void>;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ task, onStatusChange }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task, onStatusChange, onUpdate, onDelete }) => {
+  const { user } = useAuth();
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  const isAdmin = user?.role === UserRole.ADMIN || user?.role === UserRole.ADMIN_MEMBER;
+  const isOwner = task.creator_id === user?.id;
+  const canEdit = isAdmin || isOwner;
+
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onStatusChange(task.id, e.target.value as TaskStatus);
+  };
+
+  const handleDelete = async () => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar esta tarea?')) {
+      await onDelete(task.id);
+    }
   };
 
   const getStatusColor = (status: TaskStatus) => {
@@ -32,17 +50,42 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onStatusChange }) => {
       gap: '0.5rem'
     }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <h3 style={{ margin: 0, color: '#2c3e50' }}>{task.title}</h3>
-        <span style={{
-          fontSize: '0.8rem',
-          fontWeight: 'bold',
-          padding: '0.2rem 0.5rem',
-          borderRadius: '4px',
-          backgroundColor: getStatusColor(task.status),
-          color: '#fff'
-        }}>
-          {task.status}
-        </span>
+        <div>
+          <h3 style={{ margin: 0, color: '#2c3e50' }}>{task.title}</h3>
+          <div style={{ fontSize: '0.75rem', color: '#95a5a6', marginTop: '0.2rem' }}>
+            ID: {task.id} {task.group_id && `| Grupo: ${task.group_id}`}
+          </div>
+        </div>
+        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+          <span style={{
+            fontSize: '0.8rem',
+            fontWeight: 'bold',
+            padding: '0.2rem 0.5rem',
+            borderRadius: '4px',
+            backgroundColor: getStatusColor(task.status),
+            color: '#fff'
+          }}>
+            {task.status}
+          </span>
+          {canEdit && (
+            <button
+              onClick={() => setIsEditModalOpen(true)}
+              style={iconButtonStyle}
+              title="Editar"
+            >
+              ✏️
+            </button>
+          )}
+          {isAdmin && (
+            <button
+              onClick={handleDelete}
+              style={{ ...iconButtonStyle, backgroundColor: '#fdeaea' }}
+              title="Eliminar"
+            >
+              🗑️
+            </button>
+          )}
+        </div>
       </div>
       
       {task.description && (
@@ -52,8 +95,13 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onStatusChange }) => {
       )}
 
       <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ fontSize: '0.85rem', color: '#95a5a6' }}>
-          Creada: {new Date(task.created_at).toLocaleDateString()}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
+          <div style={{ fontSize: '0.8rem', color: '#95a5a6' }}>
+            Asignada a: {task.assigned_to_id || 'Sin asignar'}
+          </div>
+          <div style={{ fontSize: '0.75rem', color: '#bdc3c7' }}>
+            Creada: {new Date(task.created_at).toLocaleString()}
+          </div>
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
@@ -76,8 +124,29 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onStatusChange }) => {
           </select>
         </div>
       </div>
+
+      {isEditModalOpen && (
+        <EditTaskModal
+          task={task}
+          onClose={() => setIsEditModalOpen(false)}
+          onUpdate={onUpdate}
+        />
+      )}
     </div>
   );
+};
+
+const iconButtonStyle: React.CSSProperties = {
+  background: 'none',
+  border: '1px solid #ddd',
+  borderRadius: '4px',
+  padding: '0.2rem 0.4rem',
+  cursor: 'pointer',
+  fontSize: '0.9rem',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  transition: 'background-color 0.2s'
 };
 
 export default TaskItem;

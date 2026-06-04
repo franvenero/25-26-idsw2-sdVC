@@ -13,6 +13,7 @@ export interface TaskCreateSchema {
   title: string;
   description?: string;
   assigned_to_id?: string;
+  group_id?: string;
 }
 
 export interface TaskUpdateSchema {
@@ -20,10 +21,11 @@ export interface TaskUpdateSchema {
   description?: string;
   status?: TaskStatus;
   assigned_to_id?: string;
+  group_id?: string;
 }
 
 export interface TaskStatusUpdateSchema {
-  status: TaskStatus;
+  status?: TaskStatus;
 }
 
 export interface TaskResponse {
@@ -33,6 +35,7 @@ export interface TaskResponse {
   status: TaskStatus;
   creator_id: string;
   assigned_to_id?: string;
+  group_id?: string;
   created_at: string;
   updated_at?: string;
 }

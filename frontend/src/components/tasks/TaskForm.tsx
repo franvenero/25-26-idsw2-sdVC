@@ -11,9 +11,10 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
   const { user } = useAuth();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [assignedToId, setAssignedToId] = useState<string>(user?.id || '');
   const [isLoading, setIsLoading] = useState(false);
 
-  // RBAC: Only admins can create tasks
+  // RBAC: Solo administradores pueden crear tareas
   const canCreate = user?.role === UserRole.ADMIN || user?.role === UserRole.ADMIN_MEMBER;
 
   if (!canCreate) return null;
@@ -24,7 +25,13 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
 
     setIsLoading(true);
     try {
-      await onSubmit({ title, description });
+      // Alineación con el diseño: enviamos assigned_to_id.
+      // Actualmente se auto-asigna al creador (admin) por falta de módulo de miembros.
+      await onSubmit({ 
+        title, 
+        description, 
+        assigned_to_id: assignedToId 
+      });
       setTitle('');
       setDescription('');
     } catch (err) {
@@ -66,6 +73,22 @@ const TaskForm: React.FC<TaskFormProps> = ({ onSubmit }) => {
             style={{ ...inputStyle, resize: 'vertical' }}
           />
         </div>
+        
+        <div>
+          <label style={labelStyle}>Asignar a</label>
+          <select 
+            value={assignedToId} 
+            onChange={(e) => setAssignedToId(e.target.value)}
+            style={inputStyle}
+          >
+            {/* 
+              TODO: Inyectar listado real de miembros del grupo cuando el módulo esté disponible.
+              Por ahora, solo permitimos auto-asignación al administrador actual.
+            */}
+            <option value={user?.id}>{user?.username} (Tú)</option>
+          </select>
+        </div>
+
         <button
           type="submit"
           disabled={isLoading}

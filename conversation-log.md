@@ -199,3 +199,33 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Se ha completado el diseño detallado para el núcleo de la gestión de tareas. Se crearon 6 diagramas PlantUML (clases y secuencia) y 3 READMEs técnicos. El diseño especifica el uso del hook `useTasks` en el frontend, esquemas Pydantic para validación en el backend y la lógica de Control de Acceso Basado en Roles (RBAC) donde el `TaskService` valida si el usuario es `ADMIN` o el dueño de la tarea antes de permitir ediciones.
 
 **Decisión:** He validado y aprobado este diseño técnico porque garantiza una separación clara de responsabilidades y un control de seguridad robusto a nivel de API. La estructura de carpetas mantiene la coherencia con el resto del proyecto, facilitando la trazabilidad desde el análisis BCE hasta la arquitectura física.
+
+---
+
+## [04/06/2026] [18:45] Fase 03: Construcción - Alineación de Gestión de Tareas con Diseño UML
+
+**Prompt:** Actúa como un Ingeniero de Software Full-Stack Senior experto en FastAPI y React. Estamos en la Fase 03: Construcción - Alineación del Módulo Gestión de Tareas con el Diseño Oficial. Audita la implementación actual y refactoriza el código para que sea un reflejo 100% exacto de las clases y flujos definidos en tus diagramas...
+
+**Resultado:** Refactorización integral del módulo de Gestión de Tareas (Backend y Frontend). Se actualizaron los modelos de SQLAlchemy, esquemas Pydantic e interfaces TypeScript para incluir el campo `group_id` según el análisis BCE. El `TaskService` fue alineado con las responsabilidades del `TareasController` de diseño. En la UI, se adaptaron los componentes `TaskForm` y `TaskItem` para manejar la asignación de tareas (`assigned_to_id`), implementando una lógica de auto-asignación temporal mientras se desarrolla el módulo de miembros.
+
+**Decisión:** He validado y aceptado la refactorización porque garantiza que el código sea un espejo fiel de los artefactos de diseño UML generados previamente. Esta alineación técnica elimina la deuda técnica temprana y asegura que el sistema escale correctamente hacia las funcionalidades de grupos y planificación familiar.
+
+---
+
+## [04/06/2026] [19:36] Fase 03: Construcción - Sincronización de Esquema y Hard Reset de DB
+
+**Prompt:** Actúa como un Ingeniero de Software Backend Senior. Estamos teniendo un sqlite3.OperationalError: table tasks has no column named group_id al intentar crear una tarea... Reescribe completamente el archivo seed.py en la raíz de la carpeta /backend para que actúe como un script de "Hard Reset" (destrucción y reconstrucción) de la base de datos.
+
+**Resultado:** Se ha resuelto la desincronización entre los modelos de Python y la base de datos física SQLite. Se reescribió `backend/seed.py` para realizar un `drop_all` y `create_all` de la metadata de SQLAlchemy, asegurando que la tabla `tasks` incluya ahora la columna `group_id`. El script fue ejecutado con éxito, recreando el esquema y reinsertando el usuario 'admin' con el hashing de seguridad correcto.
+
+**Decisión:** Hemos aceptado el arreglo sobre el error que tuvo la IA en el cambio anterior. Validando asi su funcionalidad
+
+---
+
+## [04/06/2026] [19:47] Fase 03: Construcción - Implementación Integral del Caso de Uso 'editarTarea'
+
+**Prompt:** Auditoría y corrección del flujo de actualización (update_task y update_task_status). Implementación completa del caso de uso editarTarea, ya que no estaba disponible en la interfaz de usuario.
+
+**Resultado:** Se ha completado la funcionalidad de edición de tareas de extremo a extremo. Se refactorizaron los esquemas Pydantic y el `TaskService` para soportar actualizaciones parciales y validar permisos (RBAC). En el frontend, se implementó el componente `EditTaskModal.tsx`, se actualizó el hook `useTasks` y se añadieron controles visuales en `TaskItem.tsx` para editar y eliminar tareas. Se garantizó que el flujo sea 100% coherente con los diagramas de diseño UML.
+
+**Decisión:** He validado y aprobado la implementación final del ciclo CRUD de tareas. 

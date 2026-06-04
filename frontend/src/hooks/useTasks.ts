@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import taskService from '../services/task.service';
-import { TaskResponse, TaskCreateSchema, TaskStatus } from '../types/schemas';
+import { TaskResponse, TaskCreateSchema, TaskUpdateSchema, TaskStatus } from '../types/schemas';
 
 export const useTasks = () => {
   const [tasks, setTasks] = useState<TaskResponse[]>([]);
@@ -27,6 +27,16 @@ export const useTasks = () => {
       setTasks(prev => [...prev, newTask]);
     } catch (err) {
       setError('Error al crear la tarea');
+      throw err;
+    }
+  };
+
+  const updateTask = async (taskId: number, taskData: TaskUpdateSchema) => {
+    try {
+      const updatedTask = await taskService.updateTask(taskId, taskData);
+      setTasks(prev => prev.map(t => t.id === taskId ? updatedTask : t));
+    } catch (err) {
+      setError('Error al actualizar la tarea');
       throw err;
     }
   };
@@ -61,6 +71,7 @@ export const useTasks = () => {
     error,
     refreshTasks: fetchTasks,
     createTask,
+    updateTask,
     updateTaskStatus,
     deleteTask
   };

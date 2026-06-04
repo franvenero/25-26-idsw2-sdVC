@@ -1,15 +1,17 @@
 import React from 'react';
 import TaskItem from './TaskItem';
-import { TaskResponse, TaskStatus } from '../../types/schemas';
+import { TaskResponse, TaskStatus, TaskUpdateSchema } from '../../types/schemas';
 
 interface TaskListProps {
   tasks: TaskResponse[];
   isLoading: boolean;
   error: string | null;
   onStatusChange: (taskId: number, newStatus: TaskStatus) => void;
+  onUpdate: (taskId: number, data: TaskUpdateSchema) => Promise<void>;
+  onDelete: (taskId: number) => Promise<void>;
 }
 
-const TaskList: React.FC<TaskListProps> = ({ tasks, isLoading, error, onStatusChange }) => {
+const TaskList: React.FC<TaskListProps> = ({ tasks, isLoading, error, onStatusChange, onUpdate, onDelete }) => {
   if (isLoading) {
     return <div style={{ textAlign: 'center', padding: '2rem', color: '#7f8c8d' }}>Cargando tareas...</div>;
   }
@@ -39,7 +41,13 @@ const TaskList: React.FC<TaskListProps> = ({ tasks, isLoading, error, onStatusCh
         Listado de Tareas
       </h3>
       {tasks.map(task => (
-        <TaskItem key={task.id} task={task} onStatusChange={onStatusChange} />
+        <TaskItem 
+          key={task.id} 
+          task={task} 
+          onStatusChange={onStatusChange} 
+          onUpdate={onUpdate}
+          onDelete={onDelete}
+        />
       ))}
     </div>
   );

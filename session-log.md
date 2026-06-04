@@ -99,3 +99,39 @@
 
 ---
 **Arquitecto de Software:** Gemini CLI Agent
+
+---
+
+# Resumen de Sesión - Sesión 17
+**Fecha:** 4 de junio de 2026
+**Estado:** COMPLETADA
+
+## 1. Objetivos de la Sesión
+- Corregir errores críticos de integración en la inyección de dependencias (UUID mismatch).
+- Completar el diseño técnico del bloque funcional `gestion-tareas`.
+- Refactorizar y alinear la implementación de tareas con los diagramas UML oficiales.
+- Sincronizar el esquema de base de datos física con los nuevos modelos de dominio.
+- Implementar integralmente el caso de uso `editarTarea`.
+
+## 2. Actividad Realizada
+- **Corrección de Infraestructura:** Se resolvió el `AttributeError` en `deps.py` mediante la conversión explícita del claim `sub` de JWT a un objeto `uuid.UUID`, asegurando compatibilidad con SQLAlchemy 2.0.
+- **Diseño Técnico (gestion-tareas):** Generación de diagramas de clases, secuencia y READMEs para `abrirTareas`, `crearTarea` y `editarTarea` en `RUP/02-diseño/`.
+- **Alineación UML:** Refactorización de modelos, esquemas y servicios en el backend para incluir el campo `group_id` y lógica de control de acceso (RBAC).
+- **Mantenimiento de Datos:** Implementación y ejecución de un script de "Hard Reset" en `backend/seed.py` para reconstruir la base de datos SQLite con el esquema actualizado.
+- **Construcción Frontend (editarTarea):**
+    - Desarrollo de `EditTaskModal.tsx` para la modificación interactiva de tareas.
+    - Actualización del hook `useTasks` y componentes de presentación (`TaskItem`, `TaskList`) para soportar el ciclo CRUD completo.
+- **Sincronización:** Se garantizó que el flujo de edición soporte actualizaciones parciales mediante el uso correcto de esquemas opcionales en Pydantic.
+
+## 3. Decisiones Arquitectónicas Clave
+- **Integridad del Esquema:** Se priorizó la sincronización física de la base de datos sobre la preservación de datos de prueba para evitar errores de ejecución durante la fase de construcción.
+- **Empoderamiento del Dueño:** Se ajustó la lógica RBAC para permitir que el creador de una tarea tenga derechos de edición, independientemente de su rol administrativo, fomentando la colaboración familiar.
+- **Desacoplamiento de Actualización:** Separación de la lógica de actualización de estado (`update_task_status`) de la actualización de contenido general para optimizar las peticiones parciales (PATCH/PUT).
+
+## 4. Estado del Proyecto al Finalizar la Sesión
+- **Fase de Construcción (Tareas):** 90% Completada para el bloque inicial. CRUD funcional y alineado con diseño.
+- **Infraestructura:** Estable y sincronizada. El sistema de tipos UUID es ahora robusto en todas las capas.
+- **Módulo gestion-tareas:** Listo para avanzar hacia los casos de uso de relaciones y conflictos.
+
+---
+**Arquitecto de Software:** Gemini CLI Agent

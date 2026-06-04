@@ -9,20 +9,23 @@ class TaskBase(BaseModel):
     description: Optional[str] = None
     status: TaskStatus = TaskStatus.PENDIENTE
     assigned_to_id: Optional[UUID] = None
+    group_id: Optional[str] = None
 
 class TaskCreate(BaseModel):
     title: str
     description: Optional[str] = None
     assigned_to_id: Optional[UUID] = None
+    group_id: Optional[str] = None
 
 class TaskUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
     status: Optional[TaskStatus] = None
     assigned_to_id: Optional[UUID] = None
+    group_id: Optional[str] = None
 
 class TaskStatusUpdate(BaseModel):
-    status: TaskStatus
+    status: Optional[TaskStatus] = None
 
 class TaskResponse(TaskBase):
     id: int
