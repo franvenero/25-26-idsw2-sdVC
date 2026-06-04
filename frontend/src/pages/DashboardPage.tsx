@@ -1,9 +1,13 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useTasks } from '../hooks/useTasks';
+import TaskForm from '../components/tasks/TaskForm';
+import TaskList from '../components/tasks/TaskList';
 
 const DashboardPage: React.FC = () => {
   const { user, logout } = useAuth();
+  const { tasks, isLoading, error, createTask, updateTaskStatus } = useTasks();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -26,15 +30,19 @@ const DashboardPage: React.FC = () => {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+        position: 'sticky',
+        top: 0,
+        zIndex: 100
       }}>
         <h1 style={{ margin: 0, fontSize: '1.5rem', color: '#2c3e50' }}>
           Sistema de Gestión
         </h1>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          <span style={{ color: '#7f8c8d', fontWeight: 500 }}>
-            {user?.username ? `Usuario: ${user.username}` : 'Bienvenido'}
-          </span>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ color: '#2c3e50', fontWeight: 600 }}>{user?.username}</div>
+            <div style={{ color: '#7f8c8d', fontSize: '0.8rem', textTransform: 'lowercase' }}>{user?.role}</div>
+          </div>
           <button
             onClick={handleLogout}
             style={{
@@ -58,47 +66,55 @@ const DashboardPage: React.FC = () => {
       {/* Main Content Area */}
       <main style={{
         flex: 1,
-        padding: '3rem 2rem',
+        padding: '2rem',
         maxWidth: '1200px',
         margin: '0 auto',
-        width: '100%'
+        width: '100%',
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+        gap: '2rem'
       }}>
-        <div style={{
-          backgroundColor: '#ffffff',
-          borderRadius: '8px',
-          padding: '2.5rem',
-          boxShadow: '0 4px 6px rgba(0,0,0,0.05)',
-          textAlign: 'center'
-        }}>
-          <h2 style={{ color: '#34495e', marginBottom: '1rem' }}>
-            ¡Bienvenido, {user?.username || 'admin'}!
-          </h2>
-          <p style={{ color: '#95a5a6', fontSize: '1.1rem', marginBottom: '2rem' }}>
-            Estado: <span style={{ color: '#27ae60', fontWeight: 'bold' }}>Sistema Disponible</span>
-          </p>
-          <hr style={{ border: '0', borderTop: '1px solid #eee', margin: '2rem 0' }} />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '2rem' }}>
-            <div style={cardStyle}>
-              <h3>Resumen de Tareas</h3>
-              <p>No tienes tareas pendientes para hoy.</p>
-            </div>
-            <div style={cardStyle}>
-              <h3>Notificaciones</h3>
-              <p>No hay alertas nuevas en tu bandeja.</p>
+        {/* Left Column: Form (for admins) and Info */}
+        <section>
+          <TaskForm onSubmit={createTask} />
+          
+          <div style={{
+            backgroundColor: '#ffffff',
+            borderRadius: '8px',
+            padding: '1.5rem',
+            boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
+            border: '1px solid #ddd'
+          }}>
+            <h3 style={{ marginTop: 0, color: '#2c3e50' }}>Panel Informativo</h3>
+            <p style={{ color: '#7f8c8d', fontSize: '0.9rem' }}>
+              Bienvenido al gestor de tareas. Aquí puedes visualizar las actividades asignadas, cambiar su estado y, si tienes permisos, crear nuevas tareas para el equipo.
+            </p>
+            <div style={{ 
+              marginTop: '1rem', 
+              padding: '0.8rem', 
+              backgroundColor: '#e8f4fd', 
+              borderRadius: '4px',
+              borderLeft: '4px solid #3498db',
+              color: '#2980b9',
+              fontSize: '0.85rem'
+            }}>
+              <strong>Estado del Sistema:</strong> Operativo
             </div>
           </div>
-        </div>
+        </section>
+
+        {/* Right Column: Task List */}
+        <section>
+          <TaskList 
+            tasks={tasks} 
+            isLoading={isLoading} 
+            error={error} 
+            onStatusChange={updateTaskStatus} 
+          />
+        </section>
       </main>
     </div>
   );
-};
-
-const cardStyle: React.CSSProperties = {
-  padding: '1.5rem',
-  border: '1px solid #ecf0f1',
-  borderRadius: '6px',
-  textAlign: 'left',
-  backgroundColor: '#fdfdfd'
 };
 
 export default DashboardPage;

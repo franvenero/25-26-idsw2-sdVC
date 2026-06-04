@@ -182,14 +182,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 ---
 
-## [03/06/2026] [14:28] Fase 03: Construcción - Backend Gestión de Tareas (RBAC y Persistencia)
+## [04/06/2026] [17:31] Fase 03: Construcción - Corrección de Tipos UUID en Inyección de Dependencias
 
-**Prompt:** Implementación de la capa de persistencia (SQLAlchemy) y validación (Pydantic) para el módulo de Gestión de Tareas, junto con la capa de servicios y routers integrando Control de Acceso Basado en Roles (RBAC) según las reglas de negocio de los actores del sistema.
+**Prompt:** Actúa como un Ingeniero de Software Backend Senior. Tenemos el error AttributeError: 'str' object has no attribute 'hex' en app/routers/deps.py en la línea donde se ejecuta user = db.query(User).filter(User.id == user_id).first(). SQLAlchemy 2.0 está intentando acceder a .hex porque el campo User.id es de tipo UUID, pero el valor user_id (extraído del payload sub del token JWT) es de tipo str. Analiza qué dato se está guardando exactamente en el sub al generar el token y reescribe completamente el archivo app/routers/deps.py aplicando la solución correspondiente.
 
-**Resultado:** Se ha desplegado el motor backend para la gestión de tareas. Se extendió el modelo `User` para soportar roles (`ADMIN`, `MEMBER`), se implementó el modelo `Task` con relaciones dinámicas y timestamps, y se desarrollaron los servicios y endpoints con lógica de filtrado y permisos estricta. Los administradores poseen control total, mientras que los miembros quedan restringidos a sus tareas asignadas y solo a la edición del estado.
+**Resultado:** Se ha resuelto el error de incompatibilidad de tipos entre strings de JWT y columnas UUID de SQLAlchemy 2.0. Tras verificar que `auth_service.py` almacena el ID del usuario en el claim `sub`, se reescribió `backend/app/routers/deps.py` para incluir una conversión explícita a `uuid.UUID(user_id_str)` con manejo de excepciones (`ValueError`). Esto garantiza que la consulta de base de datos reciba el tipo de dato correcto esperado por el ORM.
 
-**Decisión:** He validado y aprobado la arquitectura de persistencia y el sistema de permisos RBAC para tareas. Esta implementación garantiza la integridad de los datos y el cumplimiento de las reglas de negocio familiares, asegurando que la coordinación entre miembros sea segura y regulada.
-
-
----
+**Decisión:** He validado y aprobado la corrección en la inyección de dependencia, asegurando que la recuperación del usuario autenticado sea robusta y cumpla con el tipado estricto exigido por la infraestructura de datos.
 

@@ -33,14 +33,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const response = await authService.login(credentials);
       authService.setToken(response.access_token);
       
-      // En una implementación real, aquí pediríamos los datos del usuario (/me)
-      // Por ahora simulamos la carga exitosa con el token
-      setState(prev => ({
-        ...prev,
+      const user = await authService.getMe();
+      
+      setState({
+        user,
         token: response.access_token,
         isAuthenticated: true,
         isLoading: false
-      }));
+      });
     } catch (error) {
       logout();
       throw error;
@@ -52,11 +52,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const token = authService.getToken();
       if (token) {
         try {
-          // Aquí validaríamos el token con el backend (/me)
-          // const user = await authService.getMe();
-          // setState({ user, token, isAuthenticated: true, isLoading: false });
-          
-          setState(prev => ({ ...prev, isLoading: false }));
+          const user = await authService.getMe();
+          setState({ user, token, isAuthenticated: true, isLoading: false });
         } catch (error) {
           logout();
         }

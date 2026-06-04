@@ -1,3 +1,4 @@
+import uuid
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import jwt, JWTError
@@ -20,14 +21,21 @@ async def get_current_user(
     )
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
-        user_id: str = payload.get("sub")
-        if user_id is None:
+        user_id_str: str = payload.get("sub")
+        if user_id_str is None:
             raise credentials_exception
+        
+        # Escenario A: Convertimos el string a UUID para compatibilidad con SQLAlchemy 2.0
+        try:
+            user_id = uuid.UUID(user_id_str)
+        except ValueError:
+            raise credentials_exception
+            
     except JWTError:
         raise credentials_exception
         
     user_repo = UserRepository(db)
-    # Buscamos por ID (el subject del token)
+    # Buscamos por ID (el subject del token convertido a UUID)
     user = db.query(User).filter(User.id == user_id).first()
     
     if user is None:
