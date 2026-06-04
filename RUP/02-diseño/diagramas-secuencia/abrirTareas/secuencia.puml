@@ -1,0 +1,35 @@
+@startuml
+!theme plain
+autonumber
+
+actor Usuario
+participant "DashboardPage" as DP <<boundary>>
+participant "useTasks" as UT <<control>>
+participant "TaskRouter" as TR <<boundary>>
+participant "TaskService" as TS <<control>>
+participant "TaskRepository" as TREP <<entity>>
+database "PostgreSQL" as DB
+
+Usuario -> DP : accede al Dashboard
+DP -> UT : fetchTasks()
+activate UT
+UT -> TR : GET /tasks (JWT)
+activate TR
+TR -> TS : get_user_tasks(user_id, role)
+activate TS
+TS -> TREP : get_all_by_user(user_id) / get_all()
+activate TREP
+TREP -> DB : SELECT * FROM tasks
+activate DB
+DB --> TREP : list[Task]
+deactivate DB
+TREP --> TS : list[Task]
+deactivate TREP
+TS --> TR : list[Task]
+deactivate TS
+TR --> UT : 200 OK (JSON List)
+deactivate TR
+UT --> DP : update state (tasks)
+deactivate UT
+DP -> Usuario : renderiza TaskList
+@enduml

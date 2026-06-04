@@ -1,0 +1,47 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+
+package "Capa UI (React)" {
+    class EditTaskModal <<boundary>> {
+        - taskData: TaskUpdateSchema
+        + handleUpdate()
+    }
+    class useTasks <<control>> {
+        + updateTask(id: UUID, data: TaskUpdateSchema)
+    }
+}
+
+package "Capa API (FastAPI)" {
+    class TaskRouter <<boundary>> {
+        + update_task(task_id, task_in, current_user, db): TaskSchema
+    }
+    class TaskUpdateSchema <<dto>> {
+        + title: Optional[str]
+        + description: Optional[str]
+        + status: Optional[TaskStatus]
+    }
+    class TaskService <<control>> {
+        + update_existing_task(task_id, data, current_user, db): Task
+    }
+    class TaskRepository <<entity>> {
+        + get_by_id(id): Task
+        + update(db_obj, obj_in): Task
+    }
+}
+
+package "Capa Datos (SQLAlchemy)" {
+    class Task <<entity>> {
+        + id: UUID
+        + title: str
+        + status: TaskStatus
+    }
+}
+
+EditTaskModal ..> useTasks : usa
+useTasks ..> TaskRouter : HTTP PUT /tasks/{id}
+TaskRouter ..> TaskUpdateSchema : valida
+TaskRouter ..> TaskService : invoca
+TaskService ..> TaskRepository : verifica y actualiza
+TaskRepository ..> Task : modifica
+@enduml

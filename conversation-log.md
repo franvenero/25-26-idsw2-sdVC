@@ -182,11 +182,20 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 ---
 
-## [04/06/2026] [17:31] Fase 03: Construcción - Corrección de Tipos UUID en Inyección de Dependencias
+## [04/06/2026] [14:45] Fase 03: Construcción - Corrección de Tipos UUID en Inyección de Dependencias
 
 **Prompt:** Actúa como un Ingeniero de Software Backend Senior. Tenemos el error AttributeError: 'str' object has no attribute 'hex' en app/routers/deps.py en la línea donde se ejecuta user = db.query(User).filter(User.id == user_id).first(). SQLAlchemy 2.0 está intentando acceder a .hex porque el campo User.id es de tipo UUID, pero el valor user_id (extraído del payload sub del token JWT) es de tipo str. Analiza qué dato se está guardando exactamente en el sub al generar el token y reescribe completamente el archivo app/routers/deps.py aplicando la solución correspondiente.
 
 **Resultado:** Se ha resuelto el error de incompatibilidad de tipos entre strings de JWT y columnas UUID de SQLAlchemy 2.0. Tras verificar que `auth_service.py` almacena el ID del usuario en el claim `sub`, se reescribió `backend/app/routers/deps.py` para incluir una conversión explícita a `uuid.UUID(user_id_str)` con manejo de excepciones (`ValueError`). Esto garantiza que la consulta de base de datos reciba el tipo de dato correcto esperado por el ORM.
 
-**Decisión:** He validado y aprobado la corrección en la inyección de dependencia, asegurando que la recuperación del usuario autenticado sea robusta y cumpla con el tipado estricto exigido por la infraestructura de datos.
+**Decisión:** He validado y aprobado la corrección en la inyección de dependencias. Esta actualización es crítica para la estabilidad del sistema bajo SQLAlchemy 2.0, asegurando que la recuperación del usuario autenticado sea robusta y cumpla con el tipado estricto exigido por la infraestructura de datos.
 
+---
+
+## [04/06/2026] [18:06] Fase 02: Diseño Técnico - Gestión de Tareas (abrir, crear, editar)
+
+**Prompt:** Actúa como un Arquitecto de Software Senior experto en RUP. Vamos a realizar el diseño técnico del bloque funcional gestion-tareas... para los tres primeros casos de uso: abrirTareas, crearTarea, editarTarea. Genera de cada uno un diagrama de clases y un diagrama de secuencia con un README explicativo, estructurado en carpetas dentro de RUP/02-diseño/.
+
+**Resultado:** Se ha completado el diseño detallado para el núcleo de la gestión de tareas. Se crearon 6 diagramas PlantUML (clases y secuencia) y 3 READMEs técnicos. El diseño especifica el uso del hook `useTasks` en el frontend, esquemas Pydantic para validación en el backend y la lógica de Control de Acceso Basado en Roles (RBAC) donde el `TaskService` valida si el usuario es `ADMIN` o el dueño de la tarea antes de permitir ediciones.
+
+**Decisión:** He validado y aprobado este diseño técnico porque garantiza una separación clara de responsabilidades y un control de seguridad robusto a nivel de API. La estructura de carpetas mantiene la coherencia con el resto del proyecto, facilitando la trazabilidad desde el análisis BCE hasta la arquitectura física.

@@ -1,0 +1,54 @@
+@startuml
+!theme plain
+skinparam backgroundColor white
+skinparam handwritten false
+skinparam classAttributeIconSize 0
+
+package "Capa UI (React)" {
+    class DashboardPage <<boundary>> {
+        + useEffect()
+        + render()
+    }
+    class TaskList <<boundary>> {
+        - tasks: Task[]
+        + render()
+    }
+    class useTasks <<control>> {
+        + tasks: Task[]
+        + loading: boolean
+        + error: string
+        + fetchTasks()
+    }
+}
+
+package "Capa API (FastAPI)" {
+    class TaskRouter <<boundary>> {
+        + get_tasks(current_user, db): List[TaskSchema]
+    }
+    class TaskService <<control>> {
+        + get_user_tasks(user_id, role, db): List[Task]
+    }
+    class TaskRepository <<entity>> {
+        + get_all_by_user(user_id): List[Task]
+        + get_all(): List[Task]
+    }
+}
+
+package "Capa Datos (SQLAlchemy)" {
+    class Task <<entity>> {
+        + id: UUID
+        + title: str
+        + description: str
+        + status: TaskStatus
+        + owner_id: UUID
+    }
+}
+
+DashboardPage ..> useTasks : consume
+useTasks ..> TaskList : provee datos
+useTasks ..> TaskRouter : HTTP GET /tasks
+TaskRouter ..> TaskService : invoca
+TaskService ..> TaskRepository : consulta
+TaskRepository ..> Task : recupera
+
+@enduml

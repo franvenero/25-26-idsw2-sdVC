@@ -1,0 +1,45 @@
+@startuml
+!theme plain
+skinparam classAttributeIconSize 0
+
+package "Capa UI (React)" {
+    class CreateTaskModal <<boundary>> {
+        - formData: TaskCreateSchema
+        + handleSubmit()
+    }
+    class useTasks <<control>> {
+        + createTask(data: TaskCreateSchema)
+    }
+}
+
+package "Capa API (FastAPI)" {
+    class TaskRouter <<boundary>> {
+        + create_task(task_in, current_user, db): TaskSchema
+    }
+    class TaskCreateSchema <<dto>> {
+        + title: str
+        + description: str
+    }
+    class TaskService <<control>> {
+        + create_new_task(data, owner_id, db): Task
+    }
+    class TaskRepository <<entity>> {
+        + create(task_obj): Task
+    }
+}
+
+package "Capa Datos (SQLAlchemy)" {
+    class Task <<entity>> {
+        + id: UUID
+        + title: str
+        + owner_id: UUID
+    }
+}
+
+CreateTaskModal ..> useTasks : usa
+useTasks ..> TaskRouter : HTTP POST /tasks
+TaskRouter ..> TaskCreateSchema : valida
+TaskRouter ..> TaskService : invoca
+TaskService ..> TaskRepository : persiste
+TaskRepository ..> Task : crea
+@enduml
