@@ -1,119 +1,127 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { useTasks } from '../hooks/useTasks';
-import TaskForm from '../components/tasks/TaskForm';
-import TaskList from '../components/tasks/TaskList';
+import React, { useState } from "react";
+import { useAuth } from "../context/AuthContext";
+import { useTasks } from "../hooks/useTasks";
+import { useMembers } from "../hooks/useMembers";
+import { UserRole } from "../types/auth";
+import TaskForm from "../components/tasks/TaskForm";
+import TaskList from "../components/tasks/TaskList";
+import MemberForm from "../components/members/MemberForm";
+import MemberList from "../components/members/MemberList";
 
 const DashboardPage: React.FC = () => {
   const { user, logout } = useAuth();
-  const { tasks, isLoading, error, createTask, updateTask, updateTaskStatus, deleteTask } = useTasks();
-  const navigate = useNavigate();
+  const { 
+    tasks, 
+    isLoading: tasksLoading, 
+    error: tasksError,
+    createTask, 
+    deleteTask, 
+    updateTaskStatus,
+    updateTask 
+  } = useTasks();
+  
+  const { 
+    members, 
+    loading: membersLoading, 
+    addMember, 
+    updateRole, 
+    deactivateMember 
+  } = useMembers();
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+  const [activeTab, setActiveTab] = useState<"tasks" | "team">("tasks");
+
+  if (!user) return null;
+
+  const isAdmin = user.role === UserRole.ADMIN || user.role === UserRole.ADMIN_MEMBER;
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      backgroundColor: '#f4f7f6',
-      fontFamily: 'Segoe UI, Tahoma, Geneva, Verdana, sans-serif'
-    }}>
-      {/* Header / Navigation Bar */}
-      <nav style={{
-        backgroundColor: '#ffffff',
-        padding: '1rem 2rem',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-        position: 'sticky',
-        top: 0,
-        zIndex: 100
-      }}>
-        <h1 style={{ margin: 0, fontSize: '1.5rem', color: '#2c3e50' }}>
-          Sistema de Gestión
-        </h1>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-          <div style={{ textAlign: 'right' }}>
-            <div style={{ color: '#2c3e50', fontWeight: 600 }}>{user?.username}</div>
-            <div style={{ color: '#7f8c8d', fontSize: '0.8rem', textTransform: 'lowercase' }}>{user?.role}</div>
+    <div className="min-h-screen bg-gray-100">
+      {/* Header */}
+      <header className="bg-white shadow">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-gray-900">Gestor Familiar</h1>
+          <div className="flex items-center space-x-4">
+            <span className="text-sm text-gray-600">
+              Bienvenido, <strong>{user.username}</strong> ({user.role})
+            </span>
+            <button
+              onClick={logout}
+              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors"
+            >
+              Cerrar Sesión
+            </button>
           </div>
+        </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Tabs Navigation */}
+        <div className="flex space-x-4 mb-8 border-b border-gray-200">
           <button
-            onClick={handleLogout}
-            style={{
-              padding: '0.6rem 1.2rem',
-              backgroundColor: '#e74c3c',
-              color: 'white',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              fontWeight: 600,
-              transition: 'background-color 0.2s'
-            }}
-            onMouseOver={(e) => (e.currentTarget.style.backgroundColor = '#c0392b')}
-            onMouseOut={(e) => (e.currentTarget.style.backgroundColor = '#e74c3c')}
+            onClick={() => setActiveTab("tasks")}
+            className={`pb-4 px-4 text-sm font-medium transition-colors ${
+              activeTab === "tasks"
+                ? "border-b-2 border-blue-500 text-blue-600"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
           >
-            Cerrar Sesión
+            Tareas
+          </button>
+          <button
+            onClick={() => setActiveTab("team")}
+            className={`pb-4 px-4 text-sm font-medium transition-colors ${
+              activeTab === "team"
+                ? "border-b-2 border-blue-500 text-blue-600"
+                : "text-gray-500 hover:text-gray-700"
+            }`}
+          >
+            Equipo / Familia
           </button>
         </div>
-      </nav>
 
-      {/* Main Content Area */}
-      <main style={{
-        flex: 1,
-        padding: '2rem',
-        maxWidth: '1200px',
-        margin: '0 auto',
-        width: '100%',
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
-        gap: '2rem'
-      }}>
-        {/* Left Column: Form (for admins) and Info */}
-        <section>
-          <TaskForm onSubmit={createTask} />
-          
-          <div style={{
-            backgroundColor: '#ffffff',
-            borderRadius: '8px',
-            padding: '1.5rem',
-            boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-            border: '1px solid #ddd'
-          }}>
-            <h3 style={{ marginTop: 0, color: '#2c3e50' }}>Panel Informativo</h3>
-            <p style={{ color: '#7f8c8d', fontSize: '0.9rem' }}>
-              Bienvenido al gestor de tareas. Aquí puedes visualizar las actividades asignadas, cambiar su estado y, si tienes permisos, crear nuevas tareas para el equipo.
-            </p>
-            <div style={{ 
-              marginTop: '1rem', 
-              padding: '0.8rem', 
-              backgroundColor: '#e8f4fd', 
-              borderRadius: '4px',
-              borderLeft: '4px solid #3498db',
-              color: '#2980b9',
-              fontSize: '0.85rem'
-            }}>
-              <strong>Estado del Sistema:</strong> Operativo
-            </div>
+        {activeTab === "tasks" ? (
+          <div className="space-y-8">
+            <section>
+              <h2 className="text-2xl font-bold mb-4 text-gray-800">Nueva Tarea</h2>
+              <TaskForm onAdd={createTask} />
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-bold mb-4 text-gray-800">Mis Tareas / Tareas del Grupo</h2>
+              <TaskList
+                tasks={tasks}
+                members={members}
+                isLoading={tasksLoading}
+                error={tasksError}
+                onDelete={deleteTask}
+                onStatusChange={updateTaskStatus}
+                onUpdate={updateTask}
+              />
+            </section>
           </div>
-        </section>
+        ) : (
+          <div className="space-y-8">
+            <section>
+              <h2 className="text-2xl font-bold mb-4 text-gray-800">Gestión de Equipo</h2>
+              {isAdmin && <MemberForm onAdd={addMember} />}
+            </section>
 
-        {/* Right Column: Task List */}
-        <section>
-          <TaskList 
-            tasks={tasks} 
-            isLoading={isLoading} 
-            error={error} 
-            onStatusChange={updateTaskStatus} 
-            onUpdate={updateTask}
-            onDelete={deleteTask}
-          />
-        </section>
+            <section>
+              <h2 className="text-2xl font-bold mb-4 text-gray-800">Miembros de la Familia</h2>
+              {membersLoading ? (
+                <p>Cargando miembros...</p>
+              ) : (
+                <MemberList
+                  members={members}
+                  currentUser={user}
+                  onUpdateRole={updateRole}
+                  onDeactivate={deactivateMember}
+                />
+              )}
+            </section>
+          </div>
+        )}
       </main>
     </div>
   );

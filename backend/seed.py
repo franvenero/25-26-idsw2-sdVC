@@ -18,7 +18,7 @@ def reset_db():
     
     # Crear tablas desde cero con los nuevos esquemas
     Base.metadata.create_all(bind=engine)
-    print("Esquema de base de datos creado con éxito (incluyendo 'group_id').")
+    print("Esquema de base de datos creado con éxito.")
     
     # Instanciar sesión
     db = SessionLocal()
@@ -27,19 +27,23 @@ def reset_db():
         # Crear usuario administrador inicial
         admin_username = "admin"
         admin_password = "admin"
+        admin_email = "admin@admin.com"
+        admin_group = "familia_1"
         hashed_password = get_password_hash(admin_password)
         
         # El rol debe coincidir con el diseño UML y la lógica de negocio ("ADMIN")
         admin_user = User(
             username=admin_username,
+            email=admin_email,
             hashed_password=hashed_password,
             role=UserRole.ADMIN,
+            group_id=admin_group,
             is_active=True
         )
         
         db.add(admin_user)
         db.commit()
-        print("Base de datos reiniciada con el nuevo esquema. Usuario admin creado con éxito.")
+        print(f"Base de datos reiniciada. Usuario '{admin_username}' ({admin_email}) en grupo '{admin_group}' creado con éxito.")
         
     except Exception as e:
         print(f"Error durante el reinicio: {e}")

@@ -1,0 +1,27 @@
+@startuml
+actor Actor
+participant "UI: React" as UI
+participant "AuthMiddleware" as Auth
+participant "MemberController" as Ctrl
+participant "MemberService" as Svc
+participant "UserRepository" as Repo
+database "Database" as DB
+
+Actor -> UI: Completa formulario de invitación
+UI -> Auth: POST /api/members/invite (InviteDTO)
+Auth -> Auth: Validar Token & Rol (Admin/MemberAdmin)
+Auth -> Ctrl: inviteMember(data)
+Ctrl -> Svc: inviteMember(data)
+Svc -> Repo: findByEmail(data.email)
+Repo -> DB: SELECT ...
+DB --> Repo: null
+Repo --> Svc: UserNotFound
+Svc -> Repo: create(new User(status=PENDING_INVITE))
+Repo -> DB: INSERT ...
+DB --> Repo: User Created
+Svc -> Svc: Enviar Email Notificación
+Svc --> Ctrl: Invitation Result
+Ctrl --> Auth: 201 Created
+Auth --> UI: Success Message
+UI --> Actor: Muestra confirmación
+@enduml

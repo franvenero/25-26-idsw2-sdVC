@@ -1,23 +1,29 @@
 import React, { useState } from 'react';
 import { TaskResponse, TaskStatus, TaskUpdateSchema } from '../../types/schemas';
+import { UserResponse } from '../../types/user';
 import EditTaskModal from './EditTaskModal';
 import { useAuth } from '../../context/AuthContext';
 import { UserRole } from '../../types/auth';
 
 interface TaskItemProps {
   task: TaskResponse;
+  members: UserResponse[];
   onStatusChange: (taskId: number, newStatus: TaskStatus) => void;
   onUpdate: (taskId: number, data: TaskUpdateSchema) => Promise<void>;
   onDelete: (taskId: number) => Promise<void>;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ task, onStatusChange, onUpdate, onDelete }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task, members, onStatusChange, onUpdate, onDelete }) => {
   const { user } = useAuth();
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const isAdmin = user?.role === UserRole.ADMIN || user?.role === UserRole.ADMIN_MEMBER;
   const isOwner = task.creator_id === user?.id;
   const canEdit = isAdmin || isOwner;
+
+  // Encontrar el nombre del usuario asignado
+  const assignedUser = members.find(m => m.id === task.assigned_to_id);
+  const assignedName = assignedUser ? assignedUser.username : (task.assigned_to_id === user?.id ? `${user.username} (Tú)` : 'Desconocido');
 
   const handleStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     onStatusChange(task.id, e.target.value as TaskStatus);
@@ -29,48 +35,31 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onStatusChange, onUpdate, onD
     }
   };
 
-  const getStatusColor = (status: TaskStatus) => {
+  const getStatusBadgeClass = (status: TaskStatus) => {
     switch (status) {
-      case TaskStatus.COMPLETADA: return '#27ae60';
-      case TaskStatus.EN_PROGRESO: return '#f39c12';
-      default: return '#7f8c8d';
+      case TaskStatus.COMPLETADA: return 'bg-green-500 text-white';
+      case TaskStatus.EN_PROGRESO: return 'bg-yellow-500 text-white';
+      default: return 'bg-gray-500 text-white';
     }
   };
 
   return (
-    <div style={{
-      backgroundColor: '#fff',
-      border: '1px solid #ddd',
-      borderRadius: '8px',
-      padding: '1.5rem',
-      marginBottom: '1rem',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.05)',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '0.5rem'
-    }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+    <div className="bg-white border border-gray-200 rounded-lg p-6 shadow-sm flex flex-col space-y-4 hover:shadow-md transition-shadow">
+      <div className="flex justify-between items-start">
         <div>
-          <h3 style={{ margin: 0, color: '#2c3e50' }}>{task.title}</h3>
-          <div style={{ fontSize: '0.75rem', color: '#95a5a6', marginTop: '0.2rem' }}>
+          <h3 className="text-lg font-bold text-gray-800">{task.title}</h3>
+          <div className="text-xs text-gray-400 mt-1">
             ID: {task.id} {task.group_id && `| Grupo: ${task.group_id}`}
           </div>
         </div>
-        <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
-          <span style={{
-            fontSize: '0.8rem',
-            fontWeight: 'bold',
-            padding: '0.2rem 0.5rem',
-            borderRadius: '4px',
-            backgroundColor: getStatusColor(task.status),
-            color: '#fff'
-          }}>
+        <div className="flex items-center space-x-2">
+          <span className={`text-xs font-bold px-2 py-1 rounded ${getStatusBadgeClass(task.status)}`}>
             {task.status}
           </span>
           {canEdit && (
             <button
               onClick={() => setIsEditModalOpen(true)}
-              style={iconButtonStyle}
+              className="p-1 border border-gray-200 rounded hover:bg-gray-50 transition-colors"
               title="Editar"
             >
               ✏️
@@ -79,7 +68,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onStatusChange, onUpdate, onD
           {isAdmin && (
             <button
               onClick={handleDelete}
-              style={{ ...iconButtonStyle, backgroundColor: '#fdeaea' }}
+              className="p-1 border border-red-100 bg-red-50 rounded hover:bg-red-100 transition-colors"
               title="Eliminar"
             >
               🗑️
@@ -89,34 +78,28 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onStatusChange, onUpdate, onD
       </div>
       
       {task.description && (
-        <p style={{ margin: '0.5rem 0', color: '#7f8c8d', fontSize: '0.95rem' }}>
+        <p className="text-gray-600 text-sm">
           {task.description}
         </p>
       )}
 
-      <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.2rem' }}>
-          <div style={{ fontSize: '0.8rem', color: '#95a5a6' }}>
-            Asignada a: {task.assigned_to_id || 'Sin asignar'}
+      <div className="pt-4 mt-4 border-t border-gray-100 flex justify-between items-end">
+        <div className="flex flex-col space-y-1">
+          <div className="text-sm font-medium text-gray-700">
+            <span className="text-gray-400 font-normal">Asignada a:</span> {assignedName}
           </div>
-          <div style={{ fontSize: '0.75rem', color: '#bdc3c7' }}>
+          <div className="text-xs text-gray-400">
             Creada: {new Date(task.created_at).toLocaleString()}
           </div>
         </div>
         
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <label htmlFor={`status-${task.id}`} style={{ fontSize: '0.85rem', fontWeight: 600 }}>Estado:</label>
+        <div className="flex flex-col space-y-1 items-end">
+          <label htmlFor={`status-${task.id}`} className="text-xs font-semibold text-gray-500">Cambiar Estado:</label>
           <select
             id={`status-${task.id}`}
             value={task.status}
             onChange={handleStatusChange}
-            style={{
-              padding: '0.3rem',
-              borderRadius: '4px',
-              border: '1px solid #ccc',
-              backgroundColor: '#fff',
-              cursor: 'pointer'
-            }}
+            className="text-sm border border-gray-300 rounded p-1 bg-white cursor-pointer focus:ring-2 focus:ring-blue-500 outline-none"
           >
             <option value={TaskStatus.PENDIENTE}>Pendiente</option>
             <option value={TaskStatus.EN_PROGRESO}>En Progreso</option>
@@ -128,25 +111,13 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onStatusChange, onUpdate, onD
       {isEditModalOpen && (
         <EditTaskModal
           task={task}
+          members={members}
           onClose={() => setIsEditModalOpen(false)}
           onUpdate={onUpdate}
         />
       )}
     </div>
   );
-};
-
-const iconButtonStyle: React.CSSProperties = {
-  background: 'none',
-  border: '1px solid #ddd',
-  borderRadius: '4px',
-  padding: '0.2rem 0.4rem',
-  cursor: 'pointer',
-  fontSize: '0.9rem',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  transition: 'background-color 0.2s'
 };
 
 export default TaskItem;

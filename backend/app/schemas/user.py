@@ -1,19 +1,25 @@
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, EmailStr
 from uuid import UUID
+from typing import Optional
 from app.models.user import UserRole
 
 class UserBase(BaseModel):
     username: str
+    email: EmailStr
     role: UserRole = UserRole.MEMBER
+    group_id: Optional[str] = None
 
 class UserCreate(UserBase):
-    password: str
+    password: Optional[str] = None
+
+class UserUpdateRole(BaseModel):
+    role: UserRole
 
 class UserLogin(BaseModel):
     username: str
     password: str
 
-class User(UserBase):
+class UserResponse(UserBase):
     id: UUID
     is_active: bool
 

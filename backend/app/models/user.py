@@ -14,6 +14,8 @@ class User(Base):
 
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4, index=True)
     username = Column(String, unique=True, index=True, nullable=False)
+    email = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
     role = Column(SQLEnum(UserRole), default=UserRole.MEMBER, nullable=False)
+    group_id = Column(String, index=True, nullable=True)  # UUID string or name
     is_active = Column(Boolean, default=True)

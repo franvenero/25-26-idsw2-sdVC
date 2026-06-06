@@ -1,0 +1,27 @@
+@startuml
+actor Actor
+participant "UI: React" as UI
+participant "AuthMiddleware" as Auth
+participant "MemberController" as Ctrl
+participant "MemberService" as Svc
+participant "UserRepository" as Repo
+database "Database" as DB
+
+Actor -> UI: Clic en "Desactivar" miembro
+UI -> UI: Mostrar diálogo de confirmación (BR-MEM-03)
+Actor -> UI: Confirmar
+UI -> Auth: DELETE /api/members/{userId}
+Auth -> Auth: Validar jerarquía (BR-MEM-02)
+Auth -> Ctrl: deactivateMember(userId)
+Ctrl -> Svc: deactivateMember(userId)
+Svc -> Repo: findById(userId)
+Repo --> Svc: User Entity
+Svc -> Svc: user.status = INACTIVE
+Svc -> Repo: save(user)
+Repo -> DB: UPDATE users SET status = 'inactive' ...
+DB --> Repo: OK
+Svc --> Ctrl: Success
+Ctrl --> Auth: 200 OK
+Auth --> UI: Success Message
+UI --> Actor: Actualiza lista de miembros
+@enduml

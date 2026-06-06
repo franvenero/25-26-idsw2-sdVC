@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.core.database import get_db
-from app.schemas.user import UserLogin, User as UserSchema
+from app.schemas.user import UserLogin, UserResponse
 from app.schemas.token import Token
 from app.repositories.user_repository import UserRepository
 from app.services.auth_service import AuthService
@@ -38,7 +38,7 @@ async def login(
     
     return {"access_token": access_token, "token_type": "bearer"}
 
-@router.get("/me", response_model=UserSchema)
+@router.get("/me", response_model=UserResponse)
 async def get_me(current_user: User = Depends(get_current_user)):
     """
     Retorna la información del usuario autenticado.

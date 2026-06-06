@@ -228,4 +228,44 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 **Resultado:** Se ha completado la funcionalidad de edición de tareas de extremo a extremo. Se refactorizaron los esquemas Pydantic y el `TaskService` para soportar actualizaciones parciales y validar permisos (RBAC). En el frontend, se implementó el componente `EditTaskModal.tsx`, se actualizó el hook `useTasks` y se añadieron controles visuales en `TaskItem.tsx` para editar y eliminar tareas. Se garantizó que el flujo sea 100% coherente con los diagramas de diseño UML.
 
-**Decisión:** He validado y aprobado la implementación final del ciclo CRUD de tareas. 
+**Decisión:** He validado y aprobado la implementación final del ciclo CRUD de tareas.
+
+---
+
+## [06/06/2026] [10:15] Fase 02: Diseño - Gestión de Miembros (Reglas y Casos de Uso)
+
+**Prompt:** Actúa como un Arquitecto de Software Senior experto en UML y Análisis de Requisitos. Estamos en la Fase de Diseño: Módulo de Gestión de Miembros... Lee atentamente el archivo /_contexto/actoresYCasosDeUso/README.md... Diseña las reglas de negocio y los Casos de Uso formales para el bloque de 'Gestión de Miembros'.
+
+**Resultado:** Se han definido formalmente las reglas de negocio y los casos de uso para la administración de la familia. Se creó el documento `gestion-miembros.md` con una matriz de permisos, reglas de jerarquía (BR-MEM-02) y borrado lógico (BR-MEM-03). Además, se generaron diagramas UML de clases y secuencia en la carpeta `RUP/02-diseño/` para los flujos de invitación y desactivación, asegurando la trazabilidad desde los requerimientos.
+
+**Decisión:** He validado y aceptado el diseño porque establece un marco de seguridad claro basado en roles (Admin, Miembro Admin, Miembro) y garantiza la integridad de los datos históricos mediante la desactivación en lugar del borrado físico.
+
+---
+
+## [06/06/2026] [17:54] Fase 04: Construcción - Backend de Gestión de Miembros e Integridad de Datos
+
+**Prompt:** Actúa como un Ingeniero de Software Backend Senior experto en FastAPI y SQLAlchemy. Implementa el backend de Gestión de Miembros: Modelos, Esquemas, Servicios y Rutas... Actualización de seed.py... 'Backend de Gestión de Miembros implementado. Modelos, esquemas, rutas y reglas de negocio aplicadas. Base de datos lista para el reinicio'.
+
+**Resultado:** Implementación completa del módulo de miembros en el backend. Se actualizó el modelo `User` con campos `email` y `group_id`. Se desarrolló el `UserService` aplicando las reglas de jerarquía y borrado lógico. Se expusieron los endpoints mediante `user_router.py` y se registró en la aplicación principal. Finalmente, se actualizó `seed.py` para incluir los nuevos campos obligatorios del administrador inicial.
+
+**Decisión:** He aprobado la implementación del backend de miembros. Durante el proceso, corregí proactivamente un error de importación en `auth_router.py` derivado del renombramiento de los esquemas de usuario (`User` a `UserResponse`), garantizando que todos los componentes del sistema utilicen los nuevos contratos de datos de forma coherente.
+
+---
+
+## [06/06/2026] [18:30] Fase 04: Construcción - Frontend de Gestión de Miembros
+
+**Prompt:** Actúa como un Ingeniero de Software Frontend Senior experto en React, TypeScript y TailwindCSS. Estamos en la Fase 04: Construcción - Frontend de Gestión de Miembros. Implementa la interfaz de usuario para el CRUD de miembros del grupo familiar: Tipos, Servicio API, Hook Personalizado, Componentes Visuales (MemberForm, MemberList) e integración en el Dashboard con sistema de pestañas.
+
+**Resultado:** Implementación completa de la capa de presentación para la gestión de miembros. Se desarrollaron tipos estrictos, un servicio especializado con Axios y el hook `useMembers` para la gestión de estado. Se crearon los componentes `MemberForm` (invitaciones) y `MemberList` (gestión de roles y desactivación) utilizando TailwindCSS para un acabado profesional. El `DashboardPage` fue reestructurado con un sistema de pestañas para alternar entre 'Tareas' y 'Equipo'.
+
+**Decisión:** He validado y aprobado la interfaz de gestión de miembros. La arquitectura basada en hooks permite una reactividad fluida y la matriz de permisos en `MemberList` asegura que las reglas de negocio (BR-MEM-02) se cumplan visualmente al deshabilitar acciones no permitidas según el rol.
+
+---
+
+## [06/06/2026] [18:06] Fase 05: Integración de Módulos (Tareas + Miembros)
+
+**Prompt:** Actúa como un Ingeniero de Software Frontend Senior. Conecta el módulo de Miembros con el módulo de Tareas para permitir asignaciones reales. Refactoriza `TaskForm.tsx` para usar la lista dinámica de miembros y `TaskItem.tsx` para mostrar el nombre del asignado en lugar del ID.
+
+**Resultado:** Integración exitosa de los dos núcleos funcionales del sistema. `TaskForm` ahora consume el hook `useMembers` para poblar el selector de asignación con usuarios reales del grupo. `TaskList` y `TaskItem` fueron actualizados para recibir la lista de miembros y realizar el "lookup" del nombre del usuario, eliminando la visualización de IDs técnicos. Se actualizó también `EditTaskModal` para permitir la reasignación de tareas existentes.
+
+**Decisión:** He aprobado la integración final de los módulos. Este paso transforma el sistema de una aplicación de uso personal a una verdadera herramienta de coordinación familiar, permitiendo delegar responsabilidades a los diferentes usuarios de la aplicacion.

@@ -77,7 +77,7 @@
 
 ## 2. Actividad Realizada
 - **Andamiaje de Proyecto:** Creación de las estructuras raíz `/backend` y `/frontend` siguiendo el patrón de arquitectura limpia.
-- **Construcción Backend (iniciarSesion):**
+- **Construction Backend (iniciarSesion):**
     - Implementación de modelos SQLAlchemy, esquemas Pydantic y repositorios.
     - Desarrollo del `AuthService` y `auth_router` con hashing de contraseñas (bcrypt) y generación de JWT.
     - Refactorización para asegurar la Inversión de Control (IoC) en los endpoints.
@@ -132,6 +132,46 @@
 - **Fase de Construcción (Tareas):** 90% Completada para el bloque inicial. CRUD funcional y alineado con diseño.
 - **Infraestructura:** Estable y sincronizada. El sistema de tipos UUID es ahora robusto en todas las capas.
 - **Módulo gestion-tareas:** Listo para avanzar hacia los casos de uso de relaciones y conflictos.
+
+---
+**Arquitecto de Software:** Gemini CLI Agent
+
+---
+
+# Resumen de Sesión - Sesión 18
+**Fecha:** 6 de junio de 2026
+**Estado:** COMPLETADA
+
+## 1. Objetivos de la Sesión
+- Diseñar e implementar el módulo de **Gestión de Miembros** (Análisis, Diseño, Backend y Frontend).
+- Asegurar la integridad de las reglas de negocio en la jerarquía de roles y permisos.
+- Integrar los módulos de Tareas y Miembros para permitir asignaciones colaborativas reales.
+
+## 2. Actividad Realizada
+- **Fase de Diseño:** 
+    - Análisis de roles (Admin, Miembro Admin, Miembro) y definición de Reglas de Negocio (BR-MEM-01 a 05).
+    - Creación de diagramas de clases y secuencia UML para la administración de miembros en `RUP/02-diseño/`.
+- **Construcción Backend (Miembros):**
+    - Extensión del modelo `User` (email, group_id) y esquemas Pydantic.
+    - Implementación de `UserService` con validación de jerarquía y **borrado lógico**.
+    - Creación de la API de miembros y actualización de los scripts de inicialización (`seed.py`).
+- **Construcción Frontend (Miembros):**
+    - Implementación del servicio de API, el hook `useMembers` y componentes con **TailwindCSS** (`MemberForm`, `MemberList`).
+    - Integración de un sistema de pestañas en el `DashboardPage` para alternar entre Tareas y Equipo.
+- **Integración de Módulos:**
+    - Refactorización de `TaskForm` para usar la lista dinámica de miembros del grupo familiar.
+    - Actualización de `TaskList`, `TaskItem` y `EditTaskModal` para resolver y mostrar nombres de usuarios asignados en lugar de IDs técnicos.
+- **Corrección de Errores:** Resolución de conflictos de importación de esquemas en el router de autenticación.
+
+## 3. Decisiones Arquitectónicas Clave
+- **Borrado Lógico Proactivo:** Se implementó la desactivación de usuarios (`is_active=False`) para garantizar que el historial de tareas asignadas no pierda su integridad referencial.
+- **Seguridad RBAC en Cascada:** Las reglas de jerarquía se validan tanto en el backend (Service Layer) como en el frontend (UI visibility), impidiendo que roles inferiores afecten a administradores.
+- **Integración Basada en Hooks:** El uso del hook `useMembers` en el módulo de tareas permite un desacoplamiento limpio mientras se comparten recursos de datos en tiempo real.
+
+## 4. Estado del Proyecto al Finalizar la Sesión
+- **Módulo Gestión de Miembros:** 100% Completado y funcional.
+- **Integración Tareas-Miembros:** Operativa de extremo a extremo (Asignación y Visualización).
+- **Consolidación:** El sistema ha evolucionado de un gestor individual a una plataforma de coordinación familiar multi-usuario.
 
 ---
 **Arquitecto de Software:** Gemini CLI Agent
