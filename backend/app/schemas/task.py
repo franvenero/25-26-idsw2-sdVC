@@ -1,36 +1,39 @@
-from pydantic import BaseModel, ConfigDict
-from typing import Optional
-from datetime import datetime
-from uuid import UUID
-from app.models.task import TaskStatus
+from typing import Optional, List
+from pydantic import BaseModel, Field
 
 class TaskBase(BaseModel):
     title: str
     description: Optional[str] = None
-    status: TaskStatus = TaskStatus.PENDIENTE
-    assigned_to_id: Optional[UUID] = None
-    group_id: Optional[str] = None
+    group_id: Optional[str] = None # Hecho opcional para que el frontend no tenga que enviarlo
 
-class TaskCreate(BaseModel):
-    title: str
-    description: Optional[str] = None
-    assigned_to_id: Optional[UUID] = None
-    group_id: Optional[str] = None
+class TaskCreate(TaskBase):
+    assigned_to_id: Optional[str] = None
+    depends_on_ids: Optional[List[str]] = Field(default_factory=list)
 
 class TaskUpdate(BaseModel):
     title: Optional[str] = None
     description: Optional[str] = None
-    status: Optional[TaskStatus] = None
-    assigned_to_id: Optional[UUID] = None
-    group_id: Optional[str] = None
+    is_completed: Optional[bool] = None
+    assigned_to_id: Optional[str] = None
 
-class TaskStatusUpdate(BaseModel):
-    status: Optional[TaskStatus] = None
+class TaskDependencyCreate(BaseModel):
+    depends_on_ids: List[str]
 
 class TaskResponse(TaskBase):
-    id: int
-    creator_id: UUID
-    created_at: datetime
-    updated_at: Optional[datetime] = None
-
-    model_config = ConfigDict(from_attributes=True)
+    id: str
+    is_completed: bool
+    is_deleted: bool
+    owner_id: str
+    assigned_to_id: Optional[str] = None
+    
+    class Config:
+        from_attributes = True
+        # Aseguramos que group_id se incluya en la respuesta aunque sea opcional en el base
+        json_schema_extra = {
+            "example": {
+                "id": "uuid",
+                "title": "Comprar pan",
+                "is_completed": False,
+                "group_id": "familia_1"
+            }
+        }

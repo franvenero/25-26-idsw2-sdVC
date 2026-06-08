@@ -1,125 +1,108 @@
-from typing import List, Optional
 from sqlalchemy.orm import Session
 from fastapi import HTTPException, status
-from app.models.task import Task, TaskStatus
-from app.models.user import User, UserRole
-from app.schemas.task import TaskCreate, TaskUpdate, TaskStatusUpdate
-from uuid import UUID
+from app.models.task import Task
+from app.models.user import User
+from app.schemas.task import TaskCreate, TaskUpdate, TaskDependencyCreate
 
 class TaskService:
-    """
-    Controlador de Tareas (TareasController en diseño UML).
-    Coordina la lógica de negocio para la gestión de tareas.
-    """
-    def __init__(self, db: Session):
-        self.db = db
+    def get_tasks_by_group(self, db: Session, group_id: str):
+        return db.query(Task).filter(
+            Task.group_id == group_id, 
+            Task.is_deleted == False
+        ).all()
 
-    def create_task(self, task_data: TaskCreate, current_user: User) -> Task:
-        """
-        crearTarea() - Realización de diseño.
-        Solo administradores pueden crear tareas y asignarlas.
-        """
-        if current_user.role not in [UserRole.ADMIN, UserRole.ADMIN_MEMBER]:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="No tiene permisos para crear tareas"
-            )
+    def get_task_by_id(self, db: Session, task_id: str):
+        task = db.query(Task).filter(Task.id == task_id, Task.is_deleted == False).first()
+        if not task:
+            raise HTTPException(status_code=404, detail="Tarea no encontrada")
+        return task
+
+    def create_task(self, db: Session, task_data: TaskCreate, owner_id: str, group_id: str):
+        # Usamos el group_id proporcionado por el router (del usuario actual)
+        # a menos que task_data explícitamente traiga uno (soporte futuro multi-grupo)
+        effective_group_id = task_data.group_id or group_id
         
         db_task = Task(
             title=task_data.title,
             description=task_data.description,
-            assigned_to_id=task_data.assigned_to_id,
-            creator_id=current_user.id,
-            group_id=task_data.group_id,
-            status=TaskStatus.PENDIENTE
+            group_id=effective_group_id,
+            owner_id=owner_id,
+            assigned_to_id=task_data.assigned_to_id
         )
-        self.db.add(db_task)
-        self.db.commit()
-        self.db.refresh(db_task)
+        db.add(db_task)
+        
+        # Procesar dependencias iniciales si existen
+        if task_data.depends_on_ids:
+            for dep_id in task_data.depends_on_ids:
+                dep_task = self.get_task_by_id(db, dep_id)
+                if dep_task not in db_task.dependencies:
+                    db_task.dependencies.append(dep_task)
+
+        db.commit()
+        db.refresh(db_task)
         return db_task
 
-    def get_tasks(self, current_user: User) -> List[Task]:
-        """
-        abrirTareas() / listarTareas() - Realización de diseño.
-        Filtra tareas según el rol del usuario (RBAC).
-        """
-        query = self.db.query(Task)
+    def update_task(self, db: Session, task_id: str, task_update: TaskUpdate, user_id: str):
+        db_task = self.get_task_by_id(db, task_id)
         
-        # Si es Miembro, filtrar solo las asignadas a él
-        if current_user.role == UserRole.MEMBER:
-            query = query.filter(Task.assigned_to_id == current_user.id)
-        
-        return query.all()
+        # Lógica de marcar como completada con validación de dependencias
+        if task_update.is_completed is True and db_task.is_completed is False:
+            self._validate_dependencies_for_completion(db_task)
 
-    def get_task_by_id(self, task_id: int) -> Task:
-        task = self.db.query(Task).filter(Task.id == task_id).first()
-        if not task:
-            raise HTTPException(
-                status_code=status.HTTP_404_NOT_FOUND,
-                detail="Tarea no encontrada"
-            )
+        update_data = task_update.dict(exclude_unset=True)
+        for key, value in update_data.items():
+            setattr(db_task, key, value)
+        
+        db.commit()
+        db.refresh(db_task)
+        return db_task
+
+    def soft_delete_task(self, db: Session, task_id: str):
+        db_task = self.get_task_by_id(db, task_id)
+        db_task.is_deleted = True
+        db.commit()
+        return {"detail": "Tarea eliminada correctamente"}
+
+    def add_dependencies(self, db: Session, task_id: str, dependency_data: TaskDependencyCreate):
+        task = self.get_task_by_id(db, task_id)
+        
+        for dep_id in dependency_data.depends_on_ids:
+            if dep_id == task_id:
+                raise HTTPException(status_code=400, detail="Una tarea no puede depender de sí misma")
+            
+            dep_task = self.get_task_by_id(db, dep_id)
+            
+            if self._check_circularity(task, dep_task):
+                raise HTTPException(
+                    status_code=400, 
+                    detail=f"Circularidad detectada: {task.title} no puede depender de {dep_task.title}"
+                )
+            
+            if dep_task not in task.dependencies:
+                task.dependencies.append(dep_task)
+        
+        db.commit()
         return task
 
-    def update_task(self, task_id: int, task_data: TaskUpdate, current_user: User) -> Task:
-        """
-        editarTarea() / actualizarTarea() - Realización de diseño.
-        Permite modificaciones al creador de la tarea o a administradores.
-        """
-        db_task = self.get_task_by_id(task_id)
+    def _check_circularity(self, potential_successor: Task, potential_predecessor: Task) -> bool:
+        visited = set()
+        stack = [potential_predecessor]
         
-        isAdmin = current_user.role in [UserRole.ADMIN, UserRole.ADMIN_MEMBER]
-        isOwner = db_task.creator_id == current_user.id
-        
-        if not (isAdmin or isOwner):
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="No tiene permisos para modificar esta tarea"
-            )
-        
-        # Actualización parcial iterativa
-        update_data = task_data.model_dump(exclude_unset=True)
-        for key, value in update_data.items():
-            setattr(db_task, key, value)
+        while stack:
+            current = stack.pop()
+            if current.id == potential_successor.id:
+                return True
             
-        self.db.commit()
-        self.db.refresh(db_task)
-        return db_task
+            if current.id not in visited:
+                visited.add(current.id)
+                stack.extend(current.dependencies)
+                
+        return False
 
-    def update_task_status(self, task_id: int, status_data: TaskStatusUpdate, current_user: User) -> Task:
-        """
-        marcarCompletada() - Realización de diseño.
-        Permite a los miembros cambiar el estado de sus propias tareas.
-        """
-        db_task = self.get_task_by_id(task_id)
-        
-        # Si es Miembro, verificar que la tarea esté asignada a él o sea el dueño
-        if current_user.role == UserRole.MEMBER:
-            if db_task.assigned_to_id != current_user.id and db_task.creator_id != current_user.id:
+    def _validate_dependencies_for_completion(self, task: Task):
+        for dep in task.dependencies:
+            if not dep.is_deleted and not dep.is_completed:
                 raise HTTPException(
-                    status_code=status.HTTP_403_FORBIDDEN,
-                    detail="Solo puede cambiar el estado de las tareas asignadas a usted o creadas por usted"
+                    status_code=400, 
+                    detail=f"No se puede completar: la tarea depende de '{dep.title}' que aún está pendiente"
                 )
-        
-        # Actualización parcial iterativa para el estado
-        update_data = status_data.model_dump(exclude_unset=True)
-        for key, value in update_data.items():
-            setattr(db_task, key, value)
-            
-        self.db.commit()
-        self.db.refresh(db_task)
-        return db_task
-
-    def delete_task(self, task_id: int, current_user: User) -> None:
-        """
-        eliminarTarea() - Realización de diseño.
-        Solo administradores pueden eliminar tareas.
-        """
-        if current_user.role not in [UserRole.ADMIN, UserRole.ADMIN_MEMBER]:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="No tiene permisos para eliminar tareas"
-            )
-        
-        db_task = self.get_task_by_id(task_id)
-        self.db.delete(db_task)
-        self.db.commit()

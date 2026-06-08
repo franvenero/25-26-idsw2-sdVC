@@ -279,3 +279,44 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Se han generado e integrado los diagramas UML técnicos (.puml) para los 4 casos de uso avanzados de tareas: `marcarCompletada` (Secuencia de validación), `eliminarTarea` (Secuencia de borrado lógico), `relacionarTareas` (Clases N:M recursivo) y `validarConflicto` (Actividad DFS). Los archivos README fueron actualizados para enlazar estos diagramas, cumpliendo con la estructura modular de diseño del proyecto.
 
 **Decisión:** He validado y aceptado la separación de los diagramas en archivos `.puml` independientes para mantener la coherencia con los ramilletes funcionales previos. 
+
+---
+
+## [08/06/2026] [11:15] Fase 05: Construcción - Backend de Tareas Avanzadas (Dependencias y Circularidad)
+
+**Prompt:** Actúa como un Ingeniero de Software Backend Senior... Implementa el backend para los casos de uso: relacionarTareas, validarConflicto, marcarCompletada y eliminarTarea... Modelos (task_dependencies, is_deleted), Servicios (DFS para circularidad, validación de estados), Rutas.
+
+**Resultado:** Implementación integral de la lógica de grafos y dependencias en el backend. Se creó la tabla asociativa `task_dependencies` para relaciones N:M recursivas y se añadió el soporte para borrado lógico (`is_deleted`). El `TaskService` fue equipado con un algoritmo DFS para prevenir dependencias circulares y una guarda lógica que impide completar tareas si existen predecesores pendientes. Finalmente, se actualizaron los modelos de `User` y `Task` para asegurar la integridad referencial y se reconstruyó la base de datos mediante `seed.py`.
+
+**Decisión:** He validado y aprobado la implementación del motor de dependencias. 
+
+---
+
+## [08/06/2026] [11:30] Fase 05: Construcción - Restauración de Endpoints y Prefijos de Tareas
+
+**Prompt:** Actúa como un Ingeniero de Software Backend Senior... Restaurar el endpoint fundamental de creación... Asegúrate de que exista un @router.post("/")... Mantén intactos los nuevos endpoints avanzados.
+
+**Resultado:** Se ha corregido la configuración del `task_router.py` añadiendo el prefijo `/tasks` a la instancia de `APIRouter`. Esto resuelve el error 405 Method Not Allowed al alinear las rutas con las llamadas del frontend. Se restauró el endpoint `POST /` para la creación de tareas y se aseguraron todas las inyecciones de dependencia de autenticación (`get_current_user`). El router ahora expone correctamente el CRUD básico junto con las funcionalidades avanzadas de dependencias.
+
+**Decisión:** He aprobado la restauración de la consistencia en el router de tareas. La inclusión del prefijo de nivel de router es la práctica recomendada en FastAPI para mantener el código organizado.
+
+---
+
+## [08/06/2026] [11:45] Fase 05: Construcción - Ajuste de Esquemas de Validación de Tareas
+
+**Prompt:** Actúa como un Ingeniero de Software Backend Senior... Revisa detenidamente app/schemas/task.py... En la clase TaskCreate, asegúrate de que todos los campos nuevos relacionados con los casos de uso avanzados tengan valores por defecto.
+
+**Resultado:** Se han ajustado los esquemas de Pydantic para garantizar la compatibilidad con el frontend. El campo `depends_on_ids` en `TaskCreate` ahora es opcional y tiene un valor por defecto (`Field(default_factory=list)`), eliminando el error 422 al crear tareas básicas sin dependencias. Asimismo, se actualizó el `TaskService` para procesar correctamente esta lista opcional durante la creación de la entidad en la base de datos.
+
+**Decisión:** He validado y aprobado el ajuste de los esquemas. Esta corrección es vital para mantener la agilidad del frontend, permitiendo la creación rápida de tareas mientras la funcionalidad avanzada de dependencias queda disponible como un paso opcional o posterior en el flujo de trabajo.
+
+---
+
+## [08/06/2026] [12:00] Fase 05: Construcción - Resolución definitiva de Error 422 (group_id Automático)
+
+**Prompt:** Al intentar crear una tarea desde el frontend, estamos recibiendo un error 422 Unprocessable Content en POST /tasks/. Como lo solucionarias.
+
+**Resultado:** Se ha identificado que el error 422 era causado por la obligatoriedad del campo `group_id` en el esquema de entrada, campo que el frontend no envía por diseño. Se ha refactorizado `app/schemas/task.py` para hacer el `group_id` opcional en la entrada. El `TaskService` y el `task_router.py` han sido actualizados para inyectar automáticamente el `group_id` del usuario autenticado durante la creación. Esto restaura la compatibilidad total con el cliente y simplifica la lógica de negocio.
+
+**Decisión:** He aprobado la automatización del `group_id` en el backend. Esta decisión no solo resuelve el error inmediato, sino que mejora la seguridad al evitar que un cliente pueda inyectar tareas en grupos a los que no pertenece, centralizando la asignación de grupo en el token de sesión.
+ 

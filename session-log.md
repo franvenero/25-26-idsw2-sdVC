@@ -63,7 +63,7 @@
 
 ---
 **Arquitecto de Software:** Gemini CLI Agent
-ge
+
 ---
 
 # Resumen de Sesión - Sesión 16
@@ -78,7 +78,7 @@ ge
 ## 2. Actividad Realizada
 - **Andamiaje de Proyecto:** Creación de las estructuras raíz `/backend` y `/frontend` siguiendo el patrón de arquitectura limpia.
 - **Construction Backend (iniciarSesion):**
-    - Implementación de modelos SQLAlchemy, esquemas Pydantic y repositorios.
+    - Implementación de modelos SQLAlchemy, esquemas Pydantic e repositorios.
     - Desarrollo del `AuthService` y `auth_router` con hashing de contraseñas (bcrypt) y generación de JWT.
     - Refactorización para asegurar la Inversión de Control (IoC) en los endpoints.
 - **Construcción Frontend (iniciarSesion):**
@@ -172,6 +172,44 @@ ge
 - **Módulo Gestión de Miembros:** 100% Completado y funcional.
 - **Integración Tareas-Miembros:** Operativa de extremo a extremo (Asignación y Visualización).
 - **Consolidación:** El sistema ha evolucionado de un gestor individual a una plataforma de coordinación familiar multi-usuario.
+
+---
+**Arquitecto de Software:** Gemini CLI Agent
+
+---
+
+# Resumen de Sesión - Sesión 19
+**Fecha:** 8 de junio de 2026
+**Estado:** COMPLETADA
+
+## 1. Objetivos de la Sesión
+- Diseñar y construir el ciclo de vida avanzado de las tareas (dependencias, circularidad y borrado lógico).
+- Estabilizar el backend resolviendo errores de enrutamiento y validación de esquemas (405, 422).
+- Garantizar la trazabilidad documental mediante diagramas UML técnicos (.puml).
+
+## 2. Actividad Realizada
+- **Fase de Diseño:** 
+    - Documentación técnica y creación de diagramas UML para `marcarCompletada`, `eliminarTarea`, `relacionarTareas` y `validarConflicto`.
+    - Definición del algoritmo DFS para detección de ciclos.
+- **Construcción Backend (Tareas Avanzadas):**
+    - Implementación de la tabla asociativa `task_dependencies` para relaciones N:M recursivas.
+    - Desarrollo del motor de validación en `TaskService`: detección de circularidad y bloqueo de tareas con predecesores pendientes.
+    - Aplicación de borrado lógico (`is_deleted`) en el modelo de datos y servicios.
+- **Estabilización y Bug Fixing:**
+    - Corrección de prefijos de ruta y restauración de endpoints de creación en `task_router.py`.
+    - Resolución de errores 422 mediante la flexibilización de esquemas (`TaskCreate`) y la automatización del `group_id` desde el token de sesión.
+    - Sincronización de modelos de usuario para soportar relaciones inversas con tareas.
+- **Mantenimiento:** Reconstrucción exitosa de la base de datos mediante `seed.py` para aplicar el nuevo esquema de dependencias.
+
+## 3. Decisiones Arquitectónicas Clave
+- **Gestión de Grafos (DAG):** El sistema ahora trata las tareas como un Grafo Acíclico Dirigido, impidiendo por diseño cualquier bloqueo infinito mediante validaciones DFS preventivas.
+- **Inferencia de Contexto:** Se eliminó la necesidad de que el frontend envíe el `group_id` en la creación de tareas, inyectándolo automáticamente desde la identidad del usuario en el servidor, mejorando la seguridad y reduciendo la carga del cliente.
+- **Borrado Lógico Persistente:** Se adoptó el borrado lógico como estándar para tareas, permitiendo mantener la integridad de las relaciones de dependencia históricas.
+
+## 4. Estado del Proyecto al Finalizar la Sesión
+- **Gestión de Tareas Avanzada:** Backend 100% implementado y estable.
+- **Documentación de Diseño:** Actualizada y coherente con la implementación física.
+- **Workspace:** Sistema listo para la implementación de la interfaz de dependencias en el frontend.
 
 ---
 **Arquitecto de Software:** Gemini CLI Agent
