@@ -262,10 +262,10 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 ---
 
-## [06/06/2026] [18:06] Fase 05: Integración de Módulos (Tareas + Miembros)
+## [08/06/2026] [18:17] Diseño: Casos de Uso Avanzados - Gestión de Tareas (Dependencias y Ciclo de Vida)
 
-**Prompt:** Actúa como un Ingeniero de Software Frontend Senior. Conecta el módulo de Miembros con el módulo de Tareas para permitir asignaciones reales. Refactoriza `TaskForm.tsx` para usar la lista dinámica de miembros y `TaskItem.tsx` para mostrar el nombre del asignado en lugar del ID.
+**Prompt:** Actúa como un Arquitecto de Software Senior experto en RUP y UML. Fase de Diseño: Casos de Uso Avanzados del Módulo Gestión de Tareas. Diseña las reglas de negocio y la estructura de clases para: marcarCompletada, eliminarTarea (borrado lógico y cascada), relacionarTareas y validarConflicto.
 
-**Resultado:** Integración exitosa de los dos núcleos funcionales del sistema. `TaskForm` ahora consume el hook `useMembers` para poblar el selector de asignación con usuarios reales del grupo. `TaskList` y `TaskItem` fueron actualizados para recibir la lista de miembros y realizar el "lookup" del nombre del usuario, eliminando la visualización de IDs técnicos. Se actualizó también `EditTaskModal` para permitir la reasignación de tareas existentes.
+**Resultado:** Se ha completado el diseño arquitectónico del ciclo de vida avanzado de las tareas. Se generaron 4 READMEs técnicos en `RUP/02-diseño/diagramas-clases/` que definen: 1) La imposibilidad de completar tareas con predecesores pendientes. 2) Un sistema de borrado lógico (`is_deleted`) para preservar la integridad. 3) Estructura de datos recursiva para bloqueos entre tareas. 4) Un algoritmo de búsqueda en profundidad (DFS) para prevenir dependencias circulares. Se actualizaron los detalles en `_contexto/actoresYCasosDeUso/`.
 
-**Decisión:** He aprobado la integración final de los módulos. Este paso transforma el sistema de una aplicación de uso personal a una verdadera herramienta de coordinación familiar, permitiendo delegar responsabilidades a los diferentes usuarios de la aplicacion.
+**Decisión:** Acepto la implementacion de el diseño de los 4 casos de uso. Sin embargo la IA no ha hecho los diagramas .puml que le he pedido en los demas casos de uso.
