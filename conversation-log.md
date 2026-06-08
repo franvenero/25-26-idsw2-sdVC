@@ -269,3 +269,13 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Se ha completado el diseño arquitectónico del ciclo de vida avanzado de las tareas. Se generaron 4 READMEs técnicos en `RUP/02-diseño/diagramas-clases/` que definen: 1) La imposibilidad de completar tareas con predecesores pendientes. 2) Un sistema de borrado lógico (`is_deleted`) para preservar la integridad. 3) Estructura de datos recursiva para bloqueos entre tareas. 4) Un algoritmo de búsqueda en profundidad (DFS) para prevenir dependencias circulares. Se actualizaron los detalles en `_contexto/actoresYCasosDeUso/`.
 
 **Decisión:** Acepto la implementacion de el diseño de los 4 casos de uso. Sin embargo la IA no ha hecho los diagramas .puml que le he pedido en los demas casos de uso.
+
+---
+
+## [08/06/2026] [18:41] Diseño UML: Refinamiento de Casos de Uso Avanzados de Tareas
+
+**Prompt:** Actúa como un Arquitecto de Software Senior... genera los diagramas UML correspondientes... Crea el diagrama en un archivo aparte dentro de cada carpeta del caso de uso, exactamente la misma dinámica que la de los anteriores casos de uso diseñados ya.
+
+**Resultado:** Se han generado e integrado los diagramas UML técnicos (.puml) para los 4 casos de uso avanzados de tareas: `marcarCompletada` (Secuencia de validación), `eliminarTarea` (Secuencia de borrado lógico), `relacionarTareas` (Clases N:M recursivo) y `validarConflicto` (Actividad DFS). Los archivos README fueron actualizados para enlazar estos diagramas, cumpliendo con la estructura modular de diseño del proyecto.
+
+**Decisión:** He validado y aceptado la separación de los diagramas en archivos `.puml` independientes para mantener la coherencia con los ramilletes funcionales previos. 

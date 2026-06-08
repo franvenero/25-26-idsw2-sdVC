@@ -12,20 +12,8 @@ Este caso de uso permite a un usuario autorizado marcar una tarea como finalizad
 - `Task.is_completed: Boolean` (Default: False)
 - `Task.completed_at: DateTime` (Opcional, para auditoría)
 
-## 4. Diagrama de Clases (Conceptual)
-```mermaid
-classDiagram
-    class Task {
-        +Integer id
-        +String title
-        +Boolean is_completed
-        +Boolean is_deleted
-        +User assigned_to
-        +List~Task~ predecessors
-        +markAsCompleted()
-        -validateDependencies()
-    }
-```
+## 4. Diagramas de Diseño
+- **Diagrama de Secuencia:** [secuencia-diseno.puml](./secuencia-diseno.puml)
 
 ## 5. Flujo Lógico de Validación
 1. El sistema verifica los permisos del usuario actual.

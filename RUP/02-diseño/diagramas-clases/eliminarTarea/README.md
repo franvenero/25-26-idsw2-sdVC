@@ -15,8 +15,8 @@ Permite la eliminación de una tarea del sistema. Por motivos de integridad refe
 - `Task.deleted_at: DateTime`
 - `Task.deleted_by_id: Integer` (FK a User)
 
-## 4. Estructura de Datos
-La entidad `Task` mantendrá su integridad en la base de datos (SQL Server / SQLite), asegurando que los registros históricos de asignación y tiempo no se pierdan.
+## 4. Diagramas de Diseño
+- **Diagrama de Secuencia:** [secuencia-diseno.puml](./secuencia-diseno.puml)
 
 ## 5. Lógica de Eliminación
 1. El sistema verifica que el usuario tenga rol de Administrador o Miembro Administrador.

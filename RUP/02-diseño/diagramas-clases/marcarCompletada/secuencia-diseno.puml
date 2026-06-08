@@ -1,0 +1,35 @@
+@startuml
+skinparam style strictuml
+actor Usuario
+participant "Vista: TaskItem" as V
+participant "Controller: TaskRouter" as C
+participant "Service: TaskService" as S
+participant "Repository: TaskRepository" as R
+participant "Entity: Task" as T
+
+Usuario -> V : marcarCompletada()
+V -> C : HTTP PATCH /tasks/{id}/status (is_completed=True)
+C -> S : mark_task_as_completed(id)
+S -> R : get_by_id(id)
+R -> S : task_obj
+
+note over S : Validación de Permisos (BR-MC-01)
+S -> S : check_permissions(user, task_obj)
+
+note over S : Validación de Dependencias (BR-MC-02)
+S -> R : get_pending_predecessors(id)
+R -> S : List<Task> predecessors
+
+alt si existen predecesores pendientes (!is_completed && !is_deleted)
+    S -> C : throw DependencyViolationError
+    C -> V : 400 Bad Request (Error: "Dependencias pendientes")
+    V -> Usuario : Mostrar error
+else todas las dependencias limpias
+    S -> T : set_is_completed(True)
+    S -> R : update(task_obj)
+    R -> S : success
+    S -> C : updated_task
+    C -> V : 200 OK
+    V -> Usuario : Actualizar Checkmark
+end
+@enduml
