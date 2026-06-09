@@ -1,0 +1,25 @@
+@startuml clases-diseno
+skinparam classAttributeIconSize 0
+
+class MemberList <<Boundary>> {
+    + onRoleChange(user_id, newRole)
+}
+
+class GroupRouter <<Boundary>> {
+    + update_member_role(group_id, user_id, role)
+}
+
+class GroupService <<Control>> {
+    + change_role(admin_id, gid, uid, role)
+    - validate_hierarchy(admin_id, gid, target_uid)
+}
+
+class MemberRepository <<Entity>> {
+    + update_role(gid, uid, role)
+}
+
+MemberList ..> GroupRouter : HTTP PUT
+GroupRouter --> GroupService
+GroupService --> MemberRepository
+
+@enduml

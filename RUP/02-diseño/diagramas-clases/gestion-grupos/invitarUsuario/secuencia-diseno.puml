@@ -1,0 +1,26 @@
+@startuml secuencia-diseno
+skinparam style strictuml
+
+actor "Admin" as A
+participant "InviteModal (React)" as UI <<Boundary>>
+participant "invitation_router (FastAPI)" as R <<Boundary>>
+participant "InvitationService" as S <<Control>>
+participant "UserRepository" as UDB <<Entity>>
+participant "InvitationRepository" as IDB <<Entity>>
+
+A -> UI : Ingresa email y envía
+UI -> R : POST /invitations (JWT, data)
+activate R
+R -> S : create_invitation(admin_id, gid, email)
+activate S
+S -> UDB : find_by_email(email)
+UDB --> S : User Object
+S -> IDB : check_existing(gid, user_id)
+S -> IDB : save(InvitationModel)
+S --> R : 201 Created
+deactivate S
+R --> UI : Success
+deactivate R
+UI --> A : Notifica envío
+
+@enduml

@@ -1,0 +1,26 @@
+@startuml secuencia-diseno
+skinparam style strictuml
+
+actor "Admin" as A
+participant "GroupSettings (React)" as UI <<Boundary>>
+participant "group_router (FastAPI)" as R <<Boundary>>
+participant "GroupService" as S <<Control>>
+participant "GroupRepository" as GDB <<Entity>>
+participant "MemberRepository" as MDB <<Entity>>
+
+A -> UI : Eliminar Grupo
+UI -> A : Confirmar acción
+A -> UI : Confirmado
+UI -> R : DELETE /groups/{id} (JWT)
+activate R
+R -> S : delete_group(admin_id, gid)
+activate S
+S -> GDB : deactivate(gid)
+S -> MDB : deactivate_all(gid)
+S --> R : 204 No Content
+deactivate S
+R --> UI : Success
+deactivate R
+UI --> A : Redirige al Home
+
+@enduml

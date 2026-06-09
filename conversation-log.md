@@ -344,6 +344,14 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 **Decisión:** He validado que la configuración de Tailwind funciona correctamente. Los estilos ahora son procesados por Vite y aplicados al proyecto sin problemas, solventando el renderizado de HTML crudo.
 
+## [09/06/2026] [20:27] Fase 02: Diseño - Módulo de Gestión de Grupos
+
+**Prompt:** Actúa como un Arquitecto de Software Senior experto en metodologías RUP y UML. Lee y analiza los documentos de análisis en `/RUP/01-analisis/casos-uso/gestion-grupos`. TAREA: Diseña las reglas de negocio y genera los diagramas UML para los 9 casos de uso de este módulo, creando subcarpetas con un README y su diagrama (Mermaid) correspondiente en `02-diseño/diagramas-clases/gestion-grupos`.
+
+**Resultado:** Se generó la estructura arquitectónica y documental para los 9 casos de uso (`abrirGrupos`, `abrirInvitaciones`, `crearGrupo`, `editarGrupo`, `editarInvitacion`, `editarMiembro`, `eliminarGrupo`, `eliminarMiembro`, `invitarUsuario`). En cada subcarpeta se creó un documento `README.md` detallando actores, flujos, precondiciones y reglas de negocio, junto con los diagramas UML integrados.
+
+**Decisión:** He auditado la documentación generada y comprobado que los diagramas Mermaid representan de forma precisa la lógica estructurada en la fase de análisis. Con los planos validados y la arquitectura del módulo definida, estamos listos para avanzar hacia la fase de construcción y desarrollo.
+
 
 
  

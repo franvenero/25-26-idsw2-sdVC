@@ -1,0 +1,28 @@
+@startuml secuencia-diseno
+skinparam style strictuml
+
+actor "Usuario" as U
+participant "InvitationList (React)" as UI <<Boundary>>
+participant "useInvitations (Hook)" as H <<Control>>
+participant "invitation_router (FastAPI)" as R <<Boundary>>
+participant "InvitationService" as S <<Control>>
+participant "InvitationRepository" as DB <<Entity>>
+
+U -> UI : Abre sección Invitaciones
+UI -> H : getPendingInvitations()
+H -> R : GET /invitations/pending (JWT)
+activate R
+R -> S : get_pending(user_id)
+activate S
+S -> DB : find_pending_by_user(user_id)
+activate DB
+DB --> S : List[InvitationModel]
+deactivate DB
+S --> R : List[InvitationSchema]
+deactivate S
+R --> H : 200 OK
+deactivate R
+H --> UI : setInvitations(data)
+UI --> U : Muestra lista de invitaciones
+
+@enduml
