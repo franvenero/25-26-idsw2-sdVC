@@ -1,29 +1,48 @@
 import api from './api';
-import { TaskResponse, TaskCreateSchema, TaskUpdateSchema, TaskStatusUpdateSchema } from '../types/schemas';
+import { Task, TaskCreate, TaskUpdate, TaskDependencyCreate } from '../types/task';
 
 const taskService = {
-  getTasks: async (): Promise<TaskResponse[]> => {
-    const response = await api.get<TaskResponse[]>('/tasks/');
+  /**
+   * Obtiene todas las tareas activas del grupo.
+   */
+  getTasks: async (): Promise<Task[]> => {
+    const response = await api.get<Task[]>('/tasks/');
     return response.data;
   },
 
-  createTask: async (taskData: TaskCreateSchema): Promise<TaskResponse> => {
-    const response = await api.post<TaskResponse>('/tasks/', taskData);
+  /**
+   * Crea una nueva tarea.
+   */
+  createTask: async (taskData: TaskCreate): Promise<Task> => {
+    const response = await api.post<Task>('/tasks/', taskData);
     return response.data;
   },
 
-  updateTask: async (taskId: number, taskData: TaskUpdateSchema): Promise<TaskResponse> => {
-    const response = await api.put<TaskResponse>(`/tasks/${taskId}`, taskData);
+  /**
+   * Actualiza una tarea existente.
+   * Maneja el completado condicionado por dependencias.
+   */
+  updateTask: async (taskId: string, taskData: TaskUpdate): Promise<Task> => {
+    const response = await api.patch<Task>(`/tasks/${taskId}`, taskData);
     return response.data;
   },
 
-  updateTaskStatus: async (taskId: number, statusData: TaskStatusUpdateSchema): Promise<TaskResponse> => {
-    const response = await api.patch<TaskResponse>(`/tasks/${taskId}/status`, statusData);
-    return response.data;
-  },
-
-  deleteTask: async (taskId: number): Promise<void> => {
+  /**
+   * Borrado lógico de una tarea.
+   */
+  deleteTask: async (taskId: string): Promise<void> => {
     await api.delete(`/tasks/${taskId}`);
+  },
+
+  /**
+   * Establece relaciones de dependencia entre tareas.
+   * Lanza error 400 si se detecta circularidad.
+   */
+  addDependencies: async (taskId: string, depends_on_ids: string[]): Promise<Task> => {
+    const response = await api.post<Task>(`/tasks/${taskId}/dependencies`, {
+      depends_on_ids
+    } as TaskDependencyCreate);
+    return response.data;
   },
 };
 

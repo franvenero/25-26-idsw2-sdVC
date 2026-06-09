@@ -1,107 +1,72 @@
 import React, { useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
-import { useMembers } from '../../hooks/useMembers';
-import { TaskCreateSchema } from '../../types/schemas';
-import { UserRole } from '../../types/auth';
+import { TaskCreate } from '../../types/task';
 
 interface TaskFormProps {
-  onAdd: (data: TaskCreateSchema) => Promise<void>;
+  onAdd: (task: TaskCreate) => Promise<any>;
 }
 
 const TaskForm: React.FC<TaskFormProps> = ({ onAdd }) => {
-  const { user } = useAuth();
-  const { members, loading: membersLoading } = useMembers();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [assignedToId, setAssignedToId] = useState<string>(user?.id || '');
-  const [isLoading, setIsLoading] = useState(false);
-
-  // RBAC: Solo administradores pueden crear tareas
-  const canCreate = user?.role === UserRole.ADMIN || user?.role === UserRole.ADMIN_MEMBER;
-
-  if (!canCreate) return null;
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim()) return;
-
-    setIsLoading(true);
+    
+    setIsSubmitting(true);
     try {
-      await onAdd({ 
-        title, 
-        description, 
-        assigned_to_id: assignedToId 
+      await onAdd({
+        title: title.trim(),
+        description: description.trim() || undefined
       });
       setTitle('');
       setDescription('');
     } catch (err) {
       console.error(err);
     } finally {
-      setIsLoading(false);
+      setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg border border-gray-200 shadow-sm mb-8">
-      <h3 className="text-xl font-bold mb-4 text-gray-800">Crear Nueva Tarea</h3>
+    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">Título</label>
-          <input
-            type="text"
-            className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="¿Qué hay que hacer?"
-            required
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">Descripción (Opcional)</label>
-          <textarea
-            className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none resize-y"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Detalles adicionales..."
-            rows={3}
-          />
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex-1">
+            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">¿Qué hay que hacer?</label>
+            <input
+              type="text"
+              placeholder="Ej: Comprar leche, Arreglar el grifo..."
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full border-2 border-gray-100 rounded-xl p-3 focus:border-blue-500 focus:ring-0 outline-none transition-all text-lg font-medium"
+              disabled={isSubmitting}
+              required
+            />
+          </div>
         </div>
         
-        <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-1">Asignar a</label>
-          <select 
-            className="w-full p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 outline-none bg-white"
-            value={assignedToId} 
-            onChange={(e) => setAssignedToId(e.target.value)}
-            disabled={membersLoading}
-          >
-            {membersLoading ? (
-              <option>Cargando miembros...</option>
-            ) : (
-              <>
-                <option value={user?.id}>Asignarme a mí ({user?.username})</option>
-                {members
-                  .filter(m => m.id !== user?.id && m.is_active)
-                  .map(member => (
-                    <option key={member.id} value={member.id}>
-                      {member.username} ({member.email})
-                    </option>
-                  ))
-                }
-              </>
-            )}
-          </select>
+        <div className={`overflow-hidden transition-all duration-300 ${title ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'}`}>
+          <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">Detalles adicionales (opcional)</label>
+          <textarea
+            placeholder="Añade una descripción más detallada..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            className="w-full border-2 border-gray-100 rounded-xl p-3 focus:border-blue-500 focus:ring-0 outline-none transition-all resize-none h-24"
+            disabled={isSubmitting}
+          />
         </div>
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className={`w-full py-3 px-4 rounded font-bold text-white transition-colors ${
-            isLoading ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 hover:bg-blue-700'
-          }`}
-        >
-          {isLoading ? 'Creando...' : 'Añadir Tarea'}
-        </button>
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            disabled={isSubmitting || !title.trim()}
+            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-200 disabled:text-gray-400 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg shadow-blue-200 active:scale-95"
+          >
+            {isSubmitting ? 'Creando...' : 'Crear Tarea'}
+          </button>
+        </div>
       </form>
     </div>
   );

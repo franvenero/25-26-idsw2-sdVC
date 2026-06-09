@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
 import taskService from '../services/task.service';
-import { TaskResponse, TaskCreateSchema, TaskUpdateSchema, TaskStatus } from '../types/schemas';
+import { Task, TaskCreate, TaskUpdate } from '../types/task';
+import axios from 'axios';
 
 export const useTasks = () => {
-  const [tasks, setTasks] = useState<TaskResponse[]>([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -21,42 +22,56 @@ export const useTasks = () => {
     }
   }, []);
 
-  const createTask = async (taskData: TaskCreateSchema) => {
+  const createTask = async (taskData: TaskCreate) => {
     try {
       const newTask = await taskService.createTask(taskData);
       setTasks(prev => [...prev, newTask]);
+      return newTask;
     } catch (err) {
       setError('Error al crear la tarea');
       throw err;
     }
   };
 
-  const updateTask = async (taskId: number, taskData: TaskUpdateSchema) => {
+  const updateTask = async (taskId: string, taskData: TaskUpdate) => {
     try {
       const updatedTask = await taskService.updateTask(taskId, taskData);
       setTasks(prev => prev.map(t => t.id === taskId ? updatedTask : t));
+      return updatedTask;
     } catch (err) {
+      if (axios.isAxiosError(err) && err.response?.status === 400) {
+        const message = err.response.data.detail || 'Conflicto de dependencias';
+        setError(message);
+        throw new Error(message);
+      }
       setError('Error al actualizar la tarea');
       throw err;
     }
   };
 
-  const updateTaskStatus = async (taskId: number, status: TaskStatus) => {
+  const deleteTask = async (taskId: string) => {
     try {
-      const updatedTask = await taskService.updateTaskStatus(taskId, { status });
-      setTasks(prev => prev.map(t => t.id === taskId ? updatedTask : t));
+      await taskService.deleteTask(taskId);
+      // Borrado lógico: desaparece de la vista local
+      setTasks(prev => prev.filter(t => t.id !== taskId));
     } catch (err) {
-      setError('Error al actualizar el estado');
+      setError('Error al eliminar la tarea');
       throw err;
     }
   };
 
-  const deleteTask = async (taskId: number) => {
+  const addDependencies = async (taskId: string, dependencyIds: string[]) => {
     try {
-      await taskService.deleteTask(taskId);
-      setTasks(prev => prev.filter(t => t.id !== taskId));
+      const updatedTask = await taskService.addDependencies(taskId, dependencyIds);
+      setTasks(prev => prev.map(t => t.id === taskId ? updatedTask : t));
+      return updatedTask;
     } catch (err) {
-      setError('Error al eliminar la tarea');
+      if (axios.isAxiosError(err) && err.response?.status === 400) {
+        const message = err.response.data.detail || 'Error de circularidad detectado';
+        setError(message);
+        throw new Error(message);
+      }
+      setError('Error al establecer dependencias');
       throw err;
     }
   };
@@ -69,10 +84,11 @@ export const useTasks = () => {
     tasks,
     isLoading,
     error,
+    setError, // Permitimos resetear el error desde la UI
     refreshTasks: fetchTasks,
     createTask,
     updateTask,
-    updateTaskStatus,
-    deleteTask
+    deleteTask,
+    addDependencies
   };
 };

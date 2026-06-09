@@ -319,4 +319,14 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Se ha identificado que el error 422 era causado por la obligatoriedad del campo `group_id` en el esquema de entrada, campo que el frontend no envía por diseño. Se ha refactorizado `app/schemas/task.py` para hacer el `group_id` opcional en la entrada. El `TaskService` y el `task_router.py` han sido actualizados para inyectar automáticamente el `group_id` del usuario autenticado durante la creación. Esto restaura la compatibilidad total con el cliente y simplifica la lógica de negocio.
 
 **Decisión:** He aprobado la automatización del `group_id` en el backend. Esta decisión no solo resuelve el error inmediato, sino que mejora la seguridad al evitar que un cliente pueda inyectar tareas en grupos a los que no pertenece, centralizando la asignación de grupo en el token de sesión.
+
+## [09/06/2026] [19:05] Fase 05: Construcción - Interfaz de Casos de Uso Avanzados (Dependencias y Borrado Lógico)
+
+**Prompt:** Actualiza el frontend para integrar la gestión de dependencias y el borrado lógico. Asegúrate de que los tipos soporten el campo dependencies, actualiza servicios y hooks para manejar relaciones y errores 400 (circularidad), y rediseña los componentes visuales (TaskItem) para permitir vincular tareas y visualizar bloqueos.
+
+**Resultado:** Implementación integral de la capa visual para la gestión de dependencias. Se definió el nuevo contrato de datos en `src/types/task.ts`, se actualizó el hook `useTasks` para capturar y notificar errores de circularidad, y se rediseñó `TaskItem` con un menú de vinculación dinámica y badges de estado. El sistema ahora permite aplicar borrados lógicos y gestionar relaciones N:M recursivas directamente desde el Dashboard.
+
+**Decisión:** He validado y aprobado la integración de la lógica en la interfaz. Las dependencias entre las tareas funcionan correctamente.
+
+
  

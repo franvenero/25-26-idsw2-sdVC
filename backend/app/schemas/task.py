@@ -25,6 +25,7 @@ class TaskResponse(TaskBase):
     is_deleted: bool
     owner_id: str
     assigned_to_id: Optional[str] = None
+    dependencies: List['TaskResponse'] = []
     
     class Config:
         from_attributes = True
