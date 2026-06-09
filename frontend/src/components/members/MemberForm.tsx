@@ -34,55 +34,56 @@ const MemberForm: React.FC<MemberFormProps> = ({ onAdd }) => {
   };
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md mb-8">
-      <h3 className="text-xl font-bold mb-4 text-gray-800">Invitar Nuevo Miembro</h3>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Nombre de usuario</label>
-            <input
-              type="text"
-              required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-              value={formData.username}
-              onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Email</label>
-            <input
-              type="email"
-              required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Rol</label>
-            <select
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2"
-              value={formData.role}
-              onChange={(e) => setFormData({ ...formData, role: e.target.value as UserRole })}
-            >
-              <option value={UserRole.MEMBER}>Miembro</option>
-              <option value={UserRole.ADMIN_MEMBER}>Miembro Administrador</option>
-            </select>
-          </div>
-        </div>
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="space-y-1.5">
+        <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">Usuario</label>
+        <input
+          type="text"
+          required
+          placeholder="Ej: juan_vibe"
+          className="w-full border border-slate-200 rounded-xl p-2.5 text-sm font-medium focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all"
+          value={formData.username}
+          onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+        />
+      </div>
 
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-        {success && <p className="text-green-500 text-sm">¡Invitación enviada con éxito!</p>}
+      <div className="space-y-1.5">
+        <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">Email</label>
+        <input
+          type="email"
+          required
+          placeholder="hola@vibe.com"
+          className="w-full border border-slate-200 rounded-xl p-2.5 text-sm font-medium focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all"
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        />
+      </div>
 
+      <div className="space-y-1.5">
+        <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">Permisos</label>
+        <select
+          className="w-full border border-slate-200 rounded-xl p-2.5 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all bg-white"
+          value={formData.role}
+          onChange={(e) => setFormData({ ...formData, role: e.target.value as UserRole })}
+        >
+          <option value={UserRole.MEMBER}>Miembro</option>
+          <option value={UserRole.ADMIN_MEMBER}>Administrador</option>
+        </select>
+      </div>
+
+      <div className="pt-2">
+        {error && <p className="text-[10px] font-bold text-red-500 mb-3 px-2">⚠️ {error}</p>}
+        {success && <p className="text-[10px] font-bold text-emerald-500 mb-3 px-2">✅ Invitación procesada</p>}
+        
         <button
           type="submit"
           disabled={loading}
-          className="w-full md:w-auto px-6 py-2 bg-blue-600 text-white font-semibold rounded-md shadow hover:bg-blue-700 disabled:bg-blue-300 transition-colors"
+          className="w-full bg-slate-900 text-white font-bold py-2.5 rounded-xl transition-all hover:bg-black hover:shadow-lg active:scale-[0.98] disabled:bg-slate-100 disabled:text-slate-400"
         >
-          {loading ? "Invitando..." : "Enviar Invitación"}
+          {loading ? "Enviando..." : "Enviar Invitación"}
         </button>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 };
 

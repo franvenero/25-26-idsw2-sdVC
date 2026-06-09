@@ -20,7 +20,6 @@ const LoginPage: React.FC = () => {
       await login({ username, password });
       navigate('/dashboard');
     } catch (err: any) {
-      // Manejo de errores amigable
       if (err.response?.status === 401) {
         setError('Las credenciales ingresadas no son válidas.');
       } else if (err.response?.status === 422) {
@@ -36,130 +35,83 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh',
-      width: '100vw',
-      backgroundColor: '#f0f2f5',
-      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
-    }}>
-      <div style={{
-        padding: '2.5rem',
-        borderRadius: '12px',
-        backgroundColor: '#ffffff',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
-        width: '100%',
-        maxWidth: '400px',
-        boxSizing: 'border-box'
-      }}>
-        <h1 style={{ 
-          textAlign: 'center', 
-          marginBottom: '2rem', 
-          color: '#1c1e21',
-          fontSize: '1.5rem',
-          fontWeight: 'bold'
-        }}>
-          Gestión de Tareas
-        </h1>
+    <div className="min-h-screen w-full flex flex-col items-center justify-center bg-slate-50 p-4 font-sans">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-100 overflow-hidden">
+        <div className="p-8 sm:p-10">
+          <div className="mb-10 text-center">
+            <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+              VibeTask
+            </h1>
+            <p className="mt-2 text-slate-500 font-medium">
+              Inicia sesión para gestionar tus tareas
+            </p>
+          </div>
+          
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-100 text-red-700 text-sm rounded-xl font-medium flex items-center gap-3">
+              <span className="text-lg">⚠️</span>
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+            <div>
+              <label htmlFor="username" className="block text-sm font-semibold text-slate-700 mb-2">
+                Nombre de usuario
+              </label>
+              <input
+                id="username"
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="usuario_pro"
+                required
+                disabled={loading}
+                className="w-full border border-slate-200 rounded-xl p-3 text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all disabled:bg-slate-50 disabled:text-slate-400"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="password" className="block text-sm font-semibold text-slate-700 mb-2">
+                Contraseña
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                required
+                disabled={loading}
+                className="w-full border border-slate-200 rounded-xl p-3 text-slate-900 placeholder:text-slate-400 focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 focus:outline-none transition-all disabled:bg-slate-50 disabled:text-slate-400"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-blue-600 text-white font-bold py-3.5 rounded-xl transition-all hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/20 active:scale-[0.98] disabled:bg-blue-300 disabled:shadow-none"
+            >
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Iniciando...
+                </span>
+              ) : (
+                'Entrar'
+              )}
+            </button>
+          </form>
+        </div>
         
-        {error && (
-          <div style={{
-            padding: '1rem',
-            marginBottom: '1.5rem',
-            borderRadius: '6px',
-            backgroundColor: '#fff1f0',
-            border: '1px solid #ffa39e',
-            color: '#cf1322',
-            fontSize: '0.9rem',
-            textAlign: 'left'
-          }}>
-            {error}
-          </div>
-        )}
-
-        <form onSubmit={handleSubmit} noValidate>
-          <div style={{ marginBottom: '1.25rem' }}>
-            <label htmlFor="username" style={{ 
-              display: 'block', 
-              marginBottom: '0.5rem', 
-              color: '#4b4b4b',
-              fontSize: '0.9rem',
-              fontWeight: '500'
-            }}>
-              Nombre de usuario
-            </label>
-            <input
-              id="username"
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              placeholder="Ingrese su usuario"
-              required
-              disabled={loading}
-              style={{
-                width: '100%',
-                padding: '0.8rem',
-                borderRadius: '6px',
-                border: '1px solid #d9d9d9',
-                fontSize: '1rem',
-                transition: 'border-color 0.3s',
-                boxSizing: 'border-box'
-              }}
-            />
-          </div>
-
-          <div style={{ marginBottom: '2rem' }}>
-            <label htmlFor="password" style={{ 
-              display: 'block', 
-              marginBottom: '0.5rem', 
-              color: '#4b4b4b',
-              fontSize: '0.9rem',
-              fontWeight: '500'
-            }}>
-              Contraseña
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Ingrese su contraseña"
-              required
-              disabled={loading}
-              style={{
-                width: '100%',
-                padding: '0.8rem',
-                borderRadius: '6px',
-                border: '1px solid #d9d9d9',
-                fontSize: '1rem',
-                boxSizing: 'border-box'
-              }}
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            style={{
-              width: '100%',
-              padding: '0.9rem',
-              borderRadius: '6px',
-              border: 'none',
-              backgroundColor: loading ? '#91d5ff' : '#1890ff',
-              color: '#ffffff',
-              fontSize: '1rem',
-              fontWeight: 'bold',
-              cursor: loading ? 'not-allowed' : 'pointer',
-              transition: 'background-color 0.3s',
-              boxShadow: '0 2px 0 rgba(0,0,0,0.045)'
-            }}
-          >
-            {loading ? 'Iniciando sesión...' : 'Entrar'}
-          </button>
-        </form>
+        <div className="p-6 bg-slate-50 border-t border-slate-100 text-center">
+          <p className="text-xs text-slate-400 font-bold uppercase tracking-widest">
+            IDSW2 Uneatlantico &bull; 2026
+          </p>
+        </div>
       </div>
     </div>
   );

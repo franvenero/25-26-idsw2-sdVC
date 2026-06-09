@@ -5,7 +5,7 @@ import { UserResponse } from '../../types/user';
 
 interface TaskListProps {
   tasks: Task[];
-  allTasks: Task[]; // Para poder seleccionar dependencias de cualquier tarea
+  allTasks: Task[];
   members: UserResponse[];
   isLoading: boolean;
   error: string | null;
@@ -26,45 +26,45 @@ const TaskList: React.FC<TaskListProps> = ({
 }) => {
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center p-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-        <span className="ml-3 text-gray-500">Cargando tareas...</span>
-      </div>
-    );
-  }
-
-  if (tasks.length === 0 && !error) {
-    return (
-      <div className="text-center p-12 bg-white rounded-xl border-2 border-dashed border-gray-200">
-        <p className="text-gray-400 text-lg">No hay tareas pendientes en este grupo.</p>
+      <div className="flex flex-col items-center justify-center py-20 bg-white rounded-2xl border border-slate-100 shadow-sm">
+        <div className="w-10 h-10 border-4 border-slate-100 border-t-blue-600 rounded-full animate-spin mb-4"></div>
+        <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">Cargando...</p>
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col space-y-6">
+    <div className="space-y-4">
       {error && (
-        <div className="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded shadow-sm animate-pulse">
-          <div className="flex items-center">
-            <span className="mr-2">⚠️</span>
-            <p className="font-medium">{error}</p>
-          </div>
+        <div className="p-4 bg-red-50 border border-red-100 text-red-700 text-sm rounded-xl font-medium flex items-center gap-3">
+          <span className="text-lg">🚫</span>
+          {error}
         </div>
       )}
       
-      <div className="grid grid-cols-1 gap-6">
-        {tasks.map(task => (
-          <TaskItem 
-            key={task.id} 
-            task={task} 
-            allTasks={allTasks}
-            members={members}
-            onUpdate={onUpdate}
-            onDelete={onDelete}
-            onAddDependencies={onAddDependencies}
-          />
-        ))}
-      </div>
+      {tasks.length === 0 && !error ? (
+        <div className="py-20 bg-white rounded-2xl border border-slate-100 shadow-sm flex flex-col items-center justify-center text-center px-6">
+          <div className="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-6">
+            <span className="text-3xl text-slate-300">✨</span>
+          </div>
+          <h4 className="text-lg font-bold text-slate-900">Todo listo</h4>
+          <p className="text-sm text-slate-400 mt-1">No tienes tareas pendientes por el momento.</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-4">
+          {tasks.map(task => (
+            <TaskItem 
+              key={task.id} 
+              task={task} 
+              allTasks={allTasks}
+              members={members}
+              onUpdate={onUpdate}
+              onDelete={onDelete}
+              onAddDependencies={onAddDependencies}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };

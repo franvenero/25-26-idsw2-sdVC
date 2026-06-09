@@ -26,48 +26,47 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({ task, members, onClose, o
       });
       onClose();
     } catch (err) {
-      console.error(err);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden animate-in fade-in zoom-in duration-200">
-        <div className="bg-blue-600 p-6">
-          <h2 className="text-xl font-bold text-white">Editar Tarea</h2>
-          <p className="text-blue-100 text-sm mt-1">Actualiza los detalles de la tarea</p>
+    <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex justify-center items-center z-[100] p-4">
+      <div className="bg-white rounded-3xl shadow-2xl max-w-sm w-full overflow-hidden animate-in fade-in zoom-in duration-300">
+        <div className="p-6 border-b border-slate-50">
+          <h2 className="text-xl font-bold text-slate-900">Detalles de Tarea</h2>
+          <p className="text-xs font-medium text-slate-400 mt-1 uppercase tracking-widest">ID: {task.id.slice(0,8)}</p>
         </div>
         
-        <form onSubmit={handleSubmit} className="p-6 space-y-4">
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">Título</label>
+        <form onSubmit={handleSubmit} className="p-6 space-y-5">
+          <div className="space-y-1.5">
+            <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">Título</label>
             <input
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
-              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none transition-all"
+              className="w-full border border-slate-200 rounded-xl p-2.5 text-sm font-medium focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all"
             />
           </div>
           
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">Descripción</label>
+          <div className="space-y-1.5">
+            <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">Descripción</label>
             <textarea
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={3}
-              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none transition-all resize-none"
+              className="w-full border border-slate-200 rounded-xl p-2.5 text-sm font-medium focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all resize-none"
             />
           </div>
           
-          <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">Asignar a</label>
+          <div className="space-y-1.5">
+            <label className="text-[11px] font-bold text-slate-400 uppercase tracking-widest ml-1">Asignar a</label>
             <select
               value={assignedToId}
               onChange={(e) => setAssignedToId(e.target.value)}
-              className="w-full border border-gray-300 rounded-lg p-2.5 focus:ring-2 focus:ring-blue-500 outline-none transition-all bg-white"
+              className="w-full border border-slate-200 rounded-xl p-2.5 text-sm font-bold focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all bg-white"
             >
               <option value="">Sin asignar</option>
               {members.map(member => (
@@ -78,20 +77,20 @@ const EditTaskModal: React.FC<EditTaskModalProps> = ({ task, members, onClose, o
             </select>
           </div>
           
-          <div className="flex space-x-3 pt-4">
+          <div className="flex gap-3 pt-2">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 px-4 py-2.5 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+              className="flex-1 px-4 py-2.5 border border-slate-200 rounded-xl text-sm font-bold text-slate-600 hover:bg-slate-50 transition-all"
             >
-              Cancelar
+              Cerrar
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex-1 px-4 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:bg-blue-300 transition-colors shadow-lg shadow-blue-200"
+              className="flex-1 px-4 py-2.5 bg-blue-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-blue-600/20 hover:bg-blue-700 transition-all disabled:bg-slate-100 disabled:text-slate-400"
             >
-              {isSubmitting ? 'Guardando...' : 'Guardar Cambios'}
+              {isSubmitting ? 'Guardando...' : 'Actualizar'}
             </button>
           </div>
         </form>

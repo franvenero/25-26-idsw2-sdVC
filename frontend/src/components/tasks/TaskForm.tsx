@@ -30,45 +30,39 @@ const TaskForm: React.FC<TaskFormProps> = ({ onAdd }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div className="flex flex-col md:flex-row gap-4">
-          <div className="flex-1">
-            <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">¿Qué hay que hacer?</label>
-            <input
-              type="text"
-              placeholder="Ej: Comprar leche, Arreglar el grifo..."
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full border-2 border-gray-100 rounded-xl p-3 focus:border-blue-500 focus:ring-0 outline-none transition-all text-lg font-medium"
-              disabled={isSubmitting}
-              required
-            />
-          </div>
-        </div>
-        
-        <div className={`overflow-hidden transition-all duration-300 ${title ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'}`}>
-          <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 ml-1">Detalles adicionales (opcional)</label>
-          <textarea
-            placeholder="Añade una descripción más detallada..."
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full border-2 border-gray-100 rounded-xl p-3 focus:border-blue-500 focus:ring-0 outline-none transition-all resize-none h-24"
-            disabled={isSubmitting}
-          />
-        </div>
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div className="space-y-1.5">
+        <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider ml-1">Título</label>
+        <input
+          type="text"
+          placeholder="Ej: Revisar informe"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="w-full border border-slate-200 rounded-xl p-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:outline-none transition-all"
+          disabled={isSubmitting}
+          required
+        />
+      </div>
+      
+      <div className="space-y-1.5">
+        <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider ml-1">Descripción</label>
+        <textarea
+          placeholder="Breve detalle..."
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+          className="w-full border border-slate-200 rounded-xl p-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:outline-none transition-all resize-none h-24"
+          disabled={isSubmitting}
+        />
+      </div>
 
-        <div className="flex justify-end">
-          <button
-            type="submit"
-            disabled={isSubmitting || !title.trim()}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-200 disabled:text-gray-400 text-white font-bold py-3 px-8 rounded-xl transition-all shadow-lg shadow-blue-200 active:scale-95"
-          >
-            {isSubmitting ? 'Creando...' : 'Crear Tarea'}
-          </button>
-        </div>
-      </form>
-    </div>
+      <button
+        type="submit"
+        disabled={isSubmitting || !title.trim()}
+        className="w-full bg-blue-600 text-white font-bold py-2.5 rounded-xl transition-all hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-600/10 active:scale-[0.98] disabled:bg-slate-100 disabled:text-slate-400"
+      >
+        {isSubmitting ? 'Guardando...' : 'Añadir Tarea'}
+      </button>
+    </form>
   );
 };
 
