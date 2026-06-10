@@ -10,7 +10,7 @@ class UserBase(BaseModel):
     group_id: Optional[str] = None
 
 class UserCreate(UserBase):
-    password: Optional[str] = None
+    password: str
 
 class UserUpdateRole(BaseModel):
     role: UserRole

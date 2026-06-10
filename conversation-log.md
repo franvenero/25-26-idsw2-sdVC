@@ -359,3 +359,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Se ha corregido la visibilidad de los metadatos en el script de inicialización. Se añadieron las importaciones explícitas de `Group`, `GroupMember` e `Invitation` en `backend/seed.py`, permitiendo que SQLAlchemy registre todas las tablas en el grafo de metadatos antes de intentar crear las claves foráneas. Además, se actualizó la lógica del script para crear primero un grupo real y luego asignar al usuario administrador como miembro del mismo, garantizando la integridad referencial desde el primer arranque.
 
 **Decisión:** He validado y aprobado la corrección del script de carga. Esta acción es fundamental para asegurar que el entorno de desarrollo sea reproducible y que la base de datos se genere correctamente con todas las relaciones de integridad activas entre tareas, grupos y usuarios.
+
+## [10/06/2026] [19:50] Fase 05: Construcción - Autenticación y RBAC
+
+**Prompt:** Entramos en la Fase 05: Construcción - Autenticación y RBAC. TAREA: Modelos y Esquemas de Usuario (roles en español), Núcleo de Seguridad (passlib/bcrypt, JWT), Dependencias de Auth (get_current_user y guardianes de roles), Router de Autenticación (login/register) y aplicar RBAC en routers existentes.
+
+**Resultado:** Implementación de un sistema de seguridad robusto. Se configuró `UserRole` con nombres en español ('Administrador', 'Miembro Administrador', 'Miembro'). Se implementó el hashing con `passlib` y la generación de tokens JWT con `python-jose`. Se crearon dependencias de inyección para validar tokens y restringir accesos por rol (`get_current_admin_user`, `get_current_admin_or_manager`). Finalmente, se blindaron los routers de grupos y tareas, y se habilitaron los endpoints de login y registro.
+
+**Decisión:** He validado y aprobado la implementación del sistema de autenticación y control de acceso. La centralización de la seguridad en `deps.py` y el uso de estándares OAuth2 garantizan que el sistema sea seguro, escalable y fácil de mantener.

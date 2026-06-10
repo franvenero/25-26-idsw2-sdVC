@@ -1,7 +1,8 @@
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from app.core.database import get_db
-from app.schemas.user import UserLogin, UserResponse
+from app.schemas.user import UserCreate, UserResponse
 from app.schemas.token import Token
 from app.repositories.user_repository import UserRepository
 from app.services.auth_service import AuthService
@@ -11,23 +12,34 @@ from app.models.user import User
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 def get_auth_service(db: Session = Depends(get_db)) -> AuthService:
-    """
-    Proveedor de dependencia para AuthService.
-    Encapsula la instanciación del repositorio y el servicio.
-    """
     repository = UserRepository(db)
     return AuthService(repository)
 
+@router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
+async def register(
+    user_in: UserCreate,
+    auth_service: AuthService = Depends(get_auth_service)
+):
+    # Verificar si el usuario ya existe
+    if auth_service.repository.get_by_username(user_in.username):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="El nombre de usuario ya está registrado"
+        )
+    
+    # Crear usuario
+    user = auth_service.register_user(user_in)
+    return user
+
 @router.post("/login", response_model=Token)
 async def login(
-    credentials: UserLogin, 
+    form_data: OAuth2PasswordRequestForm = Depends(),
     auth_service: AuthService = Depends(get_auth_service)
 ):
     """
-    Endpoint de inicio de sesión.
-    Recibe el servicio de autenticación mediante inyección de dependencias.
+    Endpoint de inicio de sesión estándar OAuth2.
     """
-    access_token = auth_service.login(credentials.username, credentials.password)
+    access_token = auth_service.login(form_data.username, form_data.password)
     
     if not access_token:
         raise HTTPException(

@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 from app.core.database import get_db
-from app.routers.deps import get_current_user
+from app.routers.deps import get_current_user, get_current_admin_user, get_current_admin_or_manager
 from app.models.user import User
 from app.schemas.group import GroupCreate, GroupUpdate, GroupResponse, MemberRoleUpdate, GroupMemberResponse
 from app.schemas.invitation import InvitationCreate, InvitationResponse
@@ -18,7 +18,6 @@ def list_groups(
     service = GroupService(db)
     groups = service.get_user_groups(current_user.id)
     
-    # Mapeo manual para asegurar que los nombres de usuario se incluyan
     response = []
     for g in groups:
         members_resp = [
@@ -53,7 +52,7 @@ def create_group(
 def update_group(
     group_id: str,
     group_data: GroupUpdate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_or_manager),
     db: Session = Depends(get_db)
 ):
     service = GroupService(db)
@@ -63,7 +62,7 @@ def update_group(
 @router.delete("/{group_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_group(
     group_id: str,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_user),
     db: Session = Depends(get_db)
 ):
     service = GroupService(db)
@@ -96,7 +95,7 @@ def list_pending_invitations(
 def invite_user(
     group_id: str,
     invite_data: InvitationCreate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_or_manager),
     db: Session = Depends(get_db)
 ):
     service = GroupService(db)
@@ -137,7 +136,7 @@ def update_member_role(
     group_id: str,
     user_id: str,
     role_data: MemberRoleUpdate,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_or_manager),
     db: Session = Depends(get_db)
 ):
     service = GroupService(db)
@@ -153,7 +152,7 @@ def update_member_role(
 def remove_member(
     group_id: str,
     user_id: str,
-    current_user: User = Depends(get_current_user),
+    current_user: User = Depends(get_current_admin_or_manager),
     db: Session = Depends(get_db)
 ):
     service = GroupService(db)
