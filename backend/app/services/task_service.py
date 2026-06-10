@@ -42,11 +42,20 @@ class TaskService:
         db.refresh(db_task)
         return db_task
 
-    def update_task(self, db: Session, task_id: str, task_update: TaskUpdate, user_id: str):
+    def update_task(self, db: Session, task_id: str, task_update: TaskUpdate, user_id: str, user_role: str):
         db_task = self.get_task_by_id(db, task_id)
-        
-        # Lógica de marcar como completada con validación de dependencias
+        from app.models.user import UserRole
+
+        # Lógica de marcar como completada con validación de dependencias y roles
         if task_update.is_completed is True and db_task.is_completed is False:
+            # RN-TAS-02: Restricción para rol Miembro
+            if user_role == UserRole.MEMBER:
+                if db_task.assigned_to_id and str(db_task.assigned_to_id) != user_id:
+                    raise HTTPException(
+                        status_code=status.HTTP_403_FORBIDDEN,
+                        detail="Un miembro solo puede completar tareas asignadas a él o sin asignar"
+                    )
+            
             self._validate_dependencies_for_completion(db_task)
 
         update_data = task_update.dict(exclude_unset=True)

@@ -96,15 +96,17 @@ const DashboardPage: React.FC = () => {
         {activeTab === "tasks" ? (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start animate-in fade-in duration-500">
             {/* Sidebar / Form */}
-            <aside className="lg:col-span-4 space-y-6">
-              <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
-                <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Añadir Actividad</h3>
-                <TaskForm onAdd={createTask} />
-              </div>
-            </aside>
+            {user.role !== UserRole.MEMBER && (
+              <aside className="lg:col-span-4 space-y-6">
+                <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
+                  <h3 className="text-sm font-bold text-slate-400 uppercase tracking-widest mb-4">Añadir Actividad</h3>
+                  <TaskForm onAdd={createTask} />
+                </div>
+              </aside>
+            )}
 
             {/* List */}
-            <section className="lg:col-span-8">
+            <section className={user.role === UserRole.MEMBER ? "lg:col-span-12" : "lg:col-span-8"}>
               <div className="flex items-center justify-between mb-4 px-2">
                 <h3 className="font-bold text-slate-900">Tareas Pendientes</h3>
                 <span className="text-xs font-bold text-slate-400 bg-slate-100 px-2.5 py-1 rounded-full">{tasks.length} total</span>

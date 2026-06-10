@@ -391,3 +391,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Sincronización completa del sistema de control de acceso. Se actualizó el script `seed.py` para generar un entorno de pruebas con jerarquías claras. Se alinearon los enums de TypeScript en el frontend con los strings de la base de datos para corregir fallos en la lógica de permisos visuales. Se verificó la persistencia del perfil de usuario tras el login y se validó el renderizado condicional en `TaskItem.tsx` y `DashboardPage.tsx`, restringiendo acciones administrativas a los roles autorizados.
 
 **Decisión:** He validado que la interfaz ahora reacciona dinámicamente al token JWT y al rol del usuario. Con los tres usuarios semilla activos, eliminamos la ceguera del frontend y aseguramos un entorno de pruebas robusto. 
+
+## [10/06/2026] [22:15] Fase 05: Construcción - Refinamiento RBAC de Tareas ('Miembro')
+
+**Prompt:** El rol 'Miembro' solo puede consultar tareas y completar las asignadas o sin asignar. Tienen prohibido crear tareas. TAREA: Proteger `POST /tasks` en backend, restringir lógica de completado en `TaskService`, ocultar `TaskForm` en el dashboard para miembros y deshabilitar checkboxes en `TaskItem` si no tienen permiso.
+
+**Resultado:** Alineación estricta del módulo de tareas con las reglas de negocio de ciberseguridad. Se implementaron validaciones de rol en `task_router.py` y `task_service.py`, lanzando errores 403 ante intentos de creación o completado no autorizado. En la UI, el dashboard ahora oculta proactivamente el formulario de creación para 'Miembros' y el componente `TaskItem` deshabilita visual y funcionalmente el checkbox de completado para tareas ajenas, mejorando la usabilidad y el cumplimiento normativo.
+
+**Decisión:** He validado que los permisos del rol 'Miembro' son ahora exactos a lo estipulado en RUP. Esta restricción previene la contaminación del grupo de tareas y asegura la responsabilidad individual en la ejecución.

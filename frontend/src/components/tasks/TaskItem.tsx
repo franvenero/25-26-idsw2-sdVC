@@ -30,6 +30,11 @@ const TaskItem: React.FC<TaskItemProps> = ({
   const isAdmin = user?.role === UserRole.ADMIN || user?.role === UserRole.ADMIN_MEMBER;
   const isOwner = task.owner_id === user?.id;
   const canEdit = isAdmin || isOwner;
+  
+  // Miembro solo puede completar si está a su nombre o sin asignar
+  const isAssignedToMe = task.assigned_to_id === user?.id;
+  const isUnassigned = !task.assigned_to_id;
+  const canToggleComplete = isAdmin || isAssignedToMe || isUnassigned;
 
   const assignedUser = members.find(m => m.id === task.assigned_to_id);
   const assignedName = assignedUser ? assignedUser.username : (task.assigned_to_id === user?.id ? 'Tú' : 'Sin asignar');
@@ -69,7 +74,11 @@ const TaskItem: React.FC<TaskItemProps> = ({
             type="checkbox"
             checked={task.is_completed}
             onChange={handleToggleComplete}
-            className="w-5 h-5 rounded-lg border-2 border-slate-200 text-blue-600 focus:ring-blue-500 focus:ring-offset-0 cursor-pointer transition-all"
+            disabled={!canToggleComplete}
+            title={!canToggleComplete ? "No tienes permisos para completar esta tarea" : ""}
+            className={`w-5 h-5 rounded-lg border-2 border-slate-200 text-blue-600 focus:ring-blue-500 focus:ring-offset-0 transition-all ${
+              !canToggleComplete ? "cursor-not-allowed opacity-30" : "cursor-pointer"
+            }`}
           />
         </div>
 

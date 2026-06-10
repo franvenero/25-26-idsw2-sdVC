@@ -27,7 +27,15 @@ def create_task(
 ):
     """
     Crea una nueva tarea asignándola al grupo del usuario.
+    Solo administradores y miembros administradores pueden crear tareas.
     """
+    from app.models.user import UserRole
+    if current_user.role == UserRole.MEMBER:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Los miembros no tienen permisos para crear tareas"
+        )
+        
     return task_service.create_task(
         db, 
         task_in, 
@@ -44,8 +52,15 @@ def update_task(
 ):
     """
     Actualiza una tarea. Incluye validación de dependencias si se marca como completada.
+    Se aplican restricciones de rol para completar tareas.
     """
-    return task_service.update_task(db, task_id, task_in, user_id=str(current_user.id))
+    return task_service.update_task(
+        db, 
+        task_id, 
+        task_in, 
+        user_id=str(current_user.id),
+        user_role=current_user.role
+    )
 
 @router.delete("/{task_id}")
 def delete_task(
