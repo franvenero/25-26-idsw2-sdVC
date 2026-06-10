@@ -1,7 +1,7 @@
 export enum UserRole {
-  ADMIN = "ADMIN",
-  ADMIN_MEMBER = "ADMIN_MEMBER",
-  MEMBER = "MEMBER",
+  ADMIN = "Administrador",
+  ADMIN_MEMBER = "Miembro Administrador",
+  MEMBER = "Miembro",
 }
 
 export interface User {
@@ -9,6 +9,7 @@ export interface User {
   username: string;
   role: UserRole;
   is_active: boolean;
+  group_id?: string;
 }
 
 export interface TokenResponse {

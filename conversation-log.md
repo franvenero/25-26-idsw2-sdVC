@@ -368,7 +368,7 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 **Decisión:** He validado y aprobado la implementación del sistema de autenticación y control de acceso. La centralización de la seguridad en `deps.py` y el uso de estándares OAuth2 garantizan que el sistema sea seguro, escalable y fácil de mantener.
 
-## [10/06/2026] [20:55] Fase 05: Construcción - Corrección de Límite de Contraseña (bcrypt)
+## [10/06/2026] [20:00] Fase 05: Construcción - Corrección de Límite de Contraseña (bcrypt)
 
 **Prompt:** Actúa como un Ingeniero Backend Senior. Al ejecutar seed.py tenemos el error de bcrypt: password cannot be longer than 72 bytes. TAREA: Revisa seed.py, asegura contraseña corta, evita doble hashing y reescribe respetando el límite.
 
@@ -376,10 +376,18 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 **Decisión:** He aprobado la corrección técnica del script de carga, priorizando la estabilidad del algoritmo de hashing y la capacidad de regenerar el entorno de desarrollo sin excepciones críticas.
 
-## [10/06/2026] [21:15] Fase 05: Construcción - Integración OAuth2 y JWT en el Frontend
+## [10/06/2026] [20:08] Fase 05: Construcción - Integración OAuth2 y JWT en el Frontend
 
 **Prompt:** Al intentar hacer login en el frontend, recibimos un error 422. CONTEXTO: Backend espera OAuth2 (Form Data), no JSON. TAREA: Actualizar Axios con interceptores para JWT, modificar auth.service.ts para enviar Form Data y gestionar sesión en LoginPage.
 
 **Resultado:** Adaptación total del cliente al protocolo OAuth2. Se implementaron interceptores en `src/services/api.ts` para gestionar automáticamente las cabeceras `Authorization` y el ciclo de vida del token (borrado ante errores 401). Se refactorizó `auth.service.ts` para enviar credenciales mediante `URLSearchParams` y se sincronizó el flujo de autenticación con el estado global de React.
 
-**Decisión:** He validado y aprobado la integración del frontend con el backend seguro. Esta implementación resuelve los problemas de formato (422)
+**Decisión:** He validado y aprobado la integración del frontend con el backend seguro. Esta implementación resuelve los problemas de formato (422) y garantiza una gestión de sesión fluida y robusta, alineada con las mejores prácticas de seguridad en aplicaciones modernas.
+
+## [10/06/2026] [21:45] Fase 05: Construcción - Sincronización RBAC y Datos Semilla
+
+**Prompt:** El Administrador recibe errores de permisos o no ve botones, y faltan usuarios de prueba. TAREA: Poblar `seed.py` con 3 usuarios (admin, manager, miembro) en el mismo grupo. Asegurar que `GET /auth/me` devuelva el rol completo. Sincronizar strings de roles ('Administrador', etc.) entre Backend y Frontend. Aplicar renderizado condicional en componentes de tareas y dashboard.
+
+**Resultado:** Sincronización completa del sistema de control de acceso. Se actualizó el script `seed.py` para generar un entorno de pruebas con jerarquías claras. Se alinearon los enums de TypeScript en el frontend con los strings de la base de datos para corregir fallos en la lógica de permisos visuales. Se verificó la persistencia del perfil de usuario tras el login y se validó el renderizado condicional en `TaskItem.tsx` y `DashboardPage.tsx`, restringiendo acciones administrativas a los roles autorizados.
+
+**Decisión:** He validado que la interfaz ahora reacciona dinámicamente al token JWT y al rol del usuario. Con los tres usuarios semilla activos, eliminamos la ceguera del frontend y aseguramos un entorno de pruebas robusto. 

@@ -1,5 +1,6 @@
 import sys
 import os
+import uuid
 
 # Añadir el directorio actual al path para importar 'app'
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -8,19 +9,18 @@ from app.core.database import SessionLocal, engine, Base
 # Importar TODOS los modelos para que SQLAlchemy registre las tablas en Base.metadata
 from app.models.user import User, UserRole
 from app.models.task import Task
-from app.models.group import Group, GroupMember
+from app.models.group import Group, GroupMember, GroupMemberRole
 from app.models.invitation import Invitation
 from app.core.security import get_password_hash
 
 def reset_db():
-    print("Iniciando reinicio de base de datos...")
+    print("Iniciando reinicio de base de datos y poblado de datos semilla...")
     
     # Destruir todas las tablas antiguas
-    # Ahora Base.metadata conoce 'groups' e 'invitations' por las importaciones previas
     Base.metadata.drop_all(bind=engine)
     print("Tablas antiguas eliminadas.")
     
-    # Crear tablas desde cero con los nuevos esquemas
+    # Crear tablas desde cero
     Base.metadata.create_all(bind=engine)
     print("Esquema de base de datos creado con éxito.")
     
@@ -28,51 +28,69 @@ def reset_db():
     db = SessionLocal()
     
     try:
-        # Crear usuario administrador inicial
-        # RN-SEC-01: La contraseña en texto plano debe ser corta para bcrypt (< 72 bytes)
-        admin_username = "admin"
-        admin_plain_password = "admin123" # Contraseña sencilla y segura para el límite de bcrypt
-        admin_email = "admin@admin.com"
-        admin_group_name = "familia_1"
-        
-        # Encriptamos la contraseña una sola vez
-        hashed_password = get_password_hash(admin_plain_password)
-        
-        # Primero creamos el grupo para mantener integridad referencial
+        # 1. Crear el Grupo único para todos los usuarios semilla
+        group_id = str(uuid.uuid4())
         db_group = Group(
-            name=admin_group_name,
-            description="Grupo familiar inicial"
+            id=group_id,
+            name="Familia Test",
+            description="Grupo compartido para pruebas de desarrollo y RBAC"
         )
         db.add(db_group)
-        db.flush() # Para obtener el ID del grupo
-
-        # El rol debe coincidir con el diseño UML y la lógica de negocio ("Administrador")
-        admin_user = User(
-            username=admin_username,
-            email=admin_email,
-            hashed_password=hashed_password,
-            role=UserRole.ADMIN,
-            group_id=str(db_group.id),
-            is_active=True
-        )
-        db.add(admin_user)
         db.flush()
 
-        # Registrar al admin como miembro del grupo
-        from app.models.group import GroupMemberRole
-        member = GroupMember(
-            user_id=admin_user.id,
-            group_id=db_group.id,
-            role=GroupMemberRole.ADMIN
-        )
-        db.add(member)
+        # Datos de usuarios semilla
+        users_data = [
+            {
+                "username": "admin",
+                "password": "admin123",
+                "email": "admin@test.com",
+                "role": UserRole.ADMIN,
+                "member_role": GroupMemberRole.ADMIN
+            },
+            {
+                "username": "manager",
+                "password": "manager123",
+                "email": "manager@test.com",
+                "role": UserRole.ADMIN_MEMBER,
+                "member_role": GroupMemberRole.ADMIN_MEMBER
+            },
+            {
+                "username": "miembro",
+                "password": "miembro123",
+                "email": "miembro@test.com",
+                "role": UserRole.MEMBER,
+                "member_role": GroupMemberRole.MEMBER
+            }
+        ]
+
+        created_users = []
+        for u_data in users_data:
+            hashed_pw = get_password_hash(u_data["password"])
+            user = User(
+                username=u_data["username"],
+                email=u_data["email"],
+                hashed_password=hashed_pw,
+                role=u_data["role"],
+                group_id=group_id,
+                is_active=True
+            )
+            db.add(user)
+            db.flush()
+            
+            # Registrar como miembro del grupo
+            member = GroupMember(
+                user_id=user.id,
+                group_id=group_id,
+                role=u_data["member_role"]
+            )
+            db.add(member)
+            created_users.append(user)
         
         db.commit()
-        print(f"Base de datos reiniciada con éxito.")
-        print(f"Usuario: {admin_username}")
-        print(f"Contraseña: {admin_plain_password}")
-        print(f"Email: {admin_email}")
-        print(f"Grupo: {admin_group_name} ({db_group.id})")
+        print(f"--- Datos Semilla Insertados ---")
+        for u in created_users:
+            print(f"Usuario: {u.username} | Rol Sistema: {u.role}")
+        print(f"Grupo Único ID: {group_id}")
         
     except Exception as e:
         print(f"Error durante el reinicio: {e}")
