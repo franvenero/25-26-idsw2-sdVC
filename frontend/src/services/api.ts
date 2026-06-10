@@ -7,7 +7,7 @@ const api = axios.create({
   },
 });
 
-// Interceptor para añadir el token JWT en las peticiones (preparado para el futuro)
+// Interceptor para añadir el token JWT en las peticiones
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -17,6 +17,19 @@ api.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Interceptor para manejar errores 401 (Token expirado o inválido)
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      // No redirigimos aquí para no romper el flujo del Contexto, 
+      // el AuthContext se encargará de detectar el cambio.
+    }
     return Promise.reject(error);
   }
 );

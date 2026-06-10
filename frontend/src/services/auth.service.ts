@@ -4,12 +4,25 @@ import { TokenResponse, User } from '../types/auth';
 
 const authService = {
   login: async (credentials: UserLoginSchema): Promise<TokenResponse> => {
-    const response = await api.post<TokenResponse>('/auth/login', credentials);
+    // El backend usa OAuth2PasswordRequestForm, requiere application/x-www-form-urlencoded
+    const formData = new URLSearchParams();
+    formData.append('username', credentials.username);
+    formData.append('password', credentials.password);
+
+    const response = await api.post<TokenResponse>('/auth/login', formData, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+    
+    if (response.data.access_token) {
+      localStorage.setItem('token', response.data.access_token);
+    }
+    
     return response.data;
   },
 
   getMe: async (): Promise<User> => {
-    // Endpoint para obtener info del usuario actual (se implementará en el backend próximamente)
     const response = await api.get<User>('/auth/me');
     return response.data;
   },

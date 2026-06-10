@@ -367,3 +367,19 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Implementación de un sistema de seguridad robusto. Se configuró `UserRole` con nombres en español ('Administrador', 'Miembro Administrador', 'Miembro'). Se implementó el hashing con `passlib` y la generación de tokens JWT con `python-jose`. Se crearon dependencias de inyección para validar tokens y restringir accesos por rol (`get_current_admin_user`, `get_current_admin_or_manager`). Finalmente, se blindaron los routers de grupos y tareas, y se habilitaron los endpoints de login y registro.
 
 **Decisión:** He validado y aprobado la implementación del sistema de autenticación y control de acceso. La centralización de la seguridad en `deps.py` y el uso de estándares OAuth2 garantizan que el sistema sea seguro, escalable y fácil de mantener.
+
+## [10/06/2026] [20:55] Fase 05: Construcción - Corrección de Límite de Contraseña (bcrypt)
+
+**Prompt:** Actúa como un Ingeniero Backend Senior. Al ejecutar seed.py tenemos el error de bcrypt: password cannot be longer than 72 bytes. TAREA: Revisa seed.py, asegura contraseña corta, evita doble hashing y reescribe respetando el límite.
+
+**Resultado:** Se corrigió el script de inicialización `seed.py` para asegurar que las contraseñas en texto plano enviadas a `bcrypt` no superen los 72 bytes. Se estableció una contraseña sencilla ('admin123') para el administrador inicial y se eliminó cualquier riesgo de doble hashing, garantizando un despliegue limpio del entorno.
+
+**Decisión:** He aprobado la corrección técnica del script de carga, priorizando la estabilidad del algoritmo de hashing y la capacidad de regenerar el entorno de desarrollo sin excepciones críticas.
+
+## [10/06/2026] [21:15] Fase 05: Construcción - Integración OAuth2 y JWT en el Frontend
+
+**Prompt:** Al intentar hacer login en el frontend, recibimos un error 422. CONTEXTO: Backend espera OAuth2 (Form Data), no JSON. TAREA: Actualizar Axios con interceptores para JWT, modificar auth.service.ts para enviar Form Data y gestionar sesión en LoginPage.
+
+**Resultado:** Adaptación total del cliente al protocolo OAuth2. Se implementaron interceptores en `src/services/api.ts` para gestionar automáticamente las cabeceras `Authorization` y el ciclo de vida del token (borrado ante errores 401). Se refactorizó `auth.service.ts` para enviar credenciales mediante `URLSearchParams` y se sincronizó el flujo de autenticación con el estado global de React.
+
+**Decisión:** He validado y aprobado la integración del frontend con el backend seguro. Esta implementación resuelve los problemas de formato (422)

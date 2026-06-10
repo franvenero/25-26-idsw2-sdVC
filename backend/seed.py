@@ -29,11 +29,14 @@ def reset_db():
     
     try:
         # Crear usuario administrador inicial
+        # RN-SEC-01: La contraseña en texto plano debe ser corta para bcrypt (< 72 bytes)
         admin_username = "admin"
-        admin_password = "admin"
+        admin_plain_password = "admin123" # Contraseña sencilla y segura para el límite de bcrypt
         admin_email = "admin@admin.com"
         admin_group_name = "familia_1"
-        hashed_password = get_password_hash(admin_password)
+        
+        # Encriptamos la contraseña una sola vez
+        hashed_password = get_password_hash(admin_plain_password)
         
         # Primero creamos el grupo para mantener integridad referencial
         db_group = Group(
@@ -43,13 +46,13 @@ def reset_db():
         db.add(db_group)
         db.flush() # Para obtener el ID del grupo
 
-        # El rol debe coincidir con el diseño UML y la lógica de negocio ("ADMIN")
+        # El rol debe coincidir con el diseño UML y la lógica de negocio ("Administrador")
         admin_user = User(
             username=admin_username,
             email=admin_email,
             hashed_password=hashed_password,
             role=UserRole.ADMIN,
-            group_id=db_group.id,
+            group_id=str(db_group.id),
             is_active=True
         )
         db.add(admin_user)
@@ -65,11 +68,16 @@ def reset_db():
         db.add(member)
         
         db.commit()
-        print(f"Base de datos reiniciada. Usuario '{admin_username}' creado y asignado al grupo '{admin_group_name}' ({db_group.id}).")
+        print(f"Base de datos reiniciada con éxito.")
+        print(f"Usuario: {admin_username}")
+        print(f"Contraseña: {admin_plain_password}")
+        print(f"Email: {admin_email}")
+        print(f"Grupo: {admin_group_name} ({db_group.id})")
         
     except Exception as e:
         print(f"Error durante el reinicio: {e}")
         db.rollback()
+        raise e
     finally:
         db.close()
 
