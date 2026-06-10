@@ -22,10 +22,11 @@ class Task(Base):
     
     owner_id = Column(String, ForeignKey("users.id"))
     assigned_to_id = Column(String, ForeignKey("users.id"), nullable=True)
-    group_id = Column(String, index=True, nullable=False)
+    group_id = Column(String, ForeignKey("groups.id"), index=True, nullable=False)
 
     owner = relationship("User", foreign_keys=[owner_id], back_populates="tasks_owned")
     assigned_to = relationship("User", foreign_keys=[assigned_to_id], back_populates="tasks_assigned")
+    group = relationship("Group", backref="tasks")
 
     # Relaciones de dependencia recursiva
     dependencies = relationship(

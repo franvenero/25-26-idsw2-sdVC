@@ -344,14 +344,18 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 **Decisión:** He validado que la configuración de Tailwind funciona correctamente. Los estilos ahora son procesados por Vite y aplicados al proyecto sin problemas, solventando el renderizado de HTML crudo.
 
-## [09/06/2026] [20:27] Fase 02: Diseño - Módulo de Gestión de Grupos
+## [10/06/2026] [19:23] Fase 05: Construcción - Backend de Gestión de Grupos
 
-**Prompt:** Actúa como un Arquitecto de Software Senior experto en metodologías RUP y UML. Lee y analiza los documentos de análisis en `/RUP/01-analisis/casos-uso/gestion-grupos`. TAREA: Diseña las reglas de negocio y genera los diagramas UML para los 9 casos de uso de este módulo, creando subcarpetas con un README y su diagrama (Mermaid) correspondiente en `02-diseño/diagramas-clases/gestion-grupos`.
+**Prompt:** Actúa como un Ingeniero Backend Senior experto en FastAPI y SQLAlchemy. Entramos en la Fase 05: Construcción - Módulo de Gestión de Grupos. TAREA A DESARROLLAR: Modelos (app/models/group.py e invitation.py), Esquemas (app/schemas/group.py e invitation.py), Servicios (app/services/group_service.py), Rutas (app/routers/group_router.py). Escribe los archivos completos, listos para producción. Al finalizar, escribe estrictamente: 'Backend de Gestión de Grupos implementado. Lógica de negocio alineada con la fase de diseño'.
 
-**Resultado:** Se generó la estructura arquitectónica y documental para los 9 casos de uso (`abrirGrupos`, `abrirInvitaciones`, `crearGrupo`, `editarGrupo`, `editarInvitacion`, `editarMiembro`, `eliminarGrupo`, `eliminarMiembro`, `invitarUsuario`). En cada subcarpeta se creó un documento `README.md` detallando actores, flujos, precondiciones y reglas de negocio, junto con los diagramas UML integrados.
+**Resultado:** Implementación integral del módulo de Gestión de Grupos en el backend. Se crearon los modelos de datos para `Group`, `GroupMember` (relación N:M con roles) e `Invitation`. Se desarrollaron los esquemas Pydantic para validación y serialización, incluyendo un extractor dinámico de información de usuario. El `GroupService` encapsula la lógica de los 9 casos de uso (creación con admin automático, invitaciones, gestión de miembros y borrado lógico). Finalmente, se expusieron los endpoints en `group_router.py` y se integraron en la aplicación principal.
 
-**Decisión:** He auditado la documentación generada y comprobado que los diagramas Mermaid representan de forma precisa la lógica estructurada en la fase de análisis. Con los planos validados y la arquitectura del módulo definida, estamos listos para avanzar hacia la fase de construcción y desarrollo.
+**Decisión:** He validado y aprobado la implementación del backend de grupos. La arquitectura asegura el cumplimiento de las reglas de negocio diseñadas previamente, garantizando que solo los administradores puedan gestionar el grupo y sus miembros.
 
+## [10/06/2026] [20:25] Fase 05: Construcción - Resolución de Error de Referencia Circular en seed.py
 
+**Prompt:** Actúa como un Ingeniero Backend Senior experto en SQLAlchemy. Al ejecutar seed.py obtenemos el error sqlalchemy.exc.NoReferencedTableError: Foreign key associated with column 'tasks.group_id' could not find table 'groups'. TAREA: Modifica seed.py para importar explícitamente los modelos Group e Invitation antes de cualquier llamada a Base.metadata.drop_all o create_all.
 
- 
+**Resultado:** Se ha corregido la visibilidad de los metadatos en el script de inicialización. Se añadieron las importaciones explícitas de `Group`, `GroupMember` e `Invitation` en `backend/seed.py`, permitiendo que SQLAlchemy registre todas las tablas en el grafo de metadatos antes de intentar crear las claves foráneas. Además, se actualizó la lógica del script para crear primero un grupo real y luego asignar al usuario administrador como miembro del mismo, garantizando la integridad referencial desde el primer arranque.
+
+**Decisión:** He validado y aprobado la corrección del script de carga. Esta acción es fundamental para asegurar que el entorno de desarrollo sea reproducible y que la base de datos se genere correctamente con todas las relaciones de integridad activas entre tareas, grupos y usuarios.

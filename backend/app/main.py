@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routers import auth_router, task_router, user_router
+from app.routers import auth_router, task_router, user_router, group_router
 from app.core.config import settings
 from app.core.database import engine, Base
 
@@ -29,6 +29,7 @@ app.add_middleware(
 app.include_router(auth_router.router, prefix=settings.API_V1_STR)
 app.include_router(task_router.router, prefix=settings.API_V1_STR)
 app.include_router(user_router.router, prefix=settings.API_V1_STR)
+app.include_router(group_router.router, prefix=settings.API_V1_STR)
 
 @app.get(f"{settings.API_V1_STR}/health", tags=["Health"])
 async def health_check():
