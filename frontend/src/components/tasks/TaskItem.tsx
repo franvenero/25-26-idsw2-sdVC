@@ -75,7 +75,7 @@ const TaskItem: React.FC<TaskItemProps> = ({
             checked={task.is_completed}
             onChange={handleToggleComplete}
             disabled={!canToggleComplete}
-            title={!canToggleComplete ? "No tienes permisos para completar esta tarea" : ""}
+            title={!canToggleComplete ? "No tienes permiso para completar la tarea de otro miembro" : ""}
             className={`w-5 h-5 rounded-lg border-2 border-slate-200 text-blue-600 focus:ring-blue-500 focus:ring-offset-0 transition-all ${
               !canToggleComplete ? "cursor-not-allowed opacity-30" : "cursor-pointer"
             }`}

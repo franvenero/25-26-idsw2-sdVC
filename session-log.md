@@ -191,7 +191,7 @@
 - **Fase de Diseño:** 
     - Documentación técnica y creación de diagramas UML para `marcarCompletada`, `eliminarTarea`, `relacionarTareas` y `validarConflicto`.
     - Definición del algoritmo DFS para detección de ciclos.
-- **Construcción Backend (Tareas Avanzadas):**
+- **Construcción Backend (Tareas Avanzada):**
     - Implementación de la tabla asociativa `task_dependencies` para relaciones N:M recursivas.
     - Desarrollo del motor de validación en `TaskService`: detección de circularidad y bloqueo de tareas con predecesores pendientes.
     - Aplicación de borrado lógico (`is_deleted`) en el modelo de datos y servicios.
@@ -207,9 +207,54 @@
 - **Borrado Lógico Persistente:** Se adoptó el borrado lógico como estándar para tareas, permitiendo mantener la integridad de las relaciones de dependencia históricas.
 
 ## 4. Estado del Proyecto al Finalizar la Sesión
-- **Gestión de Tareas Avanzada:** Backend 100% implementado y estable.
+- **Gestión de Tareas Avanzada:** Backend 100% implementado e estable.
 - **Documentación de Diseño:** Actualizada y coherente con la implementación física.
 - **Workspace:** Sistema listo para la implementación de la interfaz de dependencias en el frontend.
+
+---
+**Arquitecto de Software:** Gemini CLI Agent
+
+---
+
+# Resumen de Sesión - Sesión 20
+**Fecha:** 10 de junio de 2026
+**Estado:** COMPLETADA
+
+## 1. Objetivos de la Sesión
+- Implementar el módulo integral de **Gestión de Grupos** en el backend.
+- Desplegar un sistema de **Autenticación JWT y RBAC** robusto con roles en español.
+- Sincronizar el frontend con el nuevo flujo de seguridad OAuth2 y reglas de negocio estrictas.
+- Estabilizar el entorno de desarrollo mediante la corrección de errores críticos de base de datos y algoritmos.
+
+## 2. Actividad Realizada
+- **Módulo de Grupos (Backend):**
+    - Creación de modelos `Group`, `GroupMember` (N:M) e `Invitation`.
+    - Implementación del `GroupService` con lógica para 9 casos de uso (creación, invitaciones, gestión de miembros).
+    - Desarrollo del `group_router` protegido por JWT.
+- **Ciberseguridad y RBAC:**
+    - Implementación de hashing con `passlib/bcrypt` (resolviendo el límite de 72 bytes) y tokens JWT.
+    - Configuración de roles oficiales: 'Administrador', 'Miembro Administrador', 'Miembro'.
+    - Creación de guardianes de inyección de dependencias (`get_current_admin_user`, etc.) para proteger rutas.
+- **Integración Frontend (OAuth2):**
+    - Configuración de interceptores de Axios para gestión automática de cabeceras de autorización.
+    - Refactorización del servicio de autenticación para uso de `URLSearchParams` (Form Data).
+    - Sincronización de enums de roles y aplicación de renderizado condicional.
+- **Refinamiento de Reglas de Negocio:**
+    - Implementación del **Candado de Tareas**: restricción estricta para que el rol 'Miembro' solo complete sus propias asignaciones.
+    - Protección de endpoints de creación de tareas para roles no autorizados.
+- **Mantenimiento y Calidad:**
+    - Corrección de visibilidad de metadatos SQLAlchemy en `seed.py` para evitar errores de clave foránea.
+    - Poblado automático de la base de datos con usuarios de prueba para todos los niveles de privilegio.
+
+## 3. Decisiones Arquitectónicas Clave
+- **Centralización de Seguridad:** Se delegó la validación de permisos en la capa de servicios y en las dependencias de FastAPI, asegurando que la lógica RBAC sea inquebrantable independientemente del cliente.
+- **UX Basada en Roles:** Se optó por una interfaz proactiva que oculta elementos (botones, formularios) según el privilegio, mejorando la usabilidad al evitar errores 403 por interacciones inválidas.
+- **Integridad Referencial Circular:** Se priorizó el orden de importación y creación en los scripts de semilla para garantizar que las relaciones complejas entre usuarios, grupos y tareas se establezcan correctamente.
+
+## 4. Estado del Proyecto al Finalizar la Sesión
+- **Backend:** 100% Blindado y con lógica de grupos/miembros operativa.
+- **Frontend:** Sincronizado con el sistema de seguridad y visualmente adaptado al RBAC.
+- **Entorno de Desarrollo:** Estable, reproducible y poblado con datos de prueba realistas.
 
 ---
 **Arquitecto de Software:** Gemini CLI Agent

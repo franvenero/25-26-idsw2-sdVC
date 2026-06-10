@@ -53,7 +53,7 @@ class TaskService:
                 if db_task.assigned_to_id and str(db_task.assigned_to_id) != user_id:
                     raise HTTPException(
                         status_code=status.HTTP_403_FORBIDDEN,
-                        detail="Un miembro solo puede completar tareas asignadas a él o sin asignar"
+                        detail="No tienes permiso para completar la tarea de otro miembro"
                     )
             
             self._validate_dependencies_for_completion(db_task)

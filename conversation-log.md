@@ -399,3 +399,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Alineación estricta del módulo de tareas con las reglas de negocio de ciberseguridad. Se implementaron validaciones de rol en `task_router.py` y `task_service.py`, lanzando errores 403 ante intentos de creación o completado no autorizado. En la UI, el dashboard ahora oculta proactivamente el formulario de creación para 'Miembros' y el componente `TaskItem` deshabilita visual y funcionalmente el checkbox de completado para tareas ajenas, mejorando la usabilidad y el cumplimiento normativo.
 
 **Decisión:** He validado que los permisos del rol 'Miembro' son ahora exactos a lo estipulado en RUP. Esta restricción previene la contaminación del grupo de tareas y asegura la responsabilidad individual en la ejecución.
+
+## [10/06/2026] [22:30] Fase 05: Construcción - Implementación de Candado de Tareas
+
+**Prompt:** Implementa regla estricta: 'Miembro' solo puede completar tareas asignadas a él o sin asignar. TAREA: Añadir Guard en backend (403 si es ajena) y deshabilitar checkbox en frontend con feedback visual (opacity/cursor).
+
+**Resultado:** Blindaje de la lógica de ejecución de tareas. Se integró una guarda de seguridad en el `TaskService` que valida la propiedad/asignación de la tarea antes de permitir el cambio de estado para usuarios con rol 'Miembro'. En el frontend, se sincronizó esta restricción en `TaskItem.tsx`, deshabilitando el checkbox y añadiendo un tooltip explicativo ("No tienes permiso para completar la tarea de otro miembro"), garantizando una experiencia de usuario coherente y segura.
+
+**Decisión:** He aprobado la implementación del candado de tareas. Esta medida es crítica para mantener el orden dentro de grupos grandes y evitar interferencias accidentales o malintencionadas entre miembros.
