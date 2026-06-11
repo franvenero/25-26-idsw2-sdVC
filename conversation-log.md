@@ -463,3 +463,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Se ha completado la autonomía del sistema multi-grupo en el frontend. El usuario ahora puede crear nuevos entornos, eliminarlos mediante acciones en el menú y gestionar el equipo de trabajo de forma manual introduciendo nombres directamente. La lista de miembros de cada grupo alimenta dinámicamente los campos de asignación de las tareas del propio entorno.
 
 **Decisión:** Consolidar las operaciones de administración de grupos y miembros en memoria local dentro de la interfaz, dejando el cliente preparado para la unificación final de persistencia con los endpoints del backend.
+
+## [11/06/2026] [18:02] Fase 05: Construcción - Vinculación de Sesión y Visibilidad de Tareas
+
+**Prompt:** Conectar `DashboardPage.tsx` con el contexto de autenticación (`useAuth`) para que la visualización y asignación de tareas responda dinámicamente al usuario con sesión activa en el sistema.
+
+**Resultado:** Se ha integrado el flujo de sesión en el entorno multi-grupo. El sistema ahora reconoce al usuario conectado, permitiendo filtrar las tareas generales del grupo o aislar exclusivamente aquellas que le han sido asignadas por un perfil administrador, garantizando el comportamiento esperado de la arquitectura de negocio.
+
+**Decisión:** Valido la lógica de visibilidad cruzada de tareas entre miembros de un mismo grupo.
