@@ -13,10 +13,10 @@ class InvitationStatus(str, enum.Enum):
 class Invitation(Base):
     __tablename__ = "invitations"
 
-    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    group_id = Column(ForeignKey("groups.id", ondelete="CASCADE"), nullable=False)
-    user_id = Column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
-    sender_id = Column(ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    group_id = Column(String(36), ForeignKey("groups.id", ondelete="CASCADE"), nullable=False)
+    user_id = Column(String(36), ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    sender_id = Column(String(36), ForeignKey("users.id"), nullable=False)
     status = Column(SQLEnum(InvitationStatus), default=InvitationStatus.PENDING, nullable=False)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())

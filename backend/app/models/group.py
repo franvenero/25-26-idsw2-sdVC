@@ -13,9 +13,9 @@ class GroupMemberRole(str, enum.Enum):
 class Group(Base):
     __tablename__ = "groups"
 
-    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    name = Column(String, index=True, nullable=False)
-    description = Column(String, nullable=True)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    name = Column(String(255), index=True, nullable=False)
+    description = Column(String(500), nullable=True)
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
@@ -27,8 +27,8 @@ class Group(Base):
 class GroupMember(Base):
     __tablename__ = "group_members"
 
-    user_id = Column(ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
-    group_id = Column(ForeignKey("groups.id", ondelete="CASCADE"), primary_key=True)
+    user_id = Column(String(36), ForeignKey("users.id", ondelete="CASCADE"), primary_key=True)
+    group_id = Column(String(36), ForeignKey("groups.id", ondelete="CASCADE"), primary_key=True)
     role = Column(SQLEnum(GroupMemberRole), default=GroupMemberRole.MEMBER, nullable=False)
     is_active = Column(Boolean, default=True)
     joined_at = Column(DateTime(timezone=True), server_default=func.now())

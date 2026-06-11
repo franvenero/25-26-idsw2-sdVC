@@ -431,3 +431,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Se completó la migración de la capa de persistencia a SQL Server. Se actualizó la configuración en `app/core/config.py` para utilizar el driver ODBC 17 con autenticación de Windows. Se purificó la inicialización del motor en `app/core/database.py`, eliminando directivas incompatibles (`check_same_thread`). Finalmente, se implementó lógica de auto-aprovisionamiento en `seed.py` (`ensure_database_exists`) que verifica y crea el contenedor lógico en la instancia `master` antes de ejecutar la reconstrucción del esquema y el sembrado de datos.
 
 **Decisión:** He validado y aprobado la migración a SQL Server. Este cambio eleva la robustez de la arquitectura de datos, preparando el sistema para un entorno de producción empresarial mientras mantiene la comodidad del desarrollo local mediante LocalDB, asegurando una transición sin fricciones para el equipo.
+
+## [11/06/2026] [16:25] Fase 05: Construcción - Persistencia en SQL Server y Estabilización del Esquema Relacional
+
+**Prompt:** Adaptar la persistencia del backend de SQLite a Microsoft SQL Server (LocalDB). Resolver errores de tipos de datos no admitidos (`UUID`) y conflictos de múltiples caminos de borrado en cascada (Error T-SQL 1785) en las tablas de invitaciones y dependencias de tareas.
+
+**Resultado:** Migración completa y exitosa al motor de base de datos definitivo. Se refactorizaron todos los identificadores únicos globales a tipo `String(36)` con inicialización basada en `uuid.uuid4()`. Para cumplir con las restricciones estrictas de SQL Server y evitar ciclos infinitos, se eliminó la propiedad `ondelete='CASCADE'` en las claves foráneas secundarias: `sender_id` (en el modelo de invitaciones) y `depends_on_id` (en la tabla asociativa de dependencias de tareas), delegando la integridad referencial de estas ramas al comportamiento `NO ACTION`. El servidor de desarrollo (Uvicorn) levanta ahora sin errores y el DDL se procesa limpiamente.
+
+**Decisión:** He aprobado la reestructuración del esquema relacional de VibeTask. Esto soluciona los bloqueos de despliegue en SQL Server (LocalDB), tambien elimina ambigüedades en las operaciones de borrado en cascada.

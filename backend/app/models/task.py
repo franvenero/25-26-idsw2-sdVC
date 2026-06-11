@@ -7,22 +7,22 @@ from app.core.database import Base
 task_dependencies = Table(
     "task_dependencies",
     Base.metadata,
-    Column("task_id", ForeignKey("tasks.id", ondelete="CASCADE"), primary_key=True),
-    Column("depends_on_id", ForeignKey("tasks.id", ondelete="CASCADE"), primary_key=True),
+    Column("task_id", String(36), ForeignKey("tasks.id", ondelete="CASCADE"), primary_key=True),
+    Column("depends_on_id", String(36), ForeignKey("tasks.id"), primary_key=True),
 )
 
 class Task(Base):
     __tablename__ = "tasks"
 
-    id = Column(String, primary_key=True, default=lambda: str(uuid.uuid4()))
-    title = Column(String, index=True, nullable=False)
-    description = Column(String, nullable=True)
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    title = Column(String(255), index=True, nullable=False)
+    description = Column(String(1000), nullable=True)
     is_completed = Column(Boolean, default=False)
     is_deleted = Column(Boolean, default=False)  # Borrado lógico
     
-    owner_id = Column(String, ForeignKey("users.id"))
-    assigned_to_id = Column(String, ForeignKey("users.id"), nullable=True)
-    group_id = Column(String, ForeignKey("groups.id"), index=True, nullable=False)
+    owner_id = Column(String(36), ForeignKey("users.id"))
+    assigned_to_id = Column(String(36), ForeignKey("users.id"), nullable=True)
+    group_id = Column(String(36), ForeignKey("groups.id", ondelete="CASCADE"), index=True, nullable=False)
 
     owner = relationship("User", foreign_keys=[owner_id], back_populates="tasks_owned")
     assigned_to = relationship("User", foreign_keys=[assigned_to_id], back_populates="tasks_assigned")
