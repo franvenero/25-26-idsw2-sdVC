@@ -410,7 +410,7 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 ## [11/06/2026] [15:20] Fase 01: Análisis - Sincronización de Diagramas UML (Realización)
 
-**Prompt:** Actúa como un Arquitecto de Software Senior experto en RUP y PlantUML. Rellena los archivos .puml de la fase de análisis (Casos de Uso, Colaboración General, Especificación de Tareas) con el código PlantUML que refleje la arquitectura real construida de VibeTask.
+**Prompt:** Actúa como un Arquitecto de Software Senior experto en RUP y PlantUML. Rellena los archivos .puml de la fase de análisis (Casos de Uso, Colaboración General, Especificación de Tareas) con el código PlantUML que refleje la arquitectura real construida de BREÑOTASK.
 
 **Resultado:** Se han completado los artefactos de análisis para asegurar la trazabilidad del sistema. El `01-modelo-casos-uso.puml` ahora mapea correctamente los tres roles RBAC (Administrador, Miembro Administrador, Miembro) con sus permisos específicos. El `02-diagrama-colaboracion-general.puml` describe el flujo de comunicación desde la UI React hasta la persistencia SQLite, mediado por el controlador de seguridad. El `03-especificacion-tareas.puml` detalla la estructura de la entidad Tarea, incluyendo su relación reflexiva de dependencias y las reglas de negocio de completado.
 
@@ -426,7 +426,7 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 ## [11/06/2026] [16:00] Fase 05: Construcción - Migración a SQL Server (LocalDB)
 
-**Prompt:** Actúa como un Arquitecto de Base de Datos Senior experto en SQL Server y SQLAlchemy. Vamos a migrar la persistencia de datos del backend de SQLite a Microsoft SQL Server (LocalDB). TAREA: Actualiza `DATABASE_URL`, modifica `create_engine()` eliminando argumentos de SQLite, y adapta `seed.py` para que verifique/cree la base de datos `VibeTaskDB` si no existe.
+**Prompt:** Actúa como un Arquitecto de Base de Datos Senior experto en SQL Server y SQLAlchemy. Vamos a migrar la persistencia de datos del backend de SQLite a Microsoft SQL Server (LocalDB). TAREA: Actualiza `DATABASE_URL`, modifica `create_engine()` eliminando argumentos de SQLite, y adapta `seed.py` para que verifique/cree la base de datos `BREÑOTASKDB` si no existe.
 
 **Resultado:** Se completó la migración de la capa de persistencia a SQL Server. Se actualizó la configuración en `app/core/config.py` para utilizar el driver ODBC 17 con autenticación de Windows. Se purificó la inicialización del motor en `app/core/database.py`, eliminando directivas incompatibles (`check_same_thread`). Finalmente, se implementó lógica de auto-aprovisionamiento en `seed.py` (`ensure_database_exists`) que verifica y crea el contenedor lógico en la instancia `master` antes de ejecutar la reconstrucción del esquema y el sembrado de datos.
 
@@ -438,4 +438,4 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 **Resultado:** Migración completa y exitosa al motor de base de datos definitivo. Se refactorizaron todos los identificadores únicos globales a tipo `String(36)` con inicialización basada en `uuid.uuid4()`. Para cumplir con las restricciones estrictas de SQL Server y evitar ciclos infinitos, se eliminó la propiedad `ondelete='CASCADE'` en las claves foráneas secundarias: `sender_id` (en el modelo de invitaciones) y `depends_on_id` (en la tabla asociativa de dependencias de tareas), delegando la integridad referencial de estas ramas al comportamiento `NO ACTION`. El servidor de desarrollo (Uvicorn) levanta ahora sin errores y el DDL se procesa limpiamente.
 
-**Decisión:** He aprobado la reestructuración del esquema relacional de VibeTask. Esto soluciona los bloqueos de despliegue en SQL Server (LocalDB), tambien elimina ambigüedades en las operaciones de borrado en cascada.
+**Decisión:** He aprobado la reestructuración del esquema relacional de BREÑOTASK. Esto soluciona los bloqueos de despliegue en SQL Server (LocalDB), tambien elimina ambigüedades en las operaciones de borrado en cascada.

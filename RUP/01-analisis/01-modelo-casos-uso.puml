@@ -10,7 +10,7 @@ actor "Administrador" as Admin
 actor "Miembro Administrador" as Manager
 actor "Miembro" as Member
 
-rectangle "Sistema VibeTask" {
+rectangle "Sistema BREÑOTASK" {
     usecase "Gestionar Grupos" as UC_Groups
     usecase "Gestionar Miembros" as UC_Members
     usecase "Invitar Usuarios" as UC_Invite

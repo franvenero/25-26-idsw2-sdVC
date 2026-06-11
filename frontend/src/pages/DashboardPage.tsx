@@ -43,7 +43,7 @@ const DashboardPage: React.FC = () => {
             <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-600/20">
               <span className="text-white text-lg font-bold">V</span>
             </div>
-            <h1 className="text-xl font-bold tracking-tight">VibeTask</h1>
+            <h1 className="text-xl font-bold tracking-tight">BREÑOTASK</h1>
           </div>
           
           <div className="flex items-center gap-6">
@@ -162,7 +162,7 @@ const DashboardPage: React.FC = () => {
       </main>
       
       <footer className="py-8 text-center text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em]">
-        VibeTask &bull; SaaS Architecture &bull; 2026
+        BREÑOTASK &bull; SaaS Architecture &bull; 2026
       </footer>
     </div>
   );

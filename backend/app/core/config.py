@@ -12,7 +12,7 @@ class Settings(BaseSettings):
 
     # Base de Datos - Migración a SQL Server (LocalDB)
     # Usamos autenticación de Windows y el driver ODBC 17
-    DATABASE_URL: str = "mssql+pyodbc://(localdb)\\MSSQLLocalDB/VibeTaskDB?driver=ODBC+Driver+17+for+SQL+Server&trusted_connection=yes"
+    DATABASE_URL: str = "mssql+pyodbc://(localdb)\\MSSQLLocalDB/BREÑOTASKDB?driver=ODBC+Driver+17+for+SQL+Server&trusted_connection=yes"
 
     # CORS
     BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:5173", "http://127.0.0.1:5173"]

@@ -40,7 +40,7 @@ const LoginPage: React.FC = () => {
         <div className="p-8 sm:p-10">
           <div className="mb-10 text-center">
             <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-              VibeTask
+              BREÑOTASK
             </h1>
             <p className="mt-2 text-slate-500 font-medium">
               Inicia sesión para gestionar tus tareas

@@ -17,28 +17,28 @@ from app.core.security import get_password_hash
 
 def ensure_database_exists():
     """
-    Verifica si la base de datos VibeTaskDB existe en LocalDB.
+    Verifica si la base de datos BREÑOTASKDB existe en LocalDB.
     Si no existe, intenta crearla conectándose a la DB 'master'.
     """
     print("Verificando existencia de la base de datos en SQL Server...")
     
     # Extraer la base de la cadena de conexión para conectar a master
-    # mssql+pyodbc://(localdb)\\MSSQLLocalDB/VibeTaskDB?... -> mssql+pyodbc://(localdb)\\MSSQLLocalDB/master?...
-    master_url = settings.DATABASE_URL.replace("/VibeTaskDB", "/master")
+    # mssql+pyodbc://(localdb)\\MSSQLLocalDB/BREÑOTASKDB?... -> mssql+pyodbc://(localdb)\\MSSQLLocalDB/master?...
+    master_url = settings.DATABASE_URL.replace("/BREÑOTASKDB", "/master")
     temp_engine = create_engine(master_url, isolation_level="AUTOCOMMIT")
     
     try:
         with temp_engine.connect() as conn:
             # Comprobar si existe la base de datos
-            result = conn.execute(text("SELECT name FROM sys.databases WHERE name = 'VibeTaskDB'"))
+            result = conn.execute(text("SELECT name FROM sys.databases WHERE name = 'BREÑOTASKDB'"))
             exists = result.fetchone()
             
             if not exists:
-                print("La base de datos 'VibeTaskDB' no existe. Creándola...")
-                conn.execute(text("CREATE DATABASE VibeTaskDB"))
-                print("Base de datos 'VibeTaskDB' creada con éxito.")
+                print("La base de datos 'BREÑOTASKDB' no existe. Creándola...")
+                conn.execute(text("CREATE DATABASE BREÑOTASKDB"))
+                print("Base de datos 'BREÑOTASKDB' creada con éxito.")
             else:
-                print("Base de datos 'VibeTaskDB' detectada.")
+                print("Base de datos 'BREÑOTASKDB' detectada.")
     except Exception as e:
         print(f"Error al verificar/crear la base de datos: {e}")
         print("Asegúrese de que SQL Server LocalDB esté instalado y en ejecución.")
