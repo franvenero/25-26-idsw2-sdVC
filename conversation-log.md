@@ -439,3 +439,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Se ha completado la transición técnica a un esquema de datos universalmente compatible. Se sustituyeron los tipos UUID por `String(36)` en todos los modelos y esquemas, garantizando que SQL Server procese correctamente los IDs. Se resolvieron los bloqueos de integridad referencial (Error 1785) eliminando el `ON DELETE CASCADE` en claves foráneas que generaban ambigüedad relacional (`sender_id`, `assigned_to_id` y `depends_on_id`). Finalmente, se renovó la identidad visual del repositorio con un README profesional que centraliza el acceso a todos los artefactos del proyecto.
 
 **Decisión:** He validado y aprobado esta reestructuración profunda. El nuevo README eleva la calidad del proyecto, facilitando la navegación entre las fases RUP y el código fuente.
+
+## [11/06/2026] [17:30] Fase 05: Construcción - Documentación Técnica y Stack
+
+**Prompt:** Editar el archivo `README.md` principal para incluir una nueva sección de "Arquitectura y Stack Tecnológico", detallando las tecnologías empleadas en las capas de frontend, backend y base de datos, manteniendo el diseño sobrio y profesional.
+
+**Resultado:** Se ha integrado correctamente el desglose tecnológico en la portada del proyecto. El documento refleja ahora la arquitectura Cliente-Servidor implementada, destacando el uso de React (TypeScript) en el frontend, FastAPI con SQLAlchemy y JWT en el backend, y Microsoft SQL Server como motor de persistencia empresarial.
+
+**Decisión:** He aprobado esta ampliación de la documentación para visibilizar la madurez técnica del proyecto BREÑOTASK de cara a su evaluación final en la asignatura, facilitando la comprensión del ecosistema tecnológico a cualquier revisor externo.
