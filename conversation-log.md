@@ -455,3 +455,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Se ha completado la integración funcional del Dashboard. Se implementaron modales animados para la creación de tareas y envío de invitaciones, vinculando automáticamente cada acción al `groupId` activo. El motor de tareas ahora soporta la asignación de usuarios y la selección de predecesoras (dependencias) desde la interfaz. La reactividad del sistema garantiza que las tareas se filtren, creen y marquen como completadas en tiempo real dentro de su contexto de grupo, utilizando un diseño profesional con Tailwind CSS y Lucide icons.
 
 **Decisión:** Consolidar esta versión como la interfaz definitiva del sistema BREÑOTASK, unificando el diseño de la arquitectura multi-tenant con la operatividad de todos los requisitos del proyecto.
+
+## [11/06/2026] [18:00] Fase 05: Construcción - Gestión de Entornos y Miembros en Frontend
+
+**Prompt:** Actualizar `DashboardPage.tsx` para permitir la creación y eliminación dinámica de grupos, así como la inclusión de un panel de miembros contextual para añadir nombres manualmente a cada espacio de trabajo.
+
+**Resultado:** Se ha completado la autonomía del sistema multi-grupo en el frontend. El usuario ahora puede crear nuevos entornos, eliminarlos mediante acciones en el menú y gestionar el equipo de trabajo de forma manual introduciendo nombres directamente. La lista de miembros de cada grupo alimenta dinámicamente los campos de asignación de las tareas del propio entorno.
+
+**Decisión:** Consolidar las operaciones de administración de grupos y miembros en memoria local dentro de la interfaz, dejando el cliente preparado para la unificación final de persistencia con los endpoints del backend.
