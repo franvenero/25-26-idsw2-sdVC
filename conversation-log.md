@@ -415,3 +415,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Se han completado los artefactos de análisis para asegurar la trazabilidad del sistema. El `01-modelo-casos-uso.puml` ahora mapea correctamente los tres roles RBAC (Administrador, Miembro Administrador, Miembro) con sus permisos específicos. El `02-diagrama-colaboracion-general.puml` describe el flujo de comunicación desde la UI React hasta la persistencia SQLite, mediado por el controlador de seguridad. El `03-especificacion-tareas.puml` detalla la estructura de la entidad Tarea, incluyendo su relación reflexiva de dependencias y las reglas de negocio de completado.
 
 **Decisión:** He validado y aprobado la sincronización de los diagramas de análisis. Estos artefactos ya no son plantillas vacías, sino que constituyen una documentación técnica veraz y actualizada del sistema construido, cumpliendo con los estándares de rigor de la metodología RUP.
+
+## [11/06/2026] [15:31] Fase 01: Análisis - Refactorización Visual de Diagrama de Colaboración
+
+**Prompt:** Actúa como experto en PlantUML. El archivo `02-diagrama-colaboracion-general.puml` tiene la lógica perfecta, pero visualmente se ha generado demasiado ancho. Refactoriza el código para que sea limpio y legible, convirtiéndolo a un Diagrama de Secuencia si es necesario.
+
+**Resultado:** Se transformó el diagrama de colaboración general en un **Diagrama de Secuencia** altamente estructurado. Esta nueva representación utiliza bloques de color (`box`) para distinguir las capas (Frontend, Backend, DB), numeración automática de pasos y divisores de fase (`==`). El resultado elimina el solapamiento de textos y proporciona una visión cronológica y clara del flujo de autenticación y las operaciones protegidas por RBAC, facilitando su comprensión técnica.
+
+**Decisión:** He aprobado la refactorización visual del diagrama. El cambio a formato de secuencia mejora drásticamente la legibilidad sin perder el rigor de la lógica de colaboración diseñada, optimizando el artefacto para su uso como referencia técnica en la fase de construcción.
