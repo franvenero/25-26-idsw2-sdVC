@@ -1,12 +1,27 @@
-# Sesiones de VibeCoding / idsw2 / gII · uneatlantico / VIBETASK
+# Sesiones de VibeCoding / idsw2 / gII · uneatlantico / BREÑOTASK
 
-[ Análisis ](./RUP/01-analisis) | [ Diseño ](./RUP/02-diseño) | [ Frontend (React) ](./frontend/src) | [ Backend (FastAPI) ](./backend/app) | [ Base de Datos ](./backend/seed.py) | [ Bitácora de Desarrollo ](./conversation-log.md)
+<div align="center">
+
+[![Inicio](https://img.shields.io/badge/Inicio-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./)
+[![RUP](https://img.shields.io/badge/RUP-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./RUP)
+[![Modelo del dominio](https://img.shields.io/badge/Modelo_del_dominio-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./_contexto/modelosUML/modeloDeDominio)
+[![Actores & Casos de Uso](https://img.shields.io/badge/Actores_%26_Casos_de_Uso-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./_contexto/01-analisis/casos-uso)
+[![Diagrama de contexto](https://img.shields.io/badge/Diagrama_de_contexto-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./_contexto/actoresYCasosDeUso/diagramaContexto)
+[![Detalle & Prototipo](https://img.shields.io/badge/Detalle_%26_Prototipo-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./frontend/src)
+[![Análisis](https://img.shields.io/badge/Análisis-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./RUP/01-analisis)
+<br>
+[![Estado](https://img.shields.io/badge/Estado-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](#)
+[![Dashboard visual](https://img.shields.io/badge/Dashboard_visual-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./frontend/src/pages/DashboardPage.tsx)
+[![Reflexiones](https://img.shields.io/badge/Reflexiones-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](#)
+[![Log de conversación](https://img.shields.io/badge/Log_de_conversación-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./conversation-log.md)
+
+</div>
 
 ---
 
 ### Presentación del Sistema
 
-BREÑOTASK es una plataforma web moderna diseñada para la gestión colaborativa de tareas, optimizando el flujo de trabajo mediante un sistema estricto de roles y dependencias. La aplicación permite a los usuarios organizarse en grupos, asignar responsabilidades y visualizar el progreso de proyectos complejos de manera estructurada y eficiente.
+BreñoTask es una plataforma web moderna diseñada para la gestión colaborativa de tareas, optimizando el flujo de trabajo mediante un sistema estricto de roles y dependencias. La aplicación permite a los usuarios organizarse en grupos, asignar responsabilidades y visualizar el progreso de proyectos complejos de manera estructurada y eficiente.
 
 > **Nota de Arquitectura:** El sistema implementa el patrón cliente-servidor mediante una arquitectura desacoplada. La capa de presentación está desarrollada en React con TypeScript, garantizando una interfaz reactiva y tipado seguro. El motor de servicios y persistencia se fundamenta en FastAPI (Python), utilizando SQLAlchemy como ORM para la comunicación con Microsoft SQL Server, asegurando una gestión de datos robusta y escalable.
 
