@@ -440,10 +440,18 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 **Decisión:** He validado y aprobado esta reestructuración profunda. El nuevo README eleva la calidad del proyecto, facilitando la navegación entre las fases RUP y el código fuente.
 
-## [11/06/2026] [17:30] Fase 05: Construcción - Documentación Técnica y Stack
+## [11/06/2026] [17:15] Fase 05: Construcción - Documentación Técnica y Stack
 
 **Prompt:** Editar el archivo `README.md` principal para incluir una nueva sección de "Arquitectura y Stack Tecnológico", detallando las tecnologías empleadas en las capas de frontend, backend y base de datos, manteniendo el diseño sobrio y profesional.
 
 **Resultado:** Se ha integrado correctamente el desglose tecnológico en la portada del proyecto. El documento refleja ahora la arquitectura Cliente-Servidor implementada, destacando el uso de React (TypeScript) en el frontend, FastAPI con SQLAlchemy y JWT en el backend, y Microsoft SQL Server como motor de persistencia empresarial.
 
-**Decisión:** He aprobado esta ampliación de la documentación para visibilizar la madurez técnica del proyecto BREÑOTASK de cara a su evaluación final en la asignatura, facilitando la comprensión del ecosistema tecnológico a cualquier revisor externo.
+**Decisión:** He aprobado esta ampliación de la documentación para visibilizar la madurez técnica del proyecto BREÑOTASK. La sección proporciona una visión clara del patrón de separación de responsabilidades y la robustez del stack elegido.
+
+## [11/06/2026] [17:35] Fase 06: Construcción - Gestión de Grupos y Dashboard Contextual
+
+**Prompt:** Actúa como Frontend Developer Senior. Implementa la vista de 'Gestión de Grupos' con búsqueda y tabla de datos. Refactoriza el `DashboardPage.tsx` para implementar una arquitectura multi-grupo, permitiendo la selección de contexto mediante una barra lateral y filtrando las tareas dinámicamente según el grupo activo.
+
+**Resultado:** Implementación de la infraestructura visual para la gestión multi-inquilino (multi-tenant). Se creó `GroupManagementPage.tsx` con una interfaz corporativa para la administración de grupos. El `DashboardPage.tsx` fue rediseñado con un Sidebar funcional que permite alternar entre contextos (Casa, Trabajo, etc.), actualizando proactivamente la vista de tareas y restringiendo acciones (como la creación de tareas) a estados de grupo válidos. Se utilizó mock data para validar el flujo de usuario.
+
+**Decisión:** He validado y aprobado la nueva arquitectura visual. La transición a un dashboard contextualizado por grupo es un salto cualitativo en la usabilidad del sistema, alineándose con los requisitos de coordinación de BREÑOTASK y preparando el terreno para la integración final con los servicios de grupos del backend.
