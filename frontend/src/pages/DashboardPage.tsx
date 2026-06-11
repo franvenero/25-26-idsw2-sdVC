@@ -17,7 +17,8 @@ import {
   Trash2,
   User as UserIcon,
   Filter,
-  Edit2
+  Edit2,
+  UserMinus
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -153,6 +154,25 @@ const DashboardPage: React.FC = () => {
     setNewMemberName('');
   };
 
+  const handleRemoveMember = (memberName: string) => {
+    if (!activeGroup) return;
+    if (window.confirm(`¿Estás seguro de que deseas eliminar a ${memberName} de este grupo?`)) {
+      // 1. Quitar miembro del grupo
+      setGroups(groups.map(g => 
+        g.id === activeGroup.id 
+        ? { ...g, members: g.members.filter(m => m !== memberName) } 
+        : g
+      ));
+
+      // 2. Desasignar tareas de ese miembro en este grupo
+      setTasks(tasks.map(t => 
+        (t.group_id === activeGroup.id && t.assigned_to === memberName)
+        ? { ...t, assigned_to: '' }
+        : t
+      ));
+    }
+  };
+
   // --- Manejadores de Tareas ---
   const toggleTaskCompletion = (taskId: string) => {
     setTasks(prev => prev.map(t => 
@@ -216,7 +236,7 @@ const DashboardPage: React.FC = () => {
   };
 
   return (
-    <div className="flex h-screen bg-slate-50 overflow-hidden font-sans">
+    <div className="flex h-screen bg-slate-50 overflow-hidden font-sans text-slate-900">
       
       {/* SIDEBAR */}
       <aside className="w-64 bg-slate-900 text-white flex flex-col shadow-xl">
@@ -225,39 +245,39 @@ const DashboardPage: React.FC = () => {
             <div className="bg-blue-600 p-2 rounded-lg">
               <LayoutDashboard size={24} />
             </div>
-            <span className="text-xl font-bold tracking-tight text-white">BREÑOTASK</span>
+            <span className="text-xl font-bold tracking-tight text-white uppercase">Breñotask</span>
           </div>
 
           <nav className="space-y-6">
             <div>
               <div className="flex items-center justify-between mb-4 text-slate-400">
-                <span className="text-xs font-semibold uppercase tracking-wider">Grupos</span>
+                <span className="text-xs font-bold uppercase tracking-widest">Contextos</span>
                 <button 
                   onClick={() => setIsNewGroupModalOpen(true)}
-                  className="hover:text-white transition-colors p-1 hover:bg-slate-800 rounded"
+                  className="hover:text-white transition-colors p-1 hover:bg-slate-800 rounded-md"
                 >
                   <Plus size={16} />
                 </button>
               </div>
               
-              <ul className="space-y-2">
+              <ul className="space-y-1.5">
                 {groups.map((group) => (
                   <li key={group.id} className="group relative">
                     <button
                       onClick={() => setSelectedGroupId(group.id)}
-                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all ${
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all ${
                         selectedGroupId === group.id 
-                        ? 'bg-blue-600 text-white shadow-md' 
+                        ? 'bg-blue-600 text-white shadow-lg shadow-blue-900/20' 
                         : 'text-slate-400 hover:bg-slate-800 hover:text-white'
                       }`}
                     >
                       <div className={`w-2 h-2 rounded-full ${group.color}`}></div>
-                      <span className="flex-1 text-left text-sm font-medium truncate">{group.name}</span>
+                      <span className="flex-1 text-left text-sm font-semibold truncate">{group.name}</span>
                       {selectedGroupId === group.id && <ChevronRight size={14} />}
                     </button>
                     <button 
                       onClick={(e) => handleDeleteGroup(e, group.id)}
-                      className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 p-1 text-slate-500 hover:text-red-400 transition-all"
+                      className="absolute right-2 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 p-1.5 text-slate-500 hover:text-red-400 transition-all"
                     >
                       <Trash2 size={14} />
                     </button>
@@ -270,20 +290,20 @@ const DashboardPage: React.FC = () => {
 
         <div className="mt-auto p-6 border-t border-slate-800">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-xs font-bold text-white uppercase">
+            <div className="w-9 h-9 rounded-xl bg-slate-700 flex items-center justify-center text-xs font-black text-white uppercase border border-slate-600">
               {user?.username?.substring(0, 2) || 'US'}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium truncate text-white">{user?.username || 'Usuario'}</p>
-              <p className="text-xs text-slate-500 truncate">{user?.role || 'Miembro'}</p>
+              <p className="text-sm font-bold truncate text-white">{user?.username || 'Usuario'}</p>
+              <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">{user?.role || 'Miembro'}</p>
             </div>
           </div>
           <button 
             onClick={logout}
-            className="w-full flex items-center gap-2 text-slate-400 hover:text-red-400 text-sm transition-colors font-medium"
+            className="w-full flex items-center gap-2 text-slate-400 hover:text-red-400 text-xs font-bold transition-colors uppercase tracking-widest"
           >
-            <LogOut size={16} />
-            Cerrar Sesión
+            <LogOut size={14} />
+            Salir
           </button>
         </div>
       </aside>
@@ -291,61 +311,63 @@ const DashboardPage: React.FC = () => {
       {/* ÁREA PRINCIPAL */}
       <main className="flex-1 flex flex-col overflow-hidden">
         
-        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 shadow-sm">
-          <div className="flex items-center gap-2">
-            <Folder size={20} className="text-slate-400" />
+        <header className="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-8 shadow-sm z-10">
+          <div className="flex items-center gap-2 text-sm">
+            <Folder size={18} className="text-slate-400" />
             <span className="text-slate-400">/</span>
-            <span className="font-semibold text-slate-700">
-              {activeGroup ? activeGroup.name : 'Inicio'}
+            <span className="font-bold text-slate-800">
+              {activeGroup ? activeGroup.name : 'Selecciona un contexto'}
             </span>
           </div>
           
           <div className="flex items-center gap-4">
+            <div className="h-8 w-px bg-slate-200"></div>
             <Settings size={20} className="text-slate-400 cursor-pointer hover:text-blue-600 transition-colors" />
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto p-8">
+        <div className="flex-1 overflow-y-auto p-8 lg:p-10 bg-slate-50">
           {activeGroup ? (
-            <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10">
               
-              <div className="lg:col-span-2 space-y-6">
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-2">
+              {/* TAREAS */}
+              <div className="lg:col-span-8 space-y-8">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                   <div>
-                    <h2 className="text-2xl font-bold text-slate-900">Gestión de Tareas</h2>
-                    <p className="text-slate-500 text-sm mt-1">Contexto activo: {activeGroup.name}</p>
+                    <h2 className="text-3xl font-black text-slate-900 tracking-tight">Actividades</h2>
+                    <p className="text-slate-500 text-sm font-medium mt-1">Organización en {activeGroup.name}</p>
                   </div>
-                  <div className="flex items-center gap-2 bg-white p-1 rounded-xl border border-slate-200 shadow-sm">
+                  <div className="flex items-center gap-1 bg-white p-1 rounded-2xl border border-slate-200 shadow-sm">
                     <button 
                       onClick={() => setTaskFilter('all')}
-                      className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                        taskFilter === 'all' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-50'
+                      className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
+                        taskFilter === 'all' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'
                       }`}
                     >
                       Todas
                     </button>
                     <button 
                       onClick={() => setTaskFilter('mine')}
-                      className={`px-4 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                        taskFilter === 'mine' ? 'bg-slate-900 text-white' : 'text-slate-500 hover:bg-slate-50'
+                      className={`px-5 py-2 rounded-xl text-xs font-bold transition-all ${
+                        taskFilter === 'mine' ? 'bg-slate-900 text-white shadow-md' : 'text-slate-500 hover:bg-slate-50'
                       }`}
                     >
-                      Asignadas a mí
+                      Mis Tareas
                     </button>
                   </div>
                 </div>
 
-                <div className="bg-white p-2 rounded-2xl border border-slate-100 shadow-sm mb-6 flex items-center justify-between px-4">
-                  <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    <Filter size={14} />
-                    {taskFilter === 'mine' ? 'Mostrando solo tus tareas' : 'Mostrando todo el grupo'}
+                <div className="bg-white p-4 rounded-3xl border border-slate-100 shadow-sm flex items-center justify-between">
+                  <div className="flex items-center gap-3 text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] pl-2">
+                    <Filter size={14} className="text-blue-500" />
+                    {taskFilter === 'mine' ? 'Solo Asignadas' : 'Flujo General'}
                   </div>
                   <button 
                     onClick={() => setIsTaskModalOpen(true)}
-                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow-sm transition-all text-xs font-bold"
+                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-2xl shadow-lg shadow-blue-600/20 transition-all text-xs font-black uppercase tracking-wider"
                   >
-                    <Plus size={14} />
-                    Añadir Tarea
+                    <Plus size={16} />
+                    Nueva Tarea
                   </button>
                 </div>
 
@@ -354,99 +376,113 @@ const DashboardPage: React.FC = () => {
                     displayedTasks.map(task => (
                       <div 
                         key={task.id} 
-                        className={`bg-white p-5 rounded-xl border transition-all flex items-center gap-4 group ${
-                          task.is_completed ? 'border-slate-100 opacity-70' : 'border-slate-200 shadow-sm hover:border-blue-300'
+                        className={`bg-white p-6 rounded-3xl border transition-all flex items-center gap-5 group ${
+                          task.is_completed ? 'border-slate-100 opacity-60' : 'border-slate-200 shadow-sm hover:border-blue-400 hover:shadow-md'
                         }`}
                       >
                         <button 
                           onClick={() => toggleTaskCompletion(task.id)}
-                          className={`transition-colors ${task.is_completed ? 'text-emerald-500' : 'text-slate-300 hover:text-blue-500'}`}
+                          className={`transition-all transform active:scale-90 ${task.is_completed ? 'text-emerald-500' : 'text-slate-200 hover:text-blue-400'}`}
                         >
-                          {task.is_completed ? <CheckCircle2 size={24} /> : <Circle size={24} />}
+                          {task.is_completed ? <CheckCircle2 size={28} /> : <Circle size={28} />}
                         </button>
                         <div className="flex-1 min-w-0">
-                          <p className={`text-slate-700 font-bold truncate ${task.is_completed ? 'line-through text-slate-400' : ''}`}>
+                          <p className={`text-slate-800 text-lg font-bold truncate ${task.is_completed ? 'line-through text-slate-400' : ''}`}>
                             {task.title}
                           </p>
-                          <div className="flex items-center gap-4 mt-2">
-                            <div className="flex items-center gap-1">
-                              <Clock size={12} className="text-slate-400" />
-                              <span className="text-[10px] text-slate-400 font-bold uppercase">Pendiente</span>
+                          <div className="flex items-center gap-5 mt-3">
+                            <div className="flex items-center gap-1.5 bg-slate-100 px-3 py-1 rounded-full">
+                              <Clock size={12} className="text-slate-500" />
+                              <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest">Hoy</span>
                             </div>
                             {task.assigned_to && (
-                              <div className={`flex items-center gap-1 px-2 py-0.5 rounded-full ${
-                                task.assigned_to === user?.username ? 'bg-blue-50 text-blue-600' : 'bg-slate-50 text-slate-500'
+                              <div className={`flex items-center gap-2 px-3 py-1 rounded-full ${
+                                task.assigned_to === user?.username ? 'bg-blue-50 text-blue-700 border border-blue-100' : 'bg-slate-100 text-slate-600 border border-slate-200'
                               }`}>
-                                <UserIcon size={10} />
-                                <span className="text-[10px] font-bold">{task.assigned_to === user?.username ? 'Tú' : task.assigned_to}</span>
+                                <UserIcon size={12} />
+                                <span className="text-[10px] font-black uppercase tracking-wider">{task.assigned_to === user?.username ? 'MÍO' : task.assigned_to}</span>
                               </div>
                             )}
                           </div>
                         </div>
-                        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0">
                           <button 
                             onClick={() => openEditModal(task)}
-                            className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
-                            title="Editar Tarea"
+                            className="p-2.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-2xl transition-all"
+                            title="Editar"
                           >
-                            <Edit2 size={16} />
+                            <Edit2 size={18} />
                           </button>
                           <button 
                             onClick={() => handleDeleteTask(task.id)}
-                            className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
-                            title="Eliminar Tarea"
+                            className="p-2.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all"
+                            title="Eliminar"
                           >
-                            <Trash2 size={16} />
+                            <Trash2 size={18} />
                           </button>
                         </div>
                       </div>
                     ))
                   ) : (
-                    <div className="text-center py-16 bg-white rounded-2xl border-2 border-dashed border-slate-200">
-                      <p className="text-slate-400 font-medium italic text-sm">No hay tareas que mostrar para este contexto.</p>
+                    <div className="text-center py-20 bg-white rounded-[40px] border-4 border-dashed border-slate-100">
+                      <p className="text-slate-300 font-bold italic text-lg">No hay actividades registradas.</p>
                     </div>
                   )}
                 </div>
               </div>
 
-              <div className="space-y-6">
-                <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-                  <div className="bg-slate-50 p-4 border-b border-slate-200 flex justify-between items-center">
-                    <h3 className="text-xs font-bold text-slate-700 flex items-center gap-2 uppercase tracking-widest">
-                      <Users size={16} />
-                      Miembros
+              {/* MIEMBROS */}
+              <div className="lg:col-span-4 space-y-8">
+                <div className="bg-white rounded-[40px] border border-slate-200 shadow-sm overflow-hidden flex flex-col h-full max-h-[700px]">
+                  <div className="bg-slate-900 p-6 flex justify-between items-center">
+                    <h3 className="text-xs font-black text-white flex items-center gap-3 uppercase tracking-[0.2em]">
+                      <Users size={20} className="text-blue-500" />
+                      Equipo
                     </h3>
                     <button 
                       onClick={() => setIsInviteModalOpen(true)}
-                      className="text-blue-600 hover:text-blue-700 transition-colors"
-                      title="Invitar por Email"
+                      className="bg-white/10 hover:bg-white/20 p-2.5 rounded-2xl text-white transition-all"
+                      title="Invitar Miembro"
                     >
-                      <UserPlus size={16} />
+                      <UserPlus size={18} />
                     </button>
                   </div>
-                  <div className="p-4">
-                    <ul className="space-y-2 mb-6 max-h-60 overflow-y-auto pr-1">
+                  <div className="p-6 flex-1 flex flex-col">
+                    <div className="space-y-3 mb-8 flex-1 overflow-y-auto pr-2 custom-scrollbar">
                       {activeGroup.members.map((m, idx) => (
-                        <li key={idx} className="flex items-center gap-3 text-xs text-slate-600 bg-slate-50 px-3 py-2 rounded-xl border border-slate-100">
-                          <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-[10px] font-extrabold uppercase">
-                            {m.substring(0, 1)}
+                        <div key={idx} className="flex items-center justify-between group/member p-1">
+                          <div className="flex items-center gap-4 flex-1">
+                            <div className="w-9 h-9 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-900 text-xs font-black uppercase border border-slate-200 shadow-sm group-hover/member:bg-blue-600 group-hover/member:text-white group-hover/member:border-blue-500 transition-all">
+                              {m.substring(0, 1)}
+                            </div>
+                            <span className="font-bold text-sm text-slate-700 truncate flex-1">
+                              {m} {m === user?.username && <span className="text-[10px] text-blue-500 ml-1 font-black">(TÚ)</span>}
+                            </span>
                           </div>
-                          <span className="font-bold flex-1 truncate">{m} {m === user?.username && '(Tú)'}</span>
-                        </li>
+                          <button 
+                            onClick={() => handleRemoveMember(m)}
+                            className="opacity-0 group-hover/member:opacity-100 p-2 text-slate-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                            title="Quitar Miembro"
+                          >
+                            <UserMinus size={16} />
+                          </button>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
 
-                    <form onSubmit={handleAddMember} className="space-y-3">
-                      <input 
-                        type="text" 
-                        placeholder="Nombre..."
-                        className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none text-xs"
-                        value={newMemberName}
-                        onChange={e => setNewMemberName(e.target.value)}
-                      />
+                    <form onSubmit={handleAddMember} className="space-y-4 pt-4 border-t border-slate-100">
+                      <div className="relative">
+                        <input 
+                          type="text" 
+                          placeholder="Nuevo integrante..."
+                          className="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none text-xs font-bold transition-all shadow-inner"
+                          value={newMemberName}
+                          onChange={e => setNewMemberName(e.target.value)}
+                        />
+                      </div>
                       <button 
                         type="submit"
-                        className="w-full bg-slate-900 text-white py-2 rounded-lg text-xs font-bold hover:bg-slate-800 transition-all"
+                        className="w-full bg-slate-900 text-white py-3.5 rounded-2xl text-xs font-black hover:bg-slate-800 transition-all uppercase tracking-widest shadow-xl shadow-slate-900/10"
                       >
                         Añadir Manualmente
                       </button>
@@ -457,13 +493,13 @@ const DashboardPage: React.FC = () => {
 
             </div>
           ) : (
-            <div className="h-full flex flex-col items-center justify-center text-center animate-in fade-in duration-700">
-              <div className="bg-blue-50 p-6 rounded-3xl mb-6 text-blue-600 shadow-inner">
-                <LayoutDashboard size={48} />
+            <div className="h-full flex flex-col items-center justify-center text-center animate-in fade-in zoom-in duration-1000">
+              <div className="bg-white p-10 rounded-[50px] shadow-2xl shadow-blue-900/5 mb-8 text-blue-600 border border-slate-100">
+                <LayoutDashboard size={64} />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2 tracking-tight">Bienvenido, {user?.username}</h3>
-              <p className="text-slate-500 max-w-sm text-sm">
-                Selecciona un grupo en el menú lateral para gestionar tus tareas colaborativas.
+              <h3 className="text-3xl font-black text-slate-900 mb-3 tracking-tight">Panel Central</h3>
+              <p className="text-slate-400 max-w-sm text-base font-medium">
+                Selecciona un contexto de trabajo en la barra lateral para gestionar tus flujos operativos.
               </p>
             </div>
           )}
@@ -472,28 +508,29 @@ const DashboardPage: React.FC = () => {
 
       {/* MODAL: Crear Tarea */}
       {isTaskModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl animate-in zoom-in duration-200">
-            <div className="flex items-center justify-between p-6 border-b border-slate-100">
-              <h3 className="text-lg font-bold text-slate-900">Nueva Tarea</h3>
-              <button onClick={() => setIsTaskModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-md p-4 animate-in fade-in duration-300">
+          <div className="bg-white w-full max-w-md rounded-[40px] shadow-2xl animate-in zoom-in duration-200 overflow-hidden border border-slate-100">
+            <div className="flex items-center justify-between p-8 border-b border-slate-100 bg-slate-50">
+              <h3 className="text-xl font-black text-slate-900 tracking-tight uppercase tracking-wider">Nueva Actividad</h3>
+              <button onClick={() => setIsTaskModalOpen(false)} className="bg-white p-2 rounded-2xl text-slate-400 hover:text-slate-600 shadow-sm border border-slate-100">
                 <X size={20} />
               </button>
             </div>
-            <form onSubmit={handleCreateTask} className="p-6 space-y-4">
+            <form onSubmit={handleCreateTask} className="p-8 space-y-6">
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-2 tracking-wider">Título de la actividad</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase mb-3 tracking-[0.2em] pl-1">Título de la actividad</label>
                 <input 
                   type="text" required
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm transition-all"
+                  className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-3xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none text-sm font-bold shadow-inner"
+                  placeholder="Ej: Análisis de requerimientos"
                   value={newTask.title}
                   onChange={e => setNewTask({...newTask, title: e.target.value})}
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-2 tracking-wider">Asignar a</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase mb-3 tracking-[0.2em] pl-1">Responsable</label>
                 <select 
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm transition-all"
+                  className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-3xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none text-sm font-bold appearance-none cursor-pointer shadow-inner"
                   value={newTask.assigned_to}
                   onChange={e => setNewTask({...newTask, assigned_to: e.target.value})}
                 >
@@ -503,9 +540,19 @@ const DashboardPage: React.FC = () => {
                   ))}
                 </select>
               </div>
-              <div className="pt-4">
-                <button type="submit" className="w-full py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-600/30 transition-all font-sans">
-                  Crear Actividad
+              <div className="pt-4 flex gap-4">
+                <button 
+                  type="button"
+                  onClick={() => setIsTaskModalOpen(false)}
+                  className="flex-1 py-4 border-2 border-slate-100 text-slate-400 font-black rounded-3xl hover:bg-slate-50 transition-all text-[10px] uppercase tracking-widest"
+                >
+                  Cancelar
+                </button>
+                <button 
+                  type="submit" 
+                  className="flex-1 py-4 bg-blue-600 text-white font-black rounded-3xl hover:bg-blue-700 shadow-xl shadow-blue-600/30 transition-all text-[10px] uppercase tracking-widest"
+                >
+                  Confirmar
                 </button>
               </div>
             </form>
@@ -515,28 +562,28 @@ const DashboardPage: React.FC = () => {
 
       {/* MODAL: Editar Tarea */}
       {isEditModalOpen && taskToEdit && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl animate-in zoom-in duration-200">
-            <div className="flex items-center justify-between p-6 border-b border-slate-100">
-              <h3 className="text-lg font-bold text-slate-900">Editar Tarea</h3>
-              <button onClick={() => setIsEditModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-md p-4 animate-in fade-in duration-300">
+          <div className="bg-white w-full max-w-md rounded-[40px] shadow-2xl animate-in zoom-in duration-200 overflow-hidden border border-slate-100">
+            <div className="flex items-center justify-between p-8 border-b border-slate-100 bg-slate-50">
+              <h3 className="text-xl font-black text-slate-900 tracking-tight uppercase tracking-wider">Ajustar Tarea</h3>
+              <button onClick={() => setIsEditModalOpen(false)} className="bg-white p-2 rounded-2xl text-slate-400 hover:text-slate-600 shadow-sm border border-slate-100">
                 <X size={20} />
               </button>
             </div>
-            <form onSubmit={handleUpdateTask} className="p-6 space-y-4">
+            <form onSubmit={handleUpdateTask} className="p-8 space-y-6">
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-2 tracking-wider">Título</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase mb-3 tracking-[0.2em] pl-1">Título</label>
                 <input 
                   type="text" required
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm transition-all"
+                  className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-3xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none text-sm font-bold shadow-inner"
                   value={editTaskData.title}
                   onChange={e => setEditTaskData({...editTaskData, title: e.target.value})}
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-2 tracking-wider">Asignar a</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase mb-3 tracking-[0.2em] pl-1">Asignar a</label>
                 <select 
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm transition-all"
+                  className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-3xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none text-sm font-bold cursor-pointer shadow-inner"
                   value={editTaskData.assigned_to}
                   onChange={e => setEditTaskData({...editTaskData, assigned_to: e.target.value})}
                 >
@@ -547,7 +594,7 @@ const DashboardPage: React.FC = () => {
                 </select>
               </div>
               <div className="pt-4">
-                <button type="submit" className="w-full py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-600/30 transition-all font-sans">
+                <button type="submit" className="w-full py-5 bg-slate-900 text-white font-black rounded-3xl hover:bg-slate-800 shadow-2xl shadow-slate-900/20 transition-all text-[10px] uppercase tracking-widest">
                   Guardar Cambios
                 </button>
               </div>
@@ -558,25 +605,26 @@ const DashboardPage: React.FC = () => {
 
       {/* MODAL: Nuevo Grupo */}
       {isNewGroupModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-          <div className="bg-white w-full max-w-xs rounded-3xl shadow-2xl animate-in zoom-in duration-200">
-            <div className="flex items-center justify-between p-6 border-b border-slate-100">
-              <h3 className="text-lg font-bold text-slate-900">Nuevo Grupo</h3>
-              <button onClick={() => setIsNewGroupModalOpen(false)} className="text-slate-400 hover:text-slate-600">
-                <X size={20} />
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-md p-4 animate-in fade-in duration-300">
+          <div className="bg-white w-full max-w-xs rounded-[40px] shadow-2xl animate-in zoom-in duration-200 overflow-hidden border border-slate-100">
+            <div className="flex items-center justify-between p-8 border-b border-slate-100 bg-slate-50">
+              <h3 className="text-lg font-black text-slate-900 tracking-tight uppercase tracking-wider">Nuevo Contexto</h3>
+              <button onClick={() => setIsNewGroupModalOpen(false)} className="bg-white p-2 rounded-2xl text-slate-400 hover:text-slate-600 shadow-sm border border-slate-100">
+                <X size={18} />
               </button>
             </div>
-            <form onSubmit={handleCreateGroup} className="p-6 space-y-4">
+            <form onSubmit={handleCreateGroup} className="p-8 space-y-6">
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-2 tracking-wider">Nombre del equipo</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase mb-3 tracking-[0.2em] pl-1">Nombre</label>
                 <input 
                   type="text" required autoFocus
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm transition-all"
+                  className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-3xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none text-sm font-bold shadow-inner"
+                  placeholder="Ej: Personal"
                   value={newGroupName}
                   onChange={e => setNewGroupName(e.target.value)}
                 />
               </div>
-              <button type="submit" className="w-full py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all font-sans">
+              <button type="submit" className="w-full py-5 bg-slate-900 text-white font-black rounded-3xl hover:bg-slate-800 shadow-xl transition-all text-[10px] uppercase tracking-widest">
                 Crear Grupo
               </button>
             </form>
@@ -586,14 +634,14 @@ const DashboardPage: React.FC = () => {
 
       {/* MODAL: Invitación */}
       {isInviteModalOpen && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
-          <div className="bg-white w-full max-w-sm rounded-3xl shadow-2xl animate-in zoom-in duration-200">
-            <div className="flex items-center justify-between p-6 border-b border-slate-100">
-              <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
-                <UserPlus size={20} className="text-blue-600" />
-                Invitar Miembro
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-md p-4 animate-in fade-in duration-300">
+          <div className="bg-white w-full max-w-sm rounded-[40px] shadow-2xl animate-in zoom-in duration-200 overflow-hidden border border-slate-100">
+            <div className="flex items-center justify-between p-8 border-b border-slate-100 bg-slate-50">
+              <h3 className="text-xl font-black text-slate-900 flex items-center gap-3 uppercase tracking-wider">
+                <UserPlus size={24} className="text-blue-600" />
+                Invitar
               </h3>
-              <button onClick={() => setIsInviteModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+              <button onClick={() => setIsInviteModalOpen(false)} className="bg-white p-2 rounded-2xl text-slate-400 hover:text-slate-600 shadow-sm border border-slate-100">
                 <X size={20} />
               </button>
             </div>
@@ -602,21 +650,21 @@ const DashboardPage: React.FC = () => {
               alert(`Invitación enviada a ${inviteEmail}`);
               setInviteEmail('');
               setIsInviteModalOpen(false);
-            }} className="p-6 space-y-4">
+            }} className="p-8 space-y-6">
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-2 tracking-wider">Correo Electrónico</label>
+                <label className="block text-[10px] font-black text-slate-400 uppercase mb-3 tracking-[0.2em] pl-1">Email del destinatario</label>
                 <div className="relative">
-                  <Mail className="absolute left-3 top-3.5 h-4 w-4 text-slate-400" />
+                  <Mail className="absolute left-6 top-5 h-4 w-4 text-slate-400" />
                   <input 
                     type="email" required
-                    className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm"
-                    placeholder="ejemplo@correo.com"
+                    className="w-full pl-14 pr-6 py-4 bg-slate-50 border border-slate-200 rounded-3xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none text-sm font-bold shadow-inner"
+                    placeholder="correo@servidor.com"
                     value={inviteEmail}
                     onChange={e => setInviteEmail(e.target.value)}
                   />
                 </div>
               </div>
-              <button type="submit" className="w-full py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-600/30 transition-all font-sans">
+              <button type="submit" className="w-full py-5 bg-blue-600 text-white font-black rounded-3xl hover:bg-blue-700 shadow-xl shadow-blue-600/30 transition-all text-[10px] uppercase tracking-widest">
                 Enviar Invitación
               </button>
             </form>

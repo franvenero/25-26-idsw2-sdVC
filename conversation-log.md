@@ -479,3 +479,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** El ciclo de vida de las tareas está completamente operativo en el cliente. El usuario puede ahora eliminar actividades obsoletas y actualizar los detalles (título, descripción, asignación) de las tareas existentes mediante una interfaz limpia y modal, garantizando la flexibilidad dentro de su entorno de trabajo.
 
 **Decisión:** Dar por finalizada la estructuración lógica y visual del Dashboard principal. El frontend es ahora 100% capaz de gestionar el modelo de negocio (Grupos, Miembros, Tareas) de forma autónoma.
+
+## [11/06/2026] [18:35] Fase 05: Construcción - Eliminación de Miembros por Contexto
+
+**Prompt:** Añadir la funcionalidad de eliminar miembros específicos dentro de la sección de gestión de grupos en `DashboardPage.tsx`, incluyendo la actualización reactiva del estado local.
+
+**Resultado:** Se ha integrado un botón de acción rápida junto a cada miembro del equipo. Al ejecutar la eliminación, el sistema actualiza dinámicamente el array de integrantes del grupo activo, asegurando que la lista de asignación de tareas refleje inmediatamente los cambios en el personal disponible.
+
+**Decisión:** Dar por finalizado el módulo de gestión de usuarios en el cliente. La interfaz permite ahora un control total (Añadir/Eliminar) sobre quién pertenece a qué entorno de trabajo, cumpliendo con los requisitos de aislamiento del RBAC.
