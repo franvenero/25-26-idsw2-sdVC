@@ -471,3 +471,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Se ha integrado el flujo de sesión en el entorno multi-grupo. El sistema ahora reconoce al usuario conectado, permitiendo filtrar las tareas generales del grupo o aislar exclusivamente aquellas que le han sido asignadas por un perfil administrador, garantizando el comportamiento esperado de la arquitectura de negocio.
 
 **Decisión:** Valido la lógica de visibilidad cruzada de tareas entre miembros de un mismo grupo.
+
+## [11/06/2026] [18:25] Fase 05: Construcción - Completado del CRUD de Tareas
+
+**Prompt:** Implementar las funcionalidades de edición y eliminación de tareas en `DashboardPage.tsx`, integrando botones de acción en la interfaz y modales pre-poblados para la actualización de datos en el estado local.
+
+**Resultado:** El ciclo de vida de las tareas está completamente operativo en el cliente. El usuario puede ahora eliminar actividades obsoletas y actualizar los detalles (título, descripción, asignación) de las tareas existentes mediante una interfaz limpia y modal, garantizando la flexibilidad dentro de su entorno de trabajo.
+
+**Decisión:** Dar por finalizada la estructuración lógica y visual del Dashboard principal. El frontend es ahora 100% capaz de gestionar el modelo de negocio (Grupos, Miembros, Tareas) de forma autónoma.

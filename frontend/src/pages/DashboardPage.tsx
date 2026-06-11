@@ -16,7 +16,8 @@ import {
   AlertCircle,
   Trash2,
   User as UserIcon,
-  Filter
+  Filter,
+  Edit2
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -43,12 +44,14 @@ const DashboardPage: React.FC = () => {
   
   // Estados de Modales
   const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const [isNewGroupModalOpen, setIsNewGroupModalOpen] = useState(false);
   
   // Estado para el grupo seleccionado y filtro de tareas
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const [taskFilter, setTaskFilter] = useState<'all' | 'mine'>('all');
+  const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
 
   // Inicialización de Grupos con Persistencia Local (Simulación)
   const [groups, setGroups] = useState<Group[]>(() => {
@@ -85,6 +88,12 @@ const DashboardPage: React.FC = () => {
 
   // Estados de Formulario
   const [newTask, setNewTask] = useState({
+    title: '',
+    description: '',
+    assigned_to: '',
+    depends_on_id: ''
+  });
+  const [editTaskData, setEditTaskData] = useState({
     title: '',
     description: '',
     assigned_to: '',
@@ -170,6 +179,42 @@ const DashboardPage: React.FC = () => {
     setIsTaskModalOpen(false);
   };
 
+  const handleDeleteTask = (taskId: string) => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar esta tarea?')) {
+      setTasks(tasks.filter(t => t.id !== taskId));
+    }
+  };
+
+  const openEditModal = (task: Task) => {
+    setTaskToEdit(task);
+    setEditTaskData({
+      title: task.title,
+      description: task.description || '',
+      assigned_to: task.assigned_to || '',
+      depends_on_id: task.depends_on_id || ''
+    });
+    setIsEditModalOpen(true);
+  };
+
+  const handleUpdateTask = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!taskToEdit) return;
+
+    setTasks(tasks.map(t => 
+      t.id === taskToEdit.id 
+      ? { 
+          ...t, 
+          title: editTaskData.title, 
+          description: editTaskData.description, 
+          assigned_to: editTaskData.assigned_to,
+          depends_on_id: editTaskData.depends_on_id || undefined
+        } 
+      : t
+    ));
+    setIsEditModalOpen(false);
+    setTaskToEdit(null);
+  };
+
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden font-sans">
       
@@ -180,7 +225,7 @@ const DashboardPage: React.FC = () => {
             <div className="bg-blue-600 p-2 rounded-lg">
               <LayoutDashboard size={24} />
             </div>
-            <span className="text-xl font-bold tracking-tight">BREÑOTASK</span>
+            <span className="text-xl font-bold tracking-tight text-white">BREÑOTASK</span>
           </div>
 
           <nav className="space-y-6">
@@ -326,7 +371,7 @@ const DashboardPage: React.FC = () => {
                           <div className="flex items-center gap-4 mt-2">
                             <div className="flex items-center gap-1">
                               <Clock size={12} className="text-slate-400" />
-                              <span className="text-[10px] text-slate-400 font-bold">HOY</span>
+                              <span className="text-[10px] text-slate-400 font-bold uppercase">Pendiente</span>
                             </div>
                             {task.assigned_to && (
                               <div className={`flex items-center gap-1 px-2 py-0.5 rounded-full ${
@@ -338,11 +383,27 @@ const DashboardPage: React.FC = () => {
                             )}
                           </div>
                         </div>
+                        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button 
+                            onClick={() => openEditModal(task)}
+                            className="p-2 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                            title="Editar Tarea"
+                          >
+                            <Edit2 size={16} />
+                          </button>
+                          <button 
+                            onClick={() => handleDeleteTask(task.id)}
+                            className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-all"
+                            title="Eliminar Tarea"
+                          >
+                            <Trash2 size={16} />
+                          </button>
+                        </div>
                       </div>
                     ))
                   ) : (
                     <div className="text-center py-16 bg-white rounded-2xl border-2 border-dashed border-slate-200">
-                      <p className="text-slate-400 font-medium italic">No se han encontrado tareas para este filtro.</p>
+                      <p className="text-slate-400 font-medium italic text-sm">No hay tareas que mostrar para este contexto.</p>
                     </div>
                   )}
                 </div>
@@ -370,7 +431,7 @@ const DashboardPage: React.FC = () => {
                           <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-[10px] font-extrabold uppercase">
                             {m.substring(0, 1)}
                           </div>
-                          <span className="font-bold flex-1">{m} {m === user?.username && '(Tú)'}</span>
+                          <span className="font-bold flex-1 truncate">{m} {m === user?.username && '(Tú)'}</span>
                         </li>
                       ))}
                     </ul>
@@ -397,12 +458,12 @@ const DashboardPage: React.FC = () => {
             </div>
           ) : (
             <div className="h-full flex flex-col items-center justify-center text-center animate-in fade-in duration-700">
-              <div className="bg-blue-50 p-6 rounded-3xl mb-6 text-blue-600">
+              <div className="bg-blue-50 p-6 rounded-3xl mb-6 text-blue-600 shadow-inner">
                 <LayoutDashboard size={48} />
               </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">Bienvenido, {user?.username}</h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-2 tracking-tight">Bienvenido, {user?.username}</h3>
               <p className="text-slate-500 max-w-sm text-sm">
-                Selecciona un grupo en el menú de la izquierda para comenzar a trabajar.
+                Selecciona un grupo en el menú lateral para gestionar tus tareas colaborativas.
               </p>
             </div>
           )}
@@ -421,18 +482,18 @@ const DashboardPage: React.FC = () => {
             </div>
             <form onSubmit={handleCreateTask} className="p-6 space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Título de la actividad</label>
+                <label className="block text-xs font-bold text-slate-500 uppercase mb-2 tracking-wider">Título de la actividad</label>
                 <input 
                   type="text" required
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm transition-all"
                   value={newTask.title}
                   onChange={e => setNewTask({...newTask, title: e.target.value})}
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Asignar a</label>
+                <label className="block text-xs font-bold text-slate-500 uppercase mb-2 tracking-wider">Asignar a</label>
                 <select 
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm transition-all"
                   value={newTask.assigned_to}
                   onChange={e => setNewTask({...newTask, assigned_to: e.target.value})}
                 >
@@ -443,8 +504,51 @@ const DashboardPage: React.FC = () => {
                 </select>
               </div>
               <div className="pt-4">
-                <button type="submit" className="w-full py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-600/30 transition-all">
+                <button type="submit" className="w-full py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-600/30 transition-all font-sans">
                   Crear Actividad
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: Editar Tarea */}
+      {isEditModalOpen && taskToEdit && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/40 backdrop-blur-sm p-4">
+          <div className="bg-white w-full max-w-md rounded-3xl shadow-2xl animate-in zoom-in duration-200">
+            <div className="flex items-center justify-between p-6 border-b border-slate-100">
+              <h3 className="text-lg font-bold text-slate-900">Editar Tarea</h3>
+              <button onClick={() => setIsEditModalOpen(false)} className="text-slate-400 hover:text-slate-600">
+                <X size={20} />
+              </button>
+            </div>
+            <form onSubmit={handleUpdateTask} className="p-6 space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase mb-2 tracking-wider">Título</label>
+                <input 
+                  type="text" required
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm transition-all"
+                  value={editTaskData.title}
+                  onChange={e => setEditTaskData({...editTaskData, title: e.target.value})}
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-slate-500 uppercase mb-2 tracking-wider">Asignar a</label>
+                <select 
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm transition-all"
+                  value={editTaskData.assigned_to}
+                  onChange={e => setEditTaskData({...editTaskData, assigned_to: e.target.value})}
+                >
+                  <option value="">Sin asignar</option>
+                  {activeGroup?.members.map((name, i) => (
+                    <option key={i} value={name}>{name === user?.username ? `${name} (Tú)` : name}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="pt-4">
+                <button type="submit" className="w-full py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-600/30 transition-all font-sans">
+                  Guardar Cambios
                 </button>
               </div>
             </form>
@@ -464,15 +568,15 @@ const DashboardPage: React.FC = () => {
             </div>
             <form onSubmit={handleCreateGroup} className="p-6 space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Nombre del equipo</label>
+                <label className="block text-xs font-bold text-slate-500 uppercase mb-2 tracking-wider">Nombre del equipo</label>
                 <input 
                   type="text" required autoFocus
-                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm"
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-500 outline-none text-sm transition-all"
                   value={newGroupName}
                   onChange={e => setNewGroupName(e.target.value)}
                 />
               </div>
-              <button type="submit" className="w-full py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all">
+              <button type="submit" className="w-full py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-all font-sans">
                 Crear Grupo
               </button>
             </form>
@@ -500,7 +604,7 @@ const DashboardPage: React.FC = () => {
               setIsInviteModalOpen(false);
             }} className="p-6 space-y-4">
               <div>
-                <label className="block text-xs font-bold text-slate-500 uppercase mb-2">Correo Electrónico</label>
+                <label className="block text-xs font-bold text-slate-500 uppercase mb-2 tracking-wider">Correo Electrónico</label>
                 <div className="relative">
                   <Mail className="absolute left-3 top-3.5 h-4 w-4 text-slate-400" />
                   <input 
@@ -512,7 +616,7 @@ const DashboardPage: React.FC = () => {
                   />
                 </div>
               </div>
-              <button type="submit" className="w-full py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-600/30 transition-all">
+              <button type="submit" className="w-full py-3 bg-blue-600 text-white font-bold rounded-xl hover:bg-blue-700 shadow-lg shadow-blue-600/30 transition-all font-sans">
                 Enviar Invitación
               </button>
             </form>
