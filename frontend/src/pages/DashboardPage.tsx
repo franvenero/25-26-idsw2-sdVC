@@ -18,7 +18,9 @@ import {
   User as UserIcon,
   Filter,
   Edit2,
-  UserMinus
+  UserMinus,
+  Link as LinkIcon,
+  Lock
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -37,7 +39,7 @@ interface Task {
   assigned_to?: string;
   is_completed: boolean;
   group_id: string;
-  depends_on_id?: string;
+  dependencies: string[]; // IDs de tareas predecesoras
 }
 
 const DashboardPage: React.FC = () => {
@@ -48,11 +50,13 @@ const DashboardPage: React.FC = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const [isNewGroupModalOpen, setIsNewGroupModalOpen] = useState(false);
+  const [isDependencyModalOpen, setIsDependencyModalOpen] = useState(false);
   
   // Estado para el grupo seleccionado y filtro de tareas
   const [selectedGroupId, setSelectedGroupId] = useState<string | null>(null);
   const [taskFilter, setTaskFilter] = useState<'all' | 'mine'>('all');
   const [taskToEdit, setTaskToEdit] = useState<Task | null>(null);
+  const [taskToLink, setTaskToLink] = useState<Task | null>(null);
 
   // Inicialización de Grupos con Persistencia Local (Simulación)
   const [groups, setGroups] = useState<Group[]>(() => {
@@ -66,15 +70,19 @@ const DashboardPage: React.FC = () => {
   });
 
   // Inicialización de Tareas con Persistencia Local (Simulación)
+  // SEGURO: Todas las tareas iniciales tienen array de dependencias
   const [tasks, setTasks] = useState<Task[]>(() => {
     const saved = localStorage.getItem('bt_tasks');
-    if (saved) return JSON.parse(saved);
+    if (saved) {
+        const parsed = JSON.parse(saved);
+        return parsed.map((t: any) => ({ ...t, dependencies: t.dependencies || [] }));
+    }
     return [
-      { id: '1', title: 'Comprar leche', is_completed: false, group_id: 'group-1', assigned_to: 'Fran' },
-      { id: '2', title: 'Lavar la ropa', is_completed: true, group_id: 'group-1', assigned_to: 'admin' },
-      { id: '3', title: 'Enviar reporte trimestral', is_completed: false, group_id: 'group-2', assigned_to: 'admin' },
-      { id: '4', title: 'Reunión de equipo', is_completed: false, group_id: 'group-2' },
-      { id: '5', title: 'Rutina de pierna', is_completed: false, group_id: 'group-3', assigned_to: 'admin' },
+      { id: '1', title: 'Comprar leche', is_completed: false, group_id: 'group-1', assigned_to: 'Fran', dependencies: [] },
+      { id: '2', title: 'Lavar la ropa', is_completed: true, group_id: 'group-1', assigned_to: 'admin', dependencies: [] },
+      { id: '3', title: 'Enviar reporte trimestral', is_completed: false, group_id: 'group-2', assigned_to: 'admin', dependencies: [] },
+      { id: '4', title: 'Reunión de equipo', is_completed: false, group_id: 'group-2', dependencies: [] },
+      { id: '5', title: 'Rutina de pierna', is_completed: false, group_id: 'group-3', assigned_to: 'admin', dependencies: [] },
     ];
   });
 
@@ -103,6 +111,7 @@ const DashboardPage: React.FC = () => {
   const [newGroupName, setNewGroupName] = useState('');
   const [newMemberName, setNewMemberName] = useState('');
   const [inviteEmail, setInviteEmail] = useState('');
+  const [selectedPredecessorId, setSelectedPredecessorId] = useState('');
 
   // Grupo Seleccionado Activo
   const activeGroup = groups.find(g => g.id === selectedGroupId) || null;
@@ -115,6 +124,25 @@ const DashboardPage: React.FC = () => {
   const displayedTasks = taskFilter === 'mine' 
     ? currentGroupTasks.filter(t => t.assigned_to === user?.username)
     : currentGroupTasks;
+
+  // Lógica de Bloqueo por Dependencias (CÓDIGO DEFENSIVO)
+  const isTaskLocked = (task: Task) => {
+    const deps = task.dependencies || [];
+    if (deps.length === 0) return false;
+    return deps.some(depId => {
+      const depTask = tasks.find(t => t.id === depId);
+      return depTask && !depTask.is_completed;
+    });
+  };
+
+  const getPendingDependenciesNames = (task: Task) => {
+    const deps = task.dependencies || [];
+    return deps
+      .map(depId => tasks.find(t => t.id === depId))
+      .filter(t => t && !t.is_completed)
+      .map(t => t?.title)
+      .join(', ');
+  };
 
   // --- Manejadores de Grupos ---
   const handleCreateGroup = (e: React.FormEvent) => {
@@ -157,14 +185,12 @@ const DashboardPage: React.FC = () => {
   const handleRemoveMember = (memberName: string) => {
     if (!activeGroup) return;
     if (window.confirm(`¿Estás seguro de que deseas eliminar a ${memberName} de este grupo?`)) {
-      // 1. Quitar miembro del grupo
       setGroups(groups.map(g => 
         g.id === activeGroup.id 
         ? { ...g, members: g.members.filter(m => m !== memberName) } 
         : g
       ));
 
-      // 2. Desasignar tareas de ese miembro en este grupo
       setTasks(tasks.map(t => 
         (t.group_id === activeGroup.id && t.assigned_to === memberName)
         ? { ...t, assigned_to: '' }
@@ -175,6 +201,9 @@ const DashboardPage: React.FC = () => {
 
   // --- Manejadores de Tareas ---
   const toggleTaskCompletion = (taskId: string) => {
+    const task = tasks.find(t => t.id === taskId);
+    if (task && isTaskLocked(task)) return;
+
     setTasks(prev => prev.map(t => 
       t.id === taskId ? { ...t, is_completed: !t.is_completed } : t
     ));
@@ -191,7 +220,7 @@ const DashboardPage: React.FC = () => {
       assigned_to: newTask.assigned_to,
       is_completed: false,
       group_id: selectedGroupId,
-      depends_on_id: newTask.depends_on_id || undefined
+      dependencies: [] // SEGURO: Nueva tarea nace con dependencias vacías
     };
 
     setTasks([...tasks, taskToAdd]);
@@ -201,19 +230,12 @@ const DashboardPage: React.FC = () => {
 
   const handleDeleteTask = (taskId: string) => {
     if (window.confirm('¿Estás seguro de que deseas eliminar esta tarea?')) {
-      setTasks(tasks.filter(t => t.id !== taskId));
+      // Limpiar dependencias en otras tareas (CÓDIGO DEFENSIVO)
+      setTasks(tasks.filter(t => t.id !== taskId).map(t => ({
+        ...t,
+        dependencies: (t.dependencies || []).filter(id => id !== taskId)
+      })));
     }
-  };
-
-  const openEditModal = (task: Task) => {
-    setTaskToEdit(task);
-    setEditTaskData({
-      title: task.title,
-      description: task.description || '',
-      assigned_to: task.assigned_to || '',
-      depends_on_id: task.depends_on_id || ''
-    });
-    setIsEditModalOpen(true);
   };
 
   const handleUpdateTask = (e: React.FormEvent) => {
@@ -227,12 +249,25 @@ const DashboardPage: React.FC = () => {
           title: editTaskData.title, 
           description: editTaskData.description, 
           assigned_to: editTaskData.assigned_to,
-          depends_on_id: editTaskData.depends_on_id || undefined
         } 
       : t
     ));
     setIsEditModalOpen(false);
     setTaskToEdit(null);
+  };
+
+  const handleAddDependency = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!taskToLink || !selectedPredecessorId) return;
+
+    setTasks(tasks.map(t => 
+      t.id === taskToLink.id 
+      ? { ...t, dependencies: Array.from(new Set([...(t.dependencies || []), selectedPredecessorId])) } 
+      : t
+    ));
+    setIsDependencyModalOpen(false);
+    setSelectedPredecessorId('');
+    setTaskToLink(null);
   };
 
   return (
@@ -373,56 +408,79 @@ const DashboardPage: React.FC = () => {
 
                 <div className="grid gap-4">
                   {displayedTasks.length > 0 ? (
-                    displayedTasks.map(task => (
-                      <div 
-                        key={task.id} 
-                        className={`bg-white p-6 rounded-3xl border transition-all flex items-center gap-5 group ${
-                          task.is_completed ? 'border-slate-100 opacity-60' : 'border-slate-200 shadow-sm hover:border-blue-400 hover:shadow-md'
-                        }`}
-                      >
-                        <button 
-                          onClick={() => toggleTaskCompletion(task.id)}
-                          className={`transition-all transform active:scale-90 ${task.is_completed ? 'text-emerald-500' : 'text-slate-200 hover:text-blue-400'}`}
+                    displayedTasks.map(task => {
+                      const locked = isTaskLocked(task);
+                      return (
+                        <div 
+                          key={task.id} 
+                          className={`bg-white p-6 rounded-3xl border transition-all flex items-center gap-5 group ${
+                            task.is_completed ? 'border-slate-100 opacity-60' : 'border-slate-200 shadow-sm hover:border-blue-400 hover:shadow-md'
+                          }`}
                         >
-                          {task.is_completed ? <CheckCircle2 size={28} /> : <Circle size={28} />}
-                        </button>
-                        <div className="flex-1 min-w-0">
-                          <p className={`text-slate-800 text-lg font-bold truncate ${task.is_completed ? 'line-through text-slate-400' : ''}`}>
-                            {task.title}
-                          </p>
-                          <div className="flex items-center gap-5 mt-3">
-                            <div className="flex items-center gap-1.5 bg-slate-100 px-3 py-1 rounded-full">
-                              <Clock size={12} className="text-slate-500" />
-                              <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest">Hoy</span>
+                          <button 
+                            onClick={() => toggleTaskCompletion(task.id)}
+                            disabled={locked}
+                            className={`transition-all transform active:scale-90 ${locked ? 'text-slate-200 cursor-not-allowed' : task.is_completed ? 'text-emerald-500' : 'text-slate-200 hover:text-blue-400'}`}
+                          >
+                            {locked ? <Lock size={28} /> : task.is_completed ? <CheckCircle2 size={28} /> : <Circle size={28} />}
+                          </button>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <p className={`text-slate-800 text-lg font-bold truncate ${task.is_completed ? 'line-through text-slate-400' : ''}`}>
+                                {task.title}
+                              </p>
+                              {locked && <Lock size={16} className="text-amber-500" />}
                             </div>
-                            {task.assigned_to && (
-                              <div className={`flex items-center gap-2 px-3 py-1 rounded-full ${
-                                task.assigned_to === user?.username ? 'bg-blue-50 text-blue-700 border border-blue-100' : 'bg-slate-100 text-slate-600 border border-slate-200'
-                              }`}>
-                                <UserIcon size={12} />
-                                <span className="text-[10px] font-black uppercase tracking-wider">{task.assigned_to === user?.username ? 'MÍO' : task.assigned_to}</span>
-                              </div>
+                            {locked && (
+                              <p className="text-[10px] text-amber-600 font-bold uppercase mt-1">Bloqueada por: {getPendingDependenciesNames(task)}</p>
                             )}
+                            <div className="flex items-center gap-5 mt-3">
+                              <div className="flex items-center gap-1.5 bg-slate-100 px-3 py-1 rounded-full">
+                                <Clock size={12} className="text-slate-500" />
+                                <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest">Hoy</span>
+                              </div>
+                              {task.assigned_to && (
+                                <div className={`flex items-center gap-2 px-3 py-1 rounded-full ${
+                                  task.assigned_to === user?.username ? 'bg-blue-50 text-blue-700 border border-blue-100' : 'bg-slate-100 text-slate-600 border border-slate-200'
+                                }`}>
+                                  <UserIcon size={12} />
+                                  <span className="text-[10px] font-black uppercase tracking-wider">{task.assigned_to === user?.username ? 'MÍO' : task.assigned_to}</span>
+                                </div>
+                              )}
+                              {task.dependencies && (task.dependencies || []).length > 0 && (
+                                <div className="flex items-center gap-1.5 text-slate-400">
+                                  <LinkIcon size={12} />
+                                  <span className="text-[10px] font-bold">{(task.dependencies || []).length} dependencias</span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0">
+                            <button 
+                              onClick={(e) => { e.stopPropagation(); setTaskToLink(task); setIsDependencyModalOpen(true); }}
+                              className="p-2.5 text-slate-400 hover:text-blue-500 hover:bg-blue-50 rounded-2xl transition-all"
+                              title="Relacionar"
+                            >
+                              <LinkIcon size={18} />
+                            </button>
+                            <button 
+                              onClick={() => { setTaskToEdit(task); setEditTaskData({title: task.title, description: task.description || '', assigned_to: task.assigned_to || '', depends_on_id: ''}); setIsEditModalOpen(true); }}
+                              className="p-2.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-2xl transition-all"
+                              title="Editar"
+                            >
+                              <Edit2 size={18} />
+                            </button>
+                            <button 
+                              onClick={() => handleDeleteTask(task.id)}
+                              className="p-2.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all"
+                              title="Eliminar"
+                            >
+                              <Trash2 size={18} />
+                            </button>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all translate-x-4 group-hover:translate-x-0">
-                          <button 
-                            onClick={() => openEditModal(task)}
-                            className="p-2.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-2xl transition-all"
-                            title="Editar"
-                          >
-                            <Edit2 size={18} />
-                          </button>
-                          <button 
-                            onClick={() => handleDeleteTask(task.id)}
-                            className="p-2.5 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all"
-                            title="Eliminar"
-                          >
-                            <Trash2 size={18} />
-                          </button>
-                        </div>
-                      </div>
-                    ))
+                      );
+                    })
                   ) : (
                     <div className="text-center py-20 bg-white rounded-[40px] border-4 border-dashed border-slate-100">
                       <p className="text-slate-300 font-bold italic text-lg">No hay actividades registradas.</p>
@@ -666,6 +724,48 @@ const DashboardPage: React.FC = () => {
               </div>
               <button type="submit" className="w-full py-5 bg-blue-600 text-white font-black rounded-3xl hover:bg-blue-700 shadow-xl shadow-blue-600/30 transition-all text-[10px] uppercase tracking-widest">
                 Enviar Invitación
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL: Relacionar Dependencia (CÓDIGO DEFENSIVO) */}
+      {isDependencyModalOpen && taskToLink && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-md p-4 animate-in fade-in duration-300">
+          <div className="bg-white w-full max-w-md rounded-[40px] shadow-2xl animate-in zoom-in duration-200 overflow-hidden border border-slate-100">
+            <div className="flex items-center justify-between p-8 border-b border-slate-100 bg-slate-50">
+              <h3 className="text-xl font-black text-slate-900 tracking-tight uppercase tracking-wider">Vincular Tarea</h3>
+              <button onClick={() => { setIsDependencyModalOpen(false); setTaskToLink(null); }} className="bg-white p-2 rounded-2xl text-slate-400 hover:text-slate-600 shadow-sm border border-slate-100">
+                <X size={20} />
+              </button>
+            </div>
+            <form onSubmit={handleAddDependency} className="p-8 space-y-6">
+              <div>
+                <label className="block text-[10px] font-black text-slate-400 uppercase mb-3 tracking-[0.2em] pl-1">Seleccionar Predecesora</label>
+                <select 
+                  className="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-3xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none text-sm font-bold appearance-none cursor-pointer shadow-inner"
+                  value={selectedPredecessorId}
+                  onChange={e => setSelectedPredecessorId(e.target.value)}
+                  required
+                >
+                  <option value="">-- Elige una tarea --</option>
+                  {(currentGroupTasks || [])
+                    .filter(t => taskToLink && t.id !== taskToLink.id && !(taskToLink.dependencies || []).includes(t.id) && !t.is_completed)
+                    .map(t => (
+                      <option key={t.id} value={t.id}>{t.title}</option>
+                    ))
+                  }
+                </select>
+              </div>
+              <div className="p-4 bg-blue-50 rounded-2xl border border-blue-100 flex gap-3">
+                <AlertCircle size={20} className="text-blue-500 shrink-0" />
+                <p className="text-[10px] text-blue-700 font-bold leading-relaxed uppercase">
+                  Esta tarea no se podrá completar hasta que la predecesora finalice.
+                </p>
+              </div>
+              <button type="submit" className="w-full py-5 bg-slate-900 text-white font-black rounded-3xl hover:bg-slate-800 transition-all text-[10px] uppercase tracking-widest">
+                Confirmar Vínculo
               </button>
             </form>
           </div>
