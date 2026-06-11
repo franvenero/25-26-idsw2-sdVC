@@ -1,0 +1,23 @@
+@startuml secuencia-diseno
+skinparam style strictuml
+
+actor "Actor" as U
+participant "MemberList (React)" as UI <<Boundary>>
+participant "group_router (FastAPI)" as R <<Boundary>>
+participant "GroupService" as S <<Control>>
+participant "MemberRepository" as DB <<Entity>>
+
+U -> UI : Eliminar Miembro / Salir
+UI -> R : DELETE /members/{uid} (JWT)
+activate R
+R -> S : remove_member(requester_id, gid, uid)
+activate S
+S -> S : check_permissions(requester, gid, uid)
+S -> DB : delete_membership(gid, uid)
+S --> R : 200 OK
+deactivate S
+R --> UI : Success
+deactivate R
+UI --> U : Actualiza UI
+
+@enduml

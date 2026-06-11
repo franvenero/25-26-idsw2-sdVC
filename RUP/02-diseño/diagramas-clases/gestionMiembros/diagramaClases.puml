@@ -1,0 +1,41 @@
+@startuml
+package "Design Model" {
+    class User {
+        + id: UUID
+        + name: String
+        + email: String
+        + role: UserRole
+        + status: UserStatus
+        + family_group_id: UUID
+    }
+
+    enum UserRole {
+        ADMIN
+        MEMBER_ADMIN
+        MEMBER
+    }
+
+    enum UserStatus {
+        ACTIVE
+        INACTIVE
+        PENDING_INVITE
+    }
+
+    class MemberService {
+        + inviteMember(data: InviteDTO): Invitation
+        + updateMemberRole(userId: UUID, newRole: UserRole): User
+        + deactivateMember(userId: UUID): void
+        + listFamilyMembers(groupId: UUID): List<User>
+    }
+
+    class MemberController {
+        + postInvite(request: Request): Response
+        + putRole(userId: UUID, role: UserRole): Response
+        + deleteMember(userId: UUID): Response
+        + getMembers(): List<UserDTO>
+    }
+
+    MemberController --> MemberService
+    MemberService ..> User
+}
+@enduml

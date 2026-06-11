@@ -1,0 +1,28 @@
+@startuml
+skinparam style strictuml
+
+title Estructura de Dependencias N:M Recursiva
+
+class Task <<Entity>> {
+    + id: UUID
+    + title: String
+    + is_completed: Boolean
+    + is_deleted: Boolean
+}
+
+class TaskDependency <<Association>> {
+    + predecessor_id: UUID
+    + successor_id: UUID
+    + created_at: DateTime
+}
+
+Task "1" *-- "0..*" TaskDependency : as_predecessor
+Task "1" *-- "0..*" TaskDependency : as_successor
+
+note right of TaskDependency
+    Tabla intermedia para gestionar
+    relaciones N:M recursivas.
+    (predecessor_id, successor_id)
+end note
+
+@enduml

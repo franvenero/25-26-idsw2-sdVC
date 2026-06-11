@@ -1,0 +1,35 @@
+@startuml clases-diseno
+skinparam classAttributeIconSize 0
+
+package "Frontend" {
+    class CreateGroupForm <<Boundary>> {
+        + onSubmit(data: GroupCreate)
+    }
+}
+
+package "Backend" {
+    class GroupRouter <<Boundary>> {
+        + create_group(data: GroupCreate)
+    }
+    class GroupService <<Control>> {
+        + create_new_group(user_id: UUID, data: GroupCreate)
+    }
+    class GroupCreate <<Schema>> {
+        + name: str
+        + description: str
+    }
+    class GroupRepository <<Entity>> {
+        + save(group: GroupModel)
+    }
+    class MemberRepository <<Entity>> {
+        + add_member(user_id: UUID, group_id: UUID, role: Role)
+    }
+}
+
+CreateGroupForm ..> GroupRouter : HTTP POST
+GroupRouter --> GroupService
+GroupService ..> GroupCreate : validates
+GroupService --> GroupRepository
+GroupService --> MemberRepository : "Atómico (ADMIN)"
+
+@enduml

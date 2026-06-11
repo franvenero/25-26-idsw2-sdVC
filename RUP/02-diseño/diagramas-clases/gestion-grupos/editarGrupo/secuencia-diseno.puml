@@ -1,0 +1,26 @@
+@startuml secuencia-diseno
+skinparam style strictuml
+
+actor "Admin" as A
+participant "GroupSettings (React)" as UI <<Boundary>>
+participant "group_router (FastAPI)" as R <<Boundary>>
+participant "GroupService" as S <<Control>>
+participant "GroupRepository" as DB <<Entity>>
+
+A -> UI : Edita campos y guarda
+UI -> R : PATCH /groups/{id} (JWT, Body)
+activate R
+R -> S : update_group(admin_id, gid, data)
+activate S
+S -> S : check_is_admin(admin_id, gid)
+S -> DB : update(gid, data)
+activate DB
+DB --> S : Updated Group
+deactivate DB
+S --> R : GroupResponse
+deactivate S
+R --> UI : 200 OK
+deactivate R
+UI --> A : Notifica éxito
+
+@enduml

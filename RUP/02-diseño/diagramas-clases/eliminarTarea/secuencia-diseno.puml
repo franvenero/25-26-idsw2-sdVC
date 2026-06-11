@@ -1,0 +1,31 @@
+@startuml
+skinparam style strictuml
+actor Administrador
+participant "Vista: TaskList" as V
+participant "Controller: TaskRouter" as C
+participant "Service: TaskService" as S
+participant "Repository: TaskRepository" as R
+
+Administrador -> V : eliminarTarea(id)
+V -> C : HTTP DELETE /tasks/{id}
+C -> S : soft_delete_task(id)
+
+note over S : Validación de Rol (BR-MEM-02)
+S -> S : check_admin_privileges(user)
+
+S -> R : get_by_id(id)
+R -> S : task_obj
+
+note over S : Borrado Lógico (BR-ET-01)
+S -> S : task_obj.is_deleted = True
+S -> S : task_obj.deleted_at = now()
+
+S -> R : update(task_obj)
+R -> S : success
+
+note right of S : Las sucesoras ignorarán esta tarea\nen sus validaciones (BR-ET-02)
+
+S -> C : success
+C -> V : 204 No Content
+V -> Administrador : Remover de la lista visual
+@enduml

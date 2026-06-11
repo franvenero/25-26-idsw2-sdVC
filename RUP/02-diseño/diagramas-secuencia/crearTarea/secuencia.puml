@@ -1,0 +1,39 @@
+@startuml
+!theme plain
+autonumber
+
+actor Usuario
+participant "CreateTaskModal" as CTM <<boundary>>
+participant "useTasks" as UT <<control>>
+participant "TaskRouter" as TR <<boundary>>
+participant "TaskService" as TS <<control>>
+participant "TaskRepository" as TREP <<entity>>
+database "PostgreSQL" as DB
+
+Usuario -> CTM : completa formulario y guarda
+activate CTM
+CTM -> UT : createTask(formData)
+activate UT
+UT -> TR : POST /tasks (JSON Body + JWT)
+activate TR
+TR -> TS : create_new_task(data, current_user.id)
+activate TS
+TS -> TREP : create(task_obj)
+activate TREP
+TREP -> DB : INSERT INTO tasks ...
+activate DB
+DB --> TREP : Task (con ID)
+deactivate DB
+TREP --> TS : Task
+deactivate TREP
+TS --> TR : Task
+deactivate TS
+TR --> UT : 201 Created (JSON Task)
+deactivate TR
+UT -> UT : fetchTasks() (refresco opcional)
+UT --> CTM : success
+deactivate UT
+CTM --> Usuario : cierra modal y muestra éxito
+deactivate CTM
+
+@enduml

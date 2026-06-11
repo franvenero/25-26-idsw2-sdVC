@@ -1,0 +1,24 @@
+@startuml secuencia-diseno
+skinparam style strictuml
+
+actor "Usuario" as U
+participant "InvitationCard (React)" as UI <<Boundary>>
+participant "invitation_router (FastAPI)" as R <<Boundary>>
+participant "InvitationService" as S <<Control>>
+participant "InvitationRepository" as IDB <<Entity>>
+participant "MemberRepository" as MDB <<Entity>>
+
+U -> UI : Pulsar Aceptar
+UI -> R : PUT /invitations/{id}/accept (JWT)
+activate R
+R -> S : accept_invitation(user_id, inv_id)
+activate S
+S -> IDB : update_status(inv_id, "ACCEPTED")
+S -> MDB : add_member(user_id, group_id, role="MEMBER")
+S --> R : Success
+deactivate S
+R --> UI : 200 OK
+deactivate R
+UI --> U : Remueve de lista
+
+@enduml

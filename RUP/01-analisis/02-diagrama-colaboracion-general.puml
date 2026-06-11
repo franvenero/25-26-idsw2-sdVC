@@ -1,0 +1,41 @@
+@startuml 02-diagrama-colaboracion-general
+skinparam responseMessageBelowArrow true
+skinparam maxMessageSize 200
+autonumber
+
+actor "Usuario" as User
+
+box "Frontend (React)" #LightBlue
+    participant "Dashboard / Components" as Dashboard
+    participant "AuthContext / Interceptors" as AuthUI
+end box
+
+box "Backend (FastAPI)" #Lavender
+    participant "Auth Router (JWT)" as AuthRouter
+    participant "Security Dependency (RBAC)" as RBAC
+    participant "Group/Task Routers" as Routers
+    participant "Business Services" as Services
+end box
+
+database "SQLite (Desarrollo)" as DB
+
+== Fase de Autenticación ==
+User -> Dashboard : Interactúa con la UI
+Dashboard -> AuthUI : Solicita validación de sesión
+AuthUI -> AuthRouter : Login / Registro (POST)
+AuthRouter -> DB : Verifica o persiste credenciales
+DB --> AuthRouter : Retorna datos / confirmación
+AuthRouter --> AuthUI : Retorna Access Token JWT
+
+== Fase de Operación con RBAC ==
+Dashboard -> Routers : Petición a recursos protegidos\n(Header: Authorization: Bearer <token>)
+Routers -> RBAC : Intercepta petición para validar\nToken y nivel de acceso (Rol)
+RBAC --> Routers : Inyecta objeto User (si es válido)
+Routers -> Services : Delega ejecución de lógica de negocio
+Services -> DB : Operaciones CRUD (Grupos, Tareas, Miembros)
+DB --> Services : Retorna resultados de persistencia
+Services --> Routers : Retorna objeto de dominio / DTO
+Routers --> Dashboard : Respuesta JSON (Pydantic Schema)
+Dashboard --> User : Actualiza vista con feedback visual
+
+@enduml

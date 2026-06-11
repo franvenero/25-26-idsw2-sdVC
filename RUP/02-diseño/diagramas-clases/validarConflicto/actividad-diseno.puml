@@ -1,0 +1,32 @@
+@startuml
+title Algoritmo de Detección de Circularidad (DFS)
+
+start
+:Recibir Tarea A (Predecesora) y Tarea B (Sucesora);
+
+if (¿Tarea A == Tarea B?) then (si)
+    :Error: Auto-dependencia;
+    stop
+endif
+
+:Inicializar 'visitados' (set) y 'pila' (stack con Tarea A);
+
+while (¿Pila vacía?) is (no)
+    :Extraer 'NodoActual' de la pila;
+    
+    if (¿NodoActual == Tarea B?) then (si)
+        :Bucle Detectado: Tarea B ya es ancestro de A;
+        :Lanzar CircularDependencyError;
+        stop
+    endif
+    
+    if (¿NodoActual en visitados?) then (no)
+        :Añadir NodoActual a visitados;
+        :Añadir todos los predecesores de NodoActual a la pila;
+    endif
+endwhile
+
+:No se detectó ciclo;
+:Permitir creación de relación;
+stop
+@enduml

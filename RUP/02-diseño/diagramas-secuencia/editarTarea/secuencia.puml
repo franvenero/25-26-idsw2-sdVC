@@ -1,0 +1,47 @@
+@startuml
+!theme plain
+autonumber
+
+actor Usuario
+participant "EditTaskModal" as ETM <<boundary>>
+participant "useTasks" as UT <<control>>
+participant "TaskRouter" as TR <<boundary>>
+participant "TaskService" as TS <<control>>
+participant "TaskRepository" as TREP <<entity>>
+database "PostgreSQL" as DB
+
+Usuario -> ETM : modifica campos y actualiza
+activate ETM
+ETM -> UT : updateTask(id, taskData)
+activate UT
+UT -> TR : PUT /tasks/{id} (JSON Body + JWT)
+activate TR
+TR -> TS : update_existing_task(id, data, current_user)
+activate TS
+TS -> TREP : get_by_id(id)
+activate TREP
+TREP -> DB : SELECT FROM tasks WHERE id = id
+activate DB
+DB --> TREP : db_task
+deactivate DB
+TREP --> TS : db_task
+deactivate TREP
+TS -> TS : verifica permisos (RBAC / Owner)
+TS -> TREP : update(db_task, data)
+activate TREP
+TREP -> DB : UPDATE tasks SET ...
+activate DB
+DB --> TREP : updated_task
+deactivate DB
+TREP --> TS : updated_task
+deactivate TREP
+TS --> TR : updated_task
+deactivate TS
+TR --> UT : 200 OK (JSON Task)
+deactivate TR
+UT --> ETM : success
+deactivate UT
+ETM --> Usuario : muestra confirmación
+deactivate ETM
+
+@enduml

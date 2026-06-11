@@ -1,0 +1,30 @@
+@startuml secuencia-diseno
+skinparam style strictuml
+skinparam sequenceMessageAlign center
+
+actor "Usuario" as U
+participant "GroupList (React)" as UI <<Boundary>>
+participant "useGroups (Hook)" as H <<Control>>
+participant "group_router (FastAPI)" as R <<Boundary>>
+participant "GroupService" as S <<Control>>
+participant "GroupRepository" as DB <<Entity>>
+
+U -> UI : Accede a Mis Grupos
+UI -> H : fetchGroups()
+H -> R : GET /groups/ (JWT)
+activate R
+R -> R : Validar JWT
+R -> S : get_user_groups(current_user_id)
+activate S
+S -> DB : find_by_user_id(user_id)
+activate DB
+DB --> S : List[GroupModel]
+deactivate DB
+S --> R : List[GroupSchema]
+deactivate S
+R --> H : 200 OK (Data)
+deactivate R
+H --> UI : setGroups(data)
+UI --> U : Renderiza tarjetas de grupo
+
+@enduml
