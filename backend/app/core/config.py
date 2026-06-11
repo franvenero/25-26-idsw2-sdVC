@@ -10,8 +10,9 @@ class Settings(BaseSettings):
     ALGORITHM: str = "HS256"
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60 * 24 * 7  # 7 días
 
-    # Base de Datos
-    DATABASE_URL: str = "sqlite:///./sql_app.db" # Usando SQLite para desarrollo local según diseño
+    # Base de Datos - Migración a SQL Server (LocalDB)
+    # Usamos autenticación de Windows y el driver ODBC 17
+    DATABASE_URL: str = "mssql+pyodbc://(localdb)\\MSSQLLocalDB/VibeTaskDB?driver=ODBC+Driver+17+for+SQL+Server&trusted_connection=yes"
 
     # CORS
     BACKEND_CORS_ORIGINS: List[str] = ["http://localhost:5173", "http://127.0.0.1:5173"]

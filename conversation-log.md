@@ -423,3 +423,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Se transformó el diagrama de colaboración general en un **Diagrama de Secuencia** altamente estructurado. Esta nueva representación utiliza bloques de color (`box`) para distinguir las capas (Frontend, Backend, DB), numeración automática de pasos y divisores de fase (`==`). El resultado elimina el solapamiento de textos y proporciona una visión cronológica y clara del flujo de autenticación y las operaciones protegidas por RBAC, facilitando su comprensión técnica.
 
 **Decisión:** He aprobado la refactorización visual del diagrama. El cambio a formato de secuencia mejora drásticamente la legibilidad sin perder el rigor de la lógica de colaboración diseñada, optimizando el artefacto para su uso como referencia técnica en la fase de construcción.
+
+## [11/06/2026] [16:00] Fase 05: Construcción - Migración a SQL Server (LocalDB)
+
+**Prompt:** Actúa como un Arquitecto de Base de Datos Senior experto en SQL Server y SQLAlchemy. Vamos a migrar la persistencia de datos del backend de SQLite a Microsoft SQL Server (LocalDB). TAREA: Actualiza `DATABASE_URL`, modifica `create_engine()` eliminando argumentos de SQLite, y adapta `seed.py` para que verifique/cree la base de datos `VibeTaskDB` si no existe.
+
+**Resultado:** Se completó la migración de la capa de persistencia a SQL Server. Se actualizó la configuración en `app/core/config.py` para utilizar el driver ODBC 17 con autenticación de Windows. Se purificó la inicialización del motor en `app/core/database.py`, eliminando directivas incompatibles (`check_same_thread`). Finalmente, se implementó lógica de auto-aprovisionamiento en `seed.py` (`ensure_database_exists`) que verifica y crea el contenedor lógico en la instancia `master` antes de ejecutar la reconstrucción del esquema y el sembrado de datos.
+
+**Decisión:** He validado y aprobado la migración a SQL Server. Este cambio eleva la robustez de la arquitectura de datos, preparando el sistema para un entorno de producción empresarial mientras mantiene la comodidad del desarrollo local mediante LocalDB, asegurando una transición sin fricciones para el equipo.
