@@ -18,10 +18,8 @@ ListarInvitacionesView -d-> InvitacionesController: 2: resolverInvitacion(id, re
 
 InvitacionesController --> InvitacionRepository: 3: actualizarEstado(id, respuesta)
 
-alt respuesta == ACEPTADA
-    InvitacionesController --> MiembroRepository: 4: crearMiembro(grupo, usuario)
-    MiembroRepository -- MiembroGrupo
-end
+InvitacionesController --> MiembroRepository: 4 [respuesta == ACEPTADA]: crearMiembro(grupo, usuario)
+MiembroRepository -- MiembroGrupo
 
 InvitacionRepository -- Invitacion
 
