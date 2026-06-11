@@ -511,3 +511,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** El bug de renderizado ha sido solucionado. Se inyectaron validaciones de encadenamiento opcional (`?.`) y valores por defecto en los arrays de dependencias. El modal ahora se abre de forma estable y fluida como una capa superpuesta, permitiendo establecer los requisitos previos entre tareas del mismo grupo sin colapsar la aplicación.
 
 **Decisión:** He validado el funcionamiento del sistema de dependencias. El frontend ahora maneja de forma robusta la ausencia de datos en el estado, garantizando una experiencia de usuario ininterrumpida.
+
+## [11/06/2026] [19:22] Fase 03: Análisis - Grupo Funcional Planificación y Configuración
+
+**Prompt:** Generar la documentación Markdown y los diagramas de secuencia Mermaid para los cinco casos de uso del grupo `planificacion-configuracion` (`abrirPlanificacion`, `asignarTareaAUsuario`, `configurarRecordatorio`, `definirLocalizacion`, `establecerHorario`).
+
+**Resultado:** Se han creado los directorios y los artefactos de análisis de colaboración. Cada diagrama documenta el flujo de mensajes exacto entre el Frontend (React), el Backend (FastAPI) y la Base de Datos (SQL Server).
+
+**Decisión:** El diseño técnico de este grupo funcional queda cerrado. Esta documentación servirá de base estricta para la inminente implementación del backend y la interfaz.
