@@ -448,10 +448,10 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 **Decisión:** He aprobado esta ampliación de la documentación para visibilizar la madurez técnica del proyecto BREÑOTASK. La sección proporciona una visión clara del patrón de separación de responsabilidades y la robustez del stack elegido.
 
-## [11/06/2026] [17:35] Fase 06: Construcción - Gestión de Grupos y Dashboard Contextual
+## [11/06/2026] [17:50] Fase 06: Construcción - Restauración de Operativa en Dashboard Contextual
 
-**Prompt:** Actúa como Frontend Developer Senior. Implementa la vista de 'Gestión de Grupos' con búsqueda y tabla de datos. Refactoriza el `DashboardPage.tsx` para implementar una arquitectura multi-grupo, permitiendo la selección de contexto mediante una barra lateral y filtrando las tareas dinámicamente según el grupo activo.
+**Prompt:** Actúa como un Frontend Developer Senior. Restaura e integra todas las funcionalidades interactivas (tareas, invitaciones, dependencias) dentro del nuevo diseño de Dashboard contextual. Implementa modales, formularios de creación con validación de grupo y lógica de completado dinámico.
 
-**Resultado:** Implementación de la infraestructura visual para la gestión multi-inquilino (multi-tenant). Se creó `GroupManagementPage.tsx` con una interfaz corporativa para la administración de grupos. El `DashboardPage.tsx` fue rediseñado con un Sidebar funcional que permite alternar entre contextos (Casa, Trabajo, etc.), actualizando proactivamente la vista de tareas y restringiendo acciones (como la creación de tareas) a estados de grupo válidos. Se utilizó mock data para validar el flujo de usuario.
+**Resultado:** Se ha completado la integración funcional del Dashboard. Se implementaron modales animados para la creación de tareas y envío de invitaciones, vinculando automáticamente cada acción al `groupId` activo. El motor de tareas ahora soporta la asignación de usuarios y la selección de predecesoras (dependencias) desde la interfaz. La reactividad del sistema garantiza que las tareas se filtren, creen y marquen como completadas en tiempo real dentro de su contexto de grupo, utilizando un diseño profesional con Tailwind CSS y Lucide icons.
 
-**Decisión:** He validado y aprobado la nueva arquitectura visual. La transición a un dashboard contextualizado por grupo es un salto cualitativo en la usabilidad del sistema, alineándose con los requisitos de coordinación de BREÑOTASK y preparando el terreno para la integración final con los servicios de grupos del backend.
+**Decisión:** Consolidar esta versión como la interfaz definitiva del sistema BREÑOTASK, unificando el diseño de la arquitectura multi-tenant con la operatividad de todos los requisitos del proyecto.
