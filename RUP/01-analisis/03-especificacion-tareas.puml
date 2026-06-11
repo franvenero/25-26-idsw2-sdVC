@@ -1,0 +1,57 @@
+@startuml 03-especificacion-tareas
+skinparam class {
+    BackgroundColor white
+    BorderColor black
+    ArrowColor black
+}
+
+class Group {
+    + String id
+    + String name
+    + String description
+    + Boolean is_active
+}
+
+class User {
+    + UUID id
+    + String username
+    + String email
+    + Enum role
+    + String group_id
+}
+
+class Task {
+    + String id
+    + String title
+    + String description
+    + Boolean is_completed
+    + Boolean is_deleted
+    + String group_id
+    + String owner_id
+    + String assigned_to_id
+    + DateTime created_at
+}
+
+' Relaciones Reflexivas para Dependencias
+Task "1" o-- "*" Task : "depends_on (predecesores)"
+Task "1" o-- "*" Task : "required_by (sucesores)"
+
+' Relaciones con otras entidades
+Group "1" *-- "*" Task : "contiene"
+User "1" -- "*" Task : "es propietario de (owner)"
+User "1" -- "*" Task : "tiene asignada (assigned_to)"
+
+note right of Task
+  **Regla de Negocio (RBAC):**
+  - Miembro solo completa si 
+    assigned_to == self o NULL.
+  - No puede crear tareas.
+  
+  **Validación de Grafos:**
+  - Prohibida la circularidad
+    mediante algoritmo DFS.
+  - Bloqueo de completado si 
+    predecesores están pendientes.
+end note
+
+@enduml

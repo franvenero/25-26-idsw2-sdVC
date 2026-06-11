@@ -1,0 +1,49 @@
+@startuml 01-modelo-casos-uso
+left to right direction
+skinparam packageStyle rectangle
+skinparam actor {
+    BackgroundColor white
+    BorderColor black
+}
+
+actor "Administrador" as Admin
+actor "Miembro Administrador" as Manager
+actor "Miembro" as Member
+
+rectangle "Sistema VibeTask" {
+    usecase "Gestionar Grupos" as UC_Groups
+    usecase "Gestionar Miembros" as UC_Members
+    usecase "Invitar Usuarios" as UC_Invite
+    usecase "Crear Tareas" as UC_CreateTask
+    usecase "Editar Tareas" as UC_EditTask
+    usecase "Eliminar Tareas" as UC_DeleteTask
+    usecase "Gestionar Dependencias" as UC_Deps
+    usecase "Consultar Horario / Dashboard" as UC_View
+    usecase "Completar Tareas Propias / Sin Asignar" as UC_CompleteOwn
+    usecase "Completar Cualquier Tarea" as UC_CompleteAny
+}
+
+' Herencia de roles para simplificar el diagrama si aplica, 
+' pero el prompt pide conexiones específicas por actor.
+
+Admin -- UC_Groups
+Admin -- UC_Members
+Admin -- UC_Invite
+Admin -- UC_CreateTask
+Admin -- UC_EditTask
+Admin -- UC_DeleteTask
+Admin -- UC_Deps
+Admin -- UC_View
+Admin -- UC_CompleteAny
+
+Manager -- UC_Invite
+Manager -- UC_CreateTask
+Manager -- UC_EditTask
+Manager -- UC_Deps
+Manager -- UC_View
+Manager -- UC_CompleteAny
+
+Member -- UC_View
+Member -- UC_CompleteOwn
+
+@enduml

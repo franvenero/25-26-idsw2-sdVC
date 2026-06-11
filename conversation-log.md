@@ -407,3 +407,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Blindaje de la lógica de ejecución de tareas. Se integró una guarda de seguridad en el `TaskService` que valida la propiedad/asignación de la tarea antes de permitir el cambio de estado para usuarios con rol 'Miembro'. En el frontend, se sincronizó esta restricción en `TaskItem.tsx`, deshabilitando el checkbox y añadiendo un tooltip explicativo ("No tienes permiso para completar la tarea de otro miembro"), garantizando una experiencia de usuario coherente y segura.
 
 **Decisión:** He aprobado la implementación del candado de tareas. Esta medida es crítica para mantener el orden dentro de grupos grandes y evitar interferencias accidentales o malintencionadas entre miembros.
+
+## [11/06/2026] [15:20] Fase 01: Análisis - Sincronización de Diagramas UML (Realización)
+
+**Prompt:** Actúa como un Arquitecto de Software Senior experto en RUP y PlantUML. Rellena los archivos .puml de la fase de análisis (Casos de Uso, Colaboración General, Especificación de Tareas) con el código PlantUML que refleje la arquitectura real construida de VibeTask.
+
+**Resultado:** Se han completado los artefactos de análisis para asegurar la trazabilidad del sistema. El `01-modelo-casos-uso.puml` ahora mapea correctamente los tres roles RBAC (Administrador, Miembro Administrador, Miembro) con sus permisos específicos. El `02-diagrama-colaboracion-general.puml` describe el flujo de comunicación desde la UI React hasta la persistencia SQLite, mediado por el controlador de seguridad. El `03-especificacion-tareas.puml` detalla la estructura de la entidad Tarea, incluyendo su relación reflexiva de dependencias y las reglas de negocio de completado.
+
+**Decisión:** He validado y aprobado la sincronización de los diagramas de análisis. Estos artefactos ya no son plantillas vacías, sino que constituyen una documentación técnica veraz y actualizada del sistema construido, cumpliendo con los estándares de rigor de la metodología RUP.

@@ -1,0 +1,36 @@
+@startuml 02-diagrama-colaboracion-general
+skinparam componentStyle rectangle
+
+actor "Usuario" as User
+
+node "Frontend (React)" as UI {
+    component "AuthContext / Interceptors" as AuthUI
+    component "Dashboard / Components" as Dashboard
+}
+
+node "Backend (FastAPI)" as API {
+    component "Auth Router (JWT)" as AuthRouter
+    component "Security Dependency (RBAC)" as RBAC
+    component "Group/Task Routers" as Routers
+    component "Business Services" as Services
+}
+
+database "SQLite (Desarrollo)" as DB
+
+' Flujo de Colaboración
+User -> Dashboard : 1: Interactúa con la UI
+Dashboard -> AuthUI : 2: Obtiene Token JWT
+AuthUI -> AuthRouter : 3: Login / Registro (POST)
+AuthRouter -> DB : 4: Verifica / Persiste Usuario
+AuthRouter <- DB : 5: Retorna Hash / Datos
+
+Dashboard -> Routers : 6: Petición Protegida (Header Auth)
+Routers -> RBAC : 7: Valida Token y Rol
+RBAC -> Routers : 8: Retorna User Object
+Routers -> Services : 9: Ejecuta Lógica de Negocio
+Services -> DB : 10: CRUD Grupos / Tareas / Miembros
+Services <- DB : 11: Datos / Confirmación
+Routers <- Services : 12: Respuesta de Servicio
+Dashboard <- Routers : 13: JSON Data (Response Schema)
+
+@enduml
