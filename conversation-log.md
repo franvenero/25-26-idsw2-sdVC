@@ -439,3 +439,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Migración completa y exitosa al motor de base de datos definitivo. Se refactorizaron todos los identificadores únicos globales a tipo `String(36)` con inicialización basada en `uuid.uuid4()`. Para cumplir con las restricciones estrictas de SQL Server y evitar ciclos infinitos, se eliminó la propiedad `ondelete='CASCADE'` en las claves foráneas secundarias: `sender_id` (en el modelo de invitaciones) y `depends_on_id` (en la tabla asociativa de dependencias de tareas), delegando la integridad referencial de estas ramas al comportamiento `NO ACTION`. El servidor de desarrollo (Uvicorn) levanta ahora sin errores y el DDL se procesa limpiamente.
 
 **Decisión:** He aprobado la reestructuración del esquema relacional de VibeTask. Esto soluciona los bloqueos de despliegue en SQL Server (LocalDB), tambien elimina ambigüedades en las operaciones de borrado en cascada.
+
+## [11/06/2026] [18:15] Análisis de Colaboración: Planificación y Configuración
+
+**Prompt:** Actúa como un Arquitecto de Software y Analista Funcional. Documenta el análisis de colaboración para el grupo funcional de 'Planificación y Configuración'. Crea los archivos Markdown y diagramas de secuencia Mermaid detallando la interacción Cliente-Servidor para los casos de uso: abrirPlanificacion, asignarTareaAUsuario, configurarRecordatorio, definirLocalizacion y establecerHorario.
+
+**Resultado:** Se ha generado la documentación detallada del análisis de colaboración en `RUP/analisis/planificacion-configuracion/`. Cada caso de uso cuenta con su propio archivo `.md` incluyendo el propósito formal y un diagrama de secuencia Mermaid que modela el flujo de mensajes entre el Usuario, el Frontend (React), el Backend (FastAPI) y la Base de Datos (SQL Server). Este modelado asegura una comprensión clara de la lógica de coordinación técnica necesaria para la gestión avanzada de parámetros de tareas.
+
+**Decisión:** He validado y aceptado la documentación generada. Los diagramas Mermaid proporcionan una visión técnica precisa que facilitará la implementación física de estas funcionalidades, manteniendo la trazabilidad y el rigor metodológico del marco de trabajo RUP.
