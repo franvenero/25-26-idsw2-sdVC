@@ -1,26 +1,21 @@
-# Sesiones de VibeCoding / idsw2 / gII · uneatlantico
+# Sesiones de VibeCoding / idsw2 / gII · uneatlantico / VIBETASK
 
-Construcción de un sistema con AI. Todo en el repositorio. [#2Think](2Think.md)
+[ Análisis ](./RUP/01-analisis) | [ Diseño ](./RUP/02-diseño) | [ Frontend (React) ](./frontend/src) | [ Backend (FastAPI) ](./backend/app) | [ Base de Datos ](./backend/seed.py) | [ Bitácora de Desarrollo ](./conversation-log.md)
 
-**Primer commit:** [`QUE_HACE.md`](QUE_HACE.md).
+---
 
-## Artefactos
+### Presentación del Sistema
 
-||||
-|-|-|-|
-|0|**`QUE_HACE.md`**|En el primer commit. Luego no se modifica.|
-|1|**README.md**|Este archivo, reescrito con la presentación del sistema construido.|
-|2|Código fuente|`/src`, o `/backend` y `/frontend` según el stack.|
-|3|Diagramas UML|Fuentes `.puml` en `/modelosUML`. SVGs en `/images`.|
-|4|Imágenes|En `/images`, referenciadas desde el README.|
-|5|Documentación adicional|En `/documents`.|
-|6|**`conversation-log.md`**|Ver [`conversation-log.md`](conversation-log.md).|
+VibeTask es una plataforma web moderna diseñada para la gestión colaborativa de tareas, optimizando el flujo de trabajo mediante un sistema estricto de roles y dependencias. La aplicación permite a los usuarios organizarse en grupos, asignar responsabilidades y visualizar el progreso de proyectos complejos de manera estructurada y eficiente.
 
-> Todos los artefactos, correctamente relacionados, son **obligatorios**.
+> **Nota de Arquitectura:** El sistema implementa el patrón cliente-servidor mediante una arquitectura desacoplada. La capa de presentación está desarrollada en React con TypeScript, garantizando una interfaz reactiva y tipado seguro. El motor de servicios y persistencia se fundamenta en FastAPI (Python), utilizando SQLAlchemy como ORM para la comunicación con Microsoft SQL Server, asegurando una gestión de datos robusta y escalable.
 
-## Qué se evalúa
+---
 
-- Sistema funcional.
-- Proceso de creación, en la forma de commits. *Innegociable.*
-- [`conversation-log.md`](conversation-log.md): completo, honesto, cronológico. *Innegociable.*
-- Análisis del resultado frente a los contenidos de las asignaturas. *Innegociable.*
+### Funcionalidades Clave
+
+- **Control de Acceso Basado en Roles (RBAC):** Gestión jerárquica con tres niveles de autoridad (Administrador, Miembro Administrador, Miembro) para el aislamiento de responsabilidades y la protección de datos sensibles.
+
+- **Motor de Dependencias Estrictas:** Validación de grafos dirigida (DFS) que bloquea la ejecución de actividades si existen predecesores pendientes, asegurando un orden lógico en la ejecución de procesos y evitando la creación de ciclos infinitos.
+
+- **Persistencia y Estabilidad Relacional:** Integración optimizada con SQL Server, implementando identificadores globales estandarizados (String 36) y una gestión controlada de operaciones en cascada para garantizar la integridad referencial y prevenir conflictos cíclicos a nivel de esquema.
