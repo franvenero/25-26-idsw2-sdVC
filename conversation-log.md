@@ -504,11 +504,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 **Decisión:** No acepto el cambio, el boton de dependencias esta agregado correctamente, simplementa falta asociarlo correctamente.
 
-## [11/06/2026] [18:47] Fase 05: Construcción - Resolución de Crash en Modal de Dependencias
+## [13/06/2026] [16:35] Replicación de estructura de directorios para imágenes RUP
 
-**Prompt:** Aplicar programación defensiva en `DashboardPage.tsx` para solucionar el error crítico (White Screen of Death) al intentar abrir el modal de relaciones, protegiendo el renderizado frente a propiedades indefinidas.
+**Prompt:** Lee el contenido del directorio RUP/01-analisis/casos-uso/ de este proyecto y obtén una lista con los nombres de todas las carpetas de los casos de uso que existen actualmente. Crea la ruta images/RUP/analisis-diseno/ y por cada caso de uso crea una subcarpeta vacía con ese mismo nombre exacto.
 
-**Resultado:** El bug de renderizado ha sido solucionado. Se inyectaron validaciones de encadenamiento opcional (`?.`) y valores por defecto en los arrays de dependencias. El modal ahora se abre de forma estable y fluida como una capa superpuesta, permitiendo establecer los requisitos previos entre tareas del mismo grupo sin colapsar la aplicación.
+**Resultado:** Se identificaron 22 carpetas de casos de uso (incluyendo módulos y casos específicos) en `RUP/01-analisis/casos-uso/`. Se creó exitosamente la estructura correspondiente en `images/RUP/analisis-diseno/`, replicando exactamente los nombres de las carpetas para organizar los futuros artefactos visuales (diagramas exportados).
 
-**Decisión:** He validado el funcionamiento del sistema de dependencias. El frontend ahora maneja de forma robusta la ausencia de datos en el estado, garantizando una experiencia de usuario ininterrumpida.
+**Decisión:** He automatizado la creación de la infraestructura de carpetas para imágenes de análisis y diseño, asegurando que la organización de los diagramas sea un espejo fiel de la estructura de casos de uso definida en el análisis RUP.
 
