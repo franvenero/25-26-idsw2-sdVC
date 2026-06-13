@@ -16,7 +16,7 @@ Análisis de colaboración del caso de uso `editarMiembro()` para permitir la mo
 
 <div align=center>
 
-|![Análisis editarMiembro](colaboracion.puml)|
+|![Análisis editarMiembro](colaboracion.svg)|
 |-|
 |**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
 

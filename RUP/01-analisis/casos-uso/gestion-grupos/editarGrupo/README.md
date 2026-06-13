@@ -16,7 +16,7 @@ Análisis de colaboración del caso de uso `editarGrupo()` para permitir la actu
 
 <div align=center>
 
-|![Análisis editarGrupo](colaboracion.puml)|
+|![Análisis editarGrupo](colaboracion.svg)|
 |-|
 |**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
 

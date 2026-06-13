@@ -16,7 +16,7 @@ Análisis de colaboración del caso de uso `editarInvitacion()` para permitir al
 
 <div align=center>
 
-|![Análisis editarInvitacion](colaboracion.puml)|
+|![Análisis editarInvitacion](colaboracion.svg)|
 |-|
 |**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
 

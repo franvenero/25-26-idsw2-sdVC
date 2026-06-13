@@ -10,7 +10,7 @@ Esta carpeta contiene los artefactos que definen el **dominio del problema** y e
 ## Contenido
 - **Diagramas de Comunicación/Colaboración**: Flujos de alto nivel entre objetos del dominio.
 - **Especificaciones de Casos de Uso**: Documentación detallada del comportamiento del sistema.
-- **Modelado de Casos de Uso (.puml)**: Representación visual de las interacciones actor-sistema.
+- **Modelado de Casos de Uso (.svg)**: Representación visual de las interacciones actor-sistema.
 
 ## Casos de Uso Analizados
 | Caso de Uso | Estado | Descripción |
