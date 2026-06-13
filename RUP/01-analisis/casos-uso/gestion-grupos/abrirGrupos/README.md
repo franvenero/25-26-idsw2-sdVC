@@ -16,8 +16,9 @@ Análisis de colaboración del caso de uso `abrirGrupos()` para permitir al usua
 
 <div align=center>
 
-|![Análisis abrirGrupos](colaboracion.puml)|
-|-|
+![Diagrama de Colaboración](https://raw.githubusercontent.com/franvenero/25-26-idsw2-sdVC/refs/heads/main/RUP/01-analisis/casos-uso/gestion-grupos/abrirGrupos/colaboracion.puml)
+
+Código fuente: [colaboracion.puml](./colaboracion.puml)
 |**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
 
 </div>
