@@ -10,9 +10,6 @@
 [![Detalle & Prototipo](https://img.shields.io/badge/Detalle_%26_Prototipo-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./frontend/src)
 [![Análisis](https://img.shields.io/badge/Análisis-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./RUP/01-analisis)
 <br>
-[![Estado](https://img.shields.io/badge/Estado-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](#)
-[![Dashboard visual](https://img.shields.io/badge/Dashboard_visual-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./frontend/src/pages/DashboardPage.tsx)
-[![Reflexiones](https://img.shields.io/badge/Reflexiones-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](#)
 [![Log de conversación](https://img.shields.io/badge/Log_de_conversación-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./conversation-log.md)
 
 </div>
