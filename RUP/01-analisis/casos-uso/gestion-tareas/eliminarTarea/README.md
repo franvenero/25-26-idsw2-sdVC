@@ -16,9 +16,9 @@ Análisis de colaboración del caso de uso `eliminarTarea()` para permitir la re
 
 <div align=center>
 
-|![Análisis eliminarTarea](colaboracion.puml)|
-|-|
-|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/eliminarTarea/eliminarTarea.svg)
+
+Código fuente: [eliminarTarea.puml](./eliminarTarea.puml) | **Nivel:** Análisis RUP (Agnóstico a la tecnología)
 
 </div>
 

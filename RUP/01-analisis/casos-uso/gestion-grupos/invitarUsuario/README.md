@@ -16,9 +16,9 @@ Análisis de colaboración del caso de uso `invitarUsuario()` para permitir a un
 
 <div align=center>
 
-|![Análisis invitarUsuario](colaboracion.puml)|
-|-|
-|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/invitarUsuario/invitarUsuario.svg)
+
+Código fuente: [invitarUsuario.puml](./invitarUsuario.puml) | **Nivel:** Análisis RUP (Agnóstico a la tecnología)
 
 </div>
 

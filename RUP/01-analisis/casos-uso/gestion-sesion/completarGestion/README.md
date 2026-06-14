@@ -16,9 +16,9 @@ Análisis de colaboración del caso de uso `completarGestion()` para proveer una
 
 <div align=center>
 
-|![Análisis completarGestion](colaboracion.puml)|
-|-|
-|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/completarGestion/completarGestion.svg)
+
+Código fuente: [completarGestion.puml](./completarGestion.puml) | **Nivel:** Análisis RUP (Agnóstico a la tecnología)
 
 </div>
 

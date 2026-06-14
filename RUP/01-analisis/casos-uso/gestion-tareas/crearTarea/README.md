@@ -16,9 +16,9 @@ Análisis de colaboración del caso de uso `crearTarea()` para permitir la insta
 
 <div align=center>
 
-|![Análisis crearTarea](colaboracion.puml)|
-|-|
-|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/crearTarea/crearTarea.svg)
+
+Código fuente: [crearTarea.puml](./crearTarea.puml) | **Nivel:** Análisis RUP (Agnóstico a la tecnología)
 
 </div>
 

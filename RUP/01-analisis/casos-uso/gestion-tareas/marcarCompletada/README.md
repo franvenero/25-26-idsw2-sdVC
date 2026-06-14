@@ -16,9 +16,9 @@ Análisis de colaboración del caso de uso `marcarCompletada()` para registrar l
 
 <div align=center>
 
-|![Análisis marcarCompletada](colaboracion.puml)|
-|-|
-|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/marcarCompletada/marcarCompletada.svg)
+
+Código fuente: [marcarCompletada.puml](./marcarCompletada.puml) | **Nivel:** Análisis RUP (Agnóstico a la tecnología)
 
 </div>
 

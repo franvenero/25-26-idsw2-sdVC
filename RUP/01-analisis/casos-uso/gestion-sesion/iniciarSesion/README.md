@@ -16,9 +16,9 @@ Análisis del caso de uso `iniciarSesion()` mediante diagrama de colaboración, 
 
 <div align=center>
 
-|![Análisis iniciarSesion](colaboracion.puml)|
-|-|
-|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/iniciarSesion/iniciarSesion.svg)
+
+Código fuente: [iniciarSesion.puml](./iniciarSesion.puml) | **Nivel:** Análisis RUP (Agnóstico a la tecnología)
 
 </div>
 

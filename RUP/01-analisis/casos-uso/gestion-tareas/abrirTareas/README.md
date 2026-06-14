@@ -16,9 +16,9 @@ Análisis de colaboración del caso de uso `abrirTareas()` para permitir al usua
 
 <div align=center>
 
-|![Análisis abrirTareas](colaboracion.puml)|
-|-|
-|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/abrirTareas/abrirTareas.svg)
+
+Código fuente: [abrirTareas.puml](./abrirTareas.puml) | **Nivel:** Análisis RUP (Agnóstico a la tecnología)
 
 </div>
 

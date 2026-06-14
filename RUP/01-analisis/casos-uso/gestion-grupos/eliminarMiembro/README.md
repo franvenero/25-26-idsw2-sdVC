@@ -16,9 +16,9 @@ Análisis de colaboración del caso de uso `eliminarMiembro()` para permitir la 
 
 <div align=center>
 
-|![Análisis eliminarMiembro](colaboracion.puml)|
-|-|
-|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/eliminarMiembro/eliminarMiembro.svg)
+
+Código fuente: [eliminarMiembro.puml](./eliminarMiembro.puml) | **Nivel:** Análisis RUP (Agnóstico a la tecnología)
 
 </div>
 

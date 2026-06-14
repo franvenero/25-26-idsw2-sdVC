@@ -16,9 +16,9 @@ Análisis de colaboración del caso de uso `validarConflicto()` para detectar so
 
 <div align=center>
 
-|![Análisis validarConflicto](colaboracion.puml)|
-|-|
-|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/validarConflicto/validarConflicto.svg)
+
+Código fuente: [validarConflicto.puml](./validarConflicto.puml) | **Nivel:** Análisis RUP (Agnóstico a la tecnología)
 
 </div>
 

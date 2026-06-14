@@ -16,10 +16,9 @@ Análisis de colaboración del caso de uso `abrirGrupos()` para permitir al usua
 
 <div align=center>
 
-![Diagrama de Colaboración] ![Diagrama de Colaboración](/images/RUP/analisis-diseno/abrirGrupos/colaboracion.svg)
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/abrirGrupos/abrirGrupos.svg)
 
-Código fuente: [colaboracion.svg](./colaboracion.svg)
-|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+Código fuente: [abrirGrupos.puml](./abrirGrupos.puml) | **Nivel:** Análisis RUP (Agnóstico a la tecnología)
 
 </div>
 

@@ -16,9 +16,9 @@ Análisis de colaboración del caso de uso `crearGrupo()` para permitir la creac
 
 <div align=center>
 
-|![Análisis crearGrupo](colaboracion.svg)|
-|-|
-|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/crearGrupo/colaboracion.svg)
+
+Código fuente: [colaboracion.puml](./colaboracion.puml) | **Nivel:** Análisis RUP (Agnóstico a la tecnología)
 
 </div>
 

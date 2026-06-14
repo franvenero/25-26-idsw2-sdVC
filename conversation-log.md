@@ -512,3 +512,13 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 **Decisión:** He automatizado la creación de la infraestructura de carpetas para imágenes de análisis y diseño, asegurando que la organización de los diagramas sea un espejo fiel de la estructura de casos de uso definida en el análisis RUP.
 
+---
+
+## [14/06/2026] [18:00] Replicación de estructura de diseño y actualización de documentación (READMEs)
+
+**Prompt:** Replicar la estructura de carpetas de `RUP/02-diseño` en `images/RUP/analisis-diseno/`. Posteriormente, actualizar los archivos `README.md` de cada caso de uso en `RUP/01-analisis/casos-uso/` vinculando sus diagramas SVG correspondientes con un formato específico.
+
+**Resultado:** Se replicó la jerarquía completa de diseño (arquitectura, diagramas-clases, diagramas-secuencia) en la carpeta de imágenes. Se procesaron 19 archivos `README.md`, sustituyendo enlaces genéricos o rotos por rutas absolutas a los archivos `.svg` y añadiendo el enlace al código fuente `.puml`, manteniendo el rigor documental de RUP.
+
+**Decisión:** He automatizado la sincronización entre los artefactos visuales y la documentación técnica, garantizando que cada caso de uso presente su diagrama de colaboración actualizado y correctamente referenciado.
+

@@ -16,9 +16,9 @@ Análisis de colaboración del caso de uso `eliminarGrupo()` para garantizar la 
 
 <div align=center>
 
-|![Análisis eliminarGrupo](colaboracion.puml)|
-|-|
-|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/eliminarGrupo/eliminarGrupo.svg)
+
+Código fuente: [eliminarGrupo.puml](./eliminarGrupo.puml) | **Nivel:** Análisis RUP (Agnóstico a la tecnología)
 
 </div>
 

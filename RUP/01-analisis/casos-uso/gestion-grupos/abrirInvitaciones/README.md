@@ -16,9 +16,9 @@ Análisis de colaboración del caso de uso `abrirInvitaciones()` para permitir a
 
 <div align=center>
 
-|![Análisis abrirInvitaciones](colaboracion.svg)|
-|-|
-|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/abrirInvitaciones/abrirInvitaciones.svg)
+
+Código fuente: [abrirInvitaciones.puml](./abrirInvitaciones.puml) | **Nivel:** Análisis RUP (Agnóstico a la tecnología)
 
 </div>
 

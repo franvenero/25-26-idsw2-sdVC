@@ -16,9 +16,9 @@ Análisis de colaboración del caso de uso `editarTarea()` para permitir la modi
 
 <div align=center>
 
-|![Análisis editarTarea](colaboracion.puml)|
-|-|
-|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/editarTarea/editarTarea.svg)
+
+Código fuente: [editarTarea.puml](./editarTarea.puml) | **Nivel:** Análisis RUP (Agnóstico a la tecnología)
 
 </div>
 

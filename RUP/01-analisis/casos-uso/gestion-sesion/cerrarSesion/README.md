@@ -16,9 +16,9 @@ Análisis de colaboración del caso de uso `cerrarSesion()` para garantizar la f
 
 <div align=center>
 
-|![Análisis cerrarSesion](colaboracion.puml)|
-|-|
-|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/cerrarSesion/cerrarSesion.svg)
+
+Código fuente: [cerrarSesion.puml](./cerrarSesion.puml) | **Nivel:** Análisis RUP (Agnóstico a la tecnología)
 
 </div>
 

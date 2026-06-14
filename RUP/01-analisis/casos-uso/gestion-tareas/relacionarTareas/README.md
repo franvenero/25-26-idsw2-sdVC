@@ -16,9 +16,9 @@ Análisis de colaboración del caso de uso `relacionarTareas()` para permitir la
 
 <div align=center>
 
-|![Análisis relacionarTareas](colaboracion.puml)|
-|-|
-|**Nivel**: Análisis RUP (Agnóstico a la tecnología)|
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/relacionarTareas/relacionarTareas.svg)
+
+Código fuente: [relacionarTareas.puml](./relacionarTareas.puml) | **Nivel:** Análisis RUP (Agnóstico a la tecnología)
 
 </div>
 
