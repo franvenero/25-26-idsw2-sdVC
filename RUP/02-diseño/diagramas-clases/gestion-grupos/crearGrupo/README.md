@@ -1,7 +1,6 @@
 # Diseño Técnico: crearGrupo
 
-> |[🏠️](/RUP/README.md)|Análisis|[Diseño](/RUP/02-diseño/README.md)|Desarrollo|Pruebas|
-> |-|-|-|-|-|
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
 
 ## Información del Artefacto
 - **Módulo**: Gestión de Grupos
