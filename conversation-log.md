@@ -514,11 +514,10 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 ---
 
-## [14/06/2026] [18:45] Actualización de Barras de Navegación en Documentación RUP
+## [14/06/2026] [16:55] Optimización de Navegación Relativa (Diseño RUP)
 
-**Prompt:** Actúa como mi asistente de desarrollo. NO generes un script; quiero que utilices tus herramientas de edición para modificar los archivos README.md de mi documentación directamente. Itera por todos los subdirectorios que representan casos de uso dentro de las dos rutas principales de RUP: RUP/01-analisis/casos-uso/ y RUP/02-diseño/diagramas-secuencia/. Extrae el {nombre-del-caso} del nombre de la carpeta... Reemplaza esa barra de navegación por una barra de navegacion funcional, sustituyendo {nombre-del-caso} por el nombre de la carpeta actual. 
+**Prompt:** Actúa como mi asistente de desarrollo. Modifica los archivos README.md en `RUP/02-diseño/diagramas-secuencia/` para usar rutas relativas (`../../../../`) en la barra de navegación, asegurando que los enlaces a Inicio, Análisis, Diseño y Desarrollo funcionen correctamente desde la profundidad de 4 niveles.
 
-**Resultado:** Actualización exitosa de 20 archivos README.md. 19 archivos en la rama de análisis (`RUP/01-analisis/casos-uso/`) y 1 archivo en la de diseño (`RUP/02-diseño/diagramas-secuencia/`). Se recalcularon dinámicamente las rutas relativas (`../../../../` o `../../../../../`) y se incluyeron las subcarpetas de categoría (ej. `gestion-tareas/`) en los enlaces de análisis para asegurar una navegación 100% funcional en GitHub.
+**Resultado:** Se actualizaron 8 archivos README.md en la ruta de diseño. Se reemplazó la barra de navegación estática por una basada en rutas relativas, manteniendo el resto del contenido (títulos, diagramas SVG y descripciones) sin alteraciones.
 
-**Decisión:** He validado la actualización masiva de la navegación en la documentación. Esta mejora garantiza una experiencia de usuario fluida al navegar por el repositorio, permitiendo saltar entre fases (Análisis/Diseño), volver al inicio o acceder al código fuente con un solo clic desde cualquier artefacto.
-
+**Decisión:** He adoptado el uso de rutas relativas como estándar para los artefactos de diseño, garantizando una navegación 100% funcional.

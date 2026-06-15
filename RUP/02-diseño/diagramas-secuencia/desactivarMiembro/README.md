@@ -1,6 +1,6 @@
 # Diseño Técnico: Caso de Uso - desactivarMiembro
 
-> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+> | [🏠 Inicio](../../../../README.md) | [🏗️ Análisis](../../../../RUP/01-analisis) | [🎨 Diseño](../../../../RUP/02-diseño) | [💻 Desarrollo](../../../../frontend/src) |
 
 Este documento detalla la realización técnica del caso de uso `desactivarMiembro`, transformando el análisis conceptual en una especificación lista para implementación bajo el stack React + FastAPI.
 
