@@ -1,6 +1,6 @@
 # Diseño Técnico: Caso de Uso - crearTarea
 
-> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/crearTarea) | [🎨 Diseño](/RUP/02-diseño/diagramas-secuencia/crearTarea) | [💻 Desarrollo](/frontend/src) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
 
 Este documento detalla la realización técnica del caso de uso `crearTarea`, transformando el análisis conceptual en una especificación lista para implementación bajo el stack React + FastAPI.
 

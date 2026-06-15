@@ -1,6 +1,6 @@
 # Análisis: eliminarMiembro
 
-> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/gestion-grupos/eliminarMiembro) | [🎨 Diseño](/RUP/02-diseño/diagramas-secuencia/eliminarMiembro) | [💻 Desarrollo](/frontend/src) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
 
 ## Información del Artefacto
 - **Fase RUP**: Elaboración
