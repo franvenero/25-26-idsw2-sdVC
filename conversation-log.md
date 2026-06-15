@@ -514,10 +514,10 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 ---
 
-## [14/06/2026] [16:55] Optimización de Navegación Relativa (Diseño RUP)
+## [15/06/2026] [21:09] Definición de Arquitectura de Capas (Realización Python)
 
-**Prompt:** Actúa como mi asistente de desarrollo. Modifica los archivos README.md en `RUP/02-diseño/diagramas-secuencia/` para usar rutas relativas (`../../../../`) en la barra de navegación, asegurando que los enlaces a Inicio, Análisis, Diseño y Desarrollo funcionen correctamente desde la profundidad de 4 niveles.
+**Prompt:** Actúa como el arquitecto de software de este proyecto. Reescribe por completo el archivo `RUP/02-diseño/arquitectura/capas.md` para adaptarlo a la realidad técnica de nuestro sistema (Python, MVC, Patrón Repositorio). Explica cómo evolucionan los objetos BCE de Análisis a Diseño.
 
-**Resultado:** Se actualizaron 8 archivos README.md en la ruta de diseño. Se reemplazó la barra de navegación estática por una basada en rutas relativas, manteniendo el resto del contenido (títulos, diagramas SVG y descripciones) sin alteraciones.
+**Resultado:** Se ha reescrito la documentación de arquitectura de capas, sustituyendo el enfoque genérico por uno alineado con el stack tecnológico real (FastAPI, React, SQL Server). Se incluyó un mapeo detallado desde BCE a las capas de Presentación, Lógica y Datos, junto con un diagrama conceptual ASCII y una justificación técnica sobre el desacoplamiento y la inversión de dependencias.
 
-**Decisión:** He adoptado el uso de rutas relativas como estándar para los artefactos de diseño, garantizando una navegación 100% funcional.
+**Decisión:** He validado y aprobado la nueva definición arquitectónica porque materializa la trazabilidad RUP y proporciona una guía clara para la implementación física del sistema.
