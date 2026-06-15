@@ -1,6 +1,6 @@
 # Análisis: completarGestion
 
-> | [🏠 Inicio](../../../../../README.md) | [🏗️ Análisis](../../../../../RUP/01-analisis/casos-uso/gestion-sesion/completarGestion) | [🎨 Diseño](../../../../../RUP/02-diseño/diagramas-secuencia/completarGestion) | [💻 Desarrollo](../../../../../frontend/src) | [🧪 Pruebas](../../../../../) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/gestion-sesion/completarGestion) | [🎨 Diseño](/RUP/02-diseño/diagramas-secuencia/completarGestion) | [💻 Desarrollo](/frontend/src) |
 
 ## Información del Artefacto
 - **Fase RUP**: Elaboración

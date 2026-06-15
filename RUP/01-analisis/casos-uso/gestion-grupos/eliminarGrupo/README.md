@@ -1,6 +1,6 @@
 # Análisis: eliminarGrupo
 
-> | [🏠 Inicio](../../../../../README.md) | [🏗️ Análisis](../../../../../RUP/01-analisis/casos-uso/gestion-grupos/eliminarGrupo) | [🎨 Diseño](../../../../../RUP/02-diseño/diagramas-secuencia/eliminarGrupo) | [💻 Desarrollo](../../../../../frontend/src) | [🧪 Pruebas](../../../../../) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/gestion-grupos/eliminarGrupo) | [🎨 Diseño](/RUP/02-diseño/diagramas-secuencia/eliminarGrupo) | [💻 Desarrollo](/frontend/src) |
 
 ## Información del Artefacto
 - **Fase RUP**: Elaboración

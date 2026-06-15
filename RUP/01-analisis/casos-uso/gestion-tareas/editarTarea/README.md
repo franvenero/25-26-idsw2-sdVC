@@ -1,6 +1,6 @@
 # Análisis: editarTarea
 
-> | [🏠 Inicio](../../../../../README.md) | [🏗️ Análisis](../../../../../RUP/01-analisis/casos-uso/gestion-tareas/editarTarea) | [🎨 Diseño](../../../../../RUP/02-diseño/diagramas-secuencia/editarTarea) | [💻 Desarrollo](../../../../../frontend/src) | [🧪 Pruebas](../../../../../) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/gestion-tareas/editarTarea) | [🎨 Diseño](/RUP/02-diseño/diagramas-secuencia/editarTarea) | [💻 Desarrollo](/frontend/src) |
 
 ## Información del Artefacto
 - **Fase RUP**: Elaboración

@@ -1,6 +1,6 @@
 # Análisis: abrirGrupos
 
-> | [🏠 Inicio](../../../../../README.md) | [🏗️ Análisis](../../../../../RUP/01-analisis/casos-uso/gestion-grupos/abrirGrupos) | [🎨 Diseño](../../../../../RUP/02-diseño/diagramas-secuencia/abrirGrupos) | [💻 Desarrollo](../../../../../frontend/src) | [🧪 Pruebas](../../../../../) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/gestion-grupos/abrirGrupos) | [🎨 Diseño](/RUP/02-diseño/diagramas-secuencia/abrirGrupos) | [💻 Desarrollo](/frontend/src) |
 
 ## Información del Artefacto
 - **Fase RUP**: Elaboración

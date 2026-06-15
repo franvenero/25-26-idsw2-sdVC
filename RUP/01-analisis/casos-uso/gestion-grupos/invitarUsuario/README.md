@@ -1,6 +1,6 @@
 # Análisis: invitarUsuario
 
-> | [🏠 Inicio](../../../../../README.md) | [🏗️ Análisis](../../../../../RUP/01-analisis/casos-uso/gestion-grupos/invitarUsuario) | [🎨 Diseño](../../../../../RUP/02-diseño/diagramas-secuencia/invitarUsuario) | [💻 Desarrollo](../../../../../frontend/src) | [🧪 Pruebas](../../../../../) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/gestion-grupos/invitarUsuario) | [🎨 Diseño](/RUP/02-diseño/diagramas-secuencia/invitarUsuario) | [💻 Desarrollo](/frontend/src) |
 
 ## Información del Artefacto
 - **Fase RUP**: Elaboración
