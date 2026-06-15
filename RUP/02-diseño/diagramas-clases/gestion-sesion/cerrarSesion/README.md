@@ -1,5 +1,7 @@
 # Diseño Técnico: Cerrar Sesión
 
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+
 Este documento describe la realización técnica del caso de uso **Cerrar Sesión**, centrándose en la seguridad y la limpieza de estado tanto en el cliente como en el servidor.
 
 ## Estrategia de Invalidación

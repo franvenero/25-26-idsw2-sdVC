@@ -1,5 +1,7 @@
 # Diseño de Caso de Uso: marcarCompletada
 
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+
 ## 1. Descripción
 Este caso de uso permite a un usuario autorizado marcar una tarea como finalizada, cambiando su estado a completado.
 

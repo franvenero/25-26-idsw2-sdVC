@@ -1,5 +1,7 @@
 # Diseño de Caso de Uso: eliminarTarea
 
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+
 ## 1. Descripción
 Permite la eliminación de una tarea del sistema. Por motivos de integridad referencial y auditoría, se opta por un borrado lógico.
 

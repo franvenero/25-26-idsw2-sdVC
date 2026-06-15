@@ -1,5 +1,7 @@
 # Diseño Técnico: Abrir Tareas (Listado)
 
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+
 Este documento describe el diseño técnico para la visualización del listado de tareas, implementado con React y FastAPI.
 
 ## Componentes Clave

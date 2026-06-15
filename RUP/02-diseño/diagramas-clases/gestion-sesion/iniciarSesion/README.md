@@ -1,5 +1,7 @@
 # Diseño Técnico: Iniciar Sesión
 
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+
 Este documento describe la arquitectura física y el diseño de clases para el corte vertical de **Inicio de Sesión**, utilizando el stack tecnológico definido (React, FastAPI, PostgreSQL).
 
 ## Estructura de Capas

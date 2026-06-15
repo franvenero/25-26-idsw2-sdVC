@@ -1,5 +1,7 @@
 # Diseño Técnico: Crear Tarea
 
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+
 Este documento detalla el diseño técnico para la creación de nuevas tareas en el sistema.
 
 ## Componentes Técnicos

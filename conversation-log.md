@@ -521,3 +521,12 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Resultado:** Se ha reescrito la documentación de arquitectura de capas, sustituyendo el enfoque genérico por uno alineado con el stack tecnológico real (FastAPI, React, SQL Server). Se incluyó un mapeo detallado desde BCE a las capas de Presentación, Lógica y Datos, junto con un diagrama conceptual ASCII y una justificación técnica sobre el desacoplamiento y la inversión de dependencias.
 
 **Decisión:** He validado y aprobado la nueva definición arquitectónica porque materializa la trazabilidad RUP y proporciona una guía clara para la implementación física del sistema.
+
+## [15/06/2026] [21:40] Actualización de Navegación en Documentación de Diseño RUP
+
+**Prompt:** Explora recursivamente la ruta RUP/02-diseño/ y abre todos los archivos README.md que encuentres... Identifica la barra de navegación superior defectuosa... Elimina ese bloque defectuoso por completo. Reemplázalo EXACTAMENTE por este bloque de código Markdown...
+
+**Resultado:** Se han identificado y corregido 17 archivos README.md en el directorio RUP/02-diseño/, reemplazando las barras de navegación defectuosas o inconsistentes por una barra estandarizada con enlaces absolutos funcionales. Se verificó la integridad de los títulos, diagramas y descripciones originales.
+
+**Decisión:** Acepto los cambios que ha implantado el cli, aunque he de pedirle de nuevo que haga mas cambios ya que se ha dejado varios archivos sin modificar.
+

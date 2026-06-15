@@ -1,5 +1,7 @@
 # Diseño de Caso de Uso: relacionarTareas
 
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+
 ## 1. Descripción
 Permite establecer una relación de dependencia entre dos tareas, donde una tarea debe completarse antes que la otra (Relación Predecesor-Sucesor).
 

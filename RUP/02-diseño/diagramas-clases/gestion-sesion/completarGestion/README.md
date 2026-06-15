@@ -1,5 +1,7 @@
 # Diseño Técnico: Completar Gestión
 
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+
 Este documento describe el mecanismo técnico para asegurar que el usuario acceda al sistema solo tras una autenticación válida, redirigiéndolo al "Dashboard" o Menú Principal.
 
 ## Mecanismo de Protección de Rutas (Guards)

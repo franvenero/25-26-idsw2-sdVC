@@ -1,5 +1,7 @@
 # Diseño de Caso de Uso: validarConflicto (Circularidad)
 
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+
 ## 1. Descripción
 Componente lógico encargado de asegurar que no existan ciclos infinitos en el grafo de dependencias de tareas.
 

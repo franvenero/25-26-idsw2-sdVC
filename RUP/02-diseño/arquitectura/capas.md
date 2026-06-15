@@ -1,5 +1,7 @@
 # Arquitectura de Capas: Realización del Diseño (Python MVC + Repository)
 
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+
 Esta sección describe la organización estructural del sistema BREÑOTASK, la cual implementa una arquitectura de tres capas optimizada para el lenguaje **Python**. Se basa en el patrón **MVC (Modelo-Vista-Controlador)** extendido mediante el **Patrón Repositorio**, garantizando un desacoplamiento efectivo entre la lógica de negocio y los mecanismos de persistencia.
 
 ## 1. Trazabilidad: De Análisis (BCE) a Diseño Técnico
