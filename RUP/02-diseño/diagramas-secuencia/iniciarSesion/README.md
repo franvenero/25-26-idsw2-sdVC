@@ -1,5 +1,7 @@
 # Diseño Técnico: Caso de Uso - iniciarSesion
 
+> | [🏠 Inicio](../../../../README.md) | [🏗️ Análisis](../../../../RUP/01-analisis/casos-uso/gestion-sesion/iniciarSesion) | [🎨 Diseño](../../../../RUP/02-diseño/diagramas-secuencia/iniciarSesion) | [💻 Desarrollo](../../../../frontend/src) | [🧪 Pruebas](../../../../) |
+
 Este documento detalla la realización técnica del caso de uso `iniciarSesion`, transformando el análisis conceptual en una especificación lista para implementación bajo el stack React + FastAPI.
 
 ## 1. Especificación del Contrato de API (Endpoint)

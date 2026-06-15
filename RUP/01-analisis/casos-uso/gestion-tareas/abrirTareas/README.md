@@ -1,7 +1,6 @@
 # Análisis: abrirTareas
 
-> |[🏠️](/RUP/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
-> |-|-|-|-|-|
+> | [🏠 Inicio](../../../../../README.md) | [🏗️ Análisis](../../../../../RUP/01-analisis/casos-uso/gestion-tareas/abrirTareas) | [🎨 Diseño](../../../../../RUP/02-diseño/diagramas-secuencia/abrirTareas) | [💻 Desarrollo](../../../../../frontend/src) | [🧪 Pruebas](../../../../../) |
 
 ## Información del Artefacto
 - **Fase RUP**: Elaboración

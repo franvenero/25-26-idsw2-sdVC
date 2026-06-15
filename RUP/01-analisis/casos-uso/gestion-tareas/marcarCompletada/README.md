@@ -1,7 +1,6 @@
 # Análisis: marcarCompletada
 
-> |[🏠️](/RUP/README.md)|**Análisis**|Diseño|Desarrollo|Pruebas|
-> |-|-|-|-|-|
+> | [🏠 Inicio](../../../../../README.md) | [🏗️ Análisis](../../../../../RUP/01-analisis/casos-uso/gestion-tareas/marcarCompletada) | [🎨 Diseño](../../../../../RUP/02-diseño/diagramas-secuencia/marcarCompletada) | [💻 Desarrollo](../../../../../frontend/src) | [🧪 Pruebas](../../../../../) |
 
 ## Información del Artefacto
 - **Fase RUP**: Elaboración

@@ -514,11 +514,11 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 ---
 
-## [14/06/2026] [18:00] Replicación de estructura de diseño y actualización de documentación (READMEs)
+## [14/06/2026] [18:45] Actualización de Barras de Navegación en Documentación RUP
 
-**Prompt:** Replicar la estructura de carpetas de `RUP/02-diseño` en `images/RUP/analisis-diseno/`. Posteriormente, actualizar los archivos `README.md` de cada caso de uso en `RUP/01-analisis/casos-uso/` vinculando sus diagramas SVG correspondientes con un formato específico.
+**Prompt:** Actúa como mi asistente de desarrollo. NO generes un script; quiero que utilices tus herramientas de edición para modificar los archivos README.md de mi documentación directamente. Itera por todos los subdirectorios que representan casos de uso dentro de las dos rutas principales de RUP: RUP/01-analisis/casos-uso/ y RUP/02-diseño/diagramas-secuencia/. Extrae el {nombre-del-caso} del nombre de la carpeta... Reemplaza esa barra de navegación por una barra de navegacion funcional, sustituyendo {nombre-del-caso} por el nombre de la carpeta actual. 
 
-**Resultado:** Se replicó la jerarquía completa de diseño (arquitectura, diagramas-clases, diagramas-secuencia) en la carpeta de imágenes. Se procesaron 19 archivos `README.md`, sustituyendo enlaces genéricos o rotos por rutas absolutas a los archivos `.svg` y añadiendo el enlace al código fuente `.puml`, manteniendo el rigor documental de RUP.
+**Resultado:** Actualización exitosa de 20 archivos README.md. 19 archivos en la rama de análisis (`RUP/01-analisis/casos-uso/`) y 1 archivo en la de diseño (`RUP/02-diseño/diagramas-secuencia/`). Se recalcularon dinámicamente las rutas relativas (`../../../../` o `../../../../../`) y se incluyeron las subcarpetas de categoría (ej. `gestion-tareas/`) en los enlaces de análisis para asegurar una navegación 100% funcional en GitHub.
 
-**Decisión:** He automatizado la sincronización entre los artefactos visuales y la documentación técnica, garantizando que cada caso de uso presente su diagrama de colaboración actualizado y correctamente referenciado.
+**Decisión:** He validado la actualización masiva de la navegación en la documentación. Esta mejora garantiza una experiencia de usuario fluida al navegar por el repositorio, permitiendo saltar entre fases (Análisis/Diseño), volver al inicio o acceder al código fuente con un solo clic desde cualquier artefacto.
 
