@@ -530,3 +530,31 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 
 **Decisión:** Acepto los cambios que ha implantado el cli, aunque he de pedirle de nuevo que haga mas cambios ya que se ha dejado varios archivos sin modificar.
 
+---
+
+## [20/06/2026] [13:49] Reestructuración de ramas Git del proyecto
+
+**Prompt:** guarda registro en el conversation-log.md
+
+**Resultado:** Se reorganizaron las ramas locales de Git en el entorno de desarrollo, eliminando la rama `refactor/trazabilidad-rup` y creando una nueva rama de trabajo llamada `extraordinaria` a partir de `main`.
+
+**Decisión:** Adoptar la rama `extraordinaria` como rama de trabajo actual para implementar las tareas de trazabilidad y refactorización, garantizando que el espacio de trabajo de desarrollo esté limpio y bien alineado con la rama principal.
+
+**Archivos modificados:** [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md) (y cambio en ramas de Git).
+
+---
+
+## [20/06/2026] [13:59] Refactorización de la trazabilidad BCE a MVC del caso de uso 'abrirTareas'
+
+**Prompt:** Actúa como mi Arquitecto de Software experto en RUP. NO generes scripts, utiliza tus herramientas para editar archivos directamente en mi entorno. TAREA A EJECUTAR: Vamos a garantizar la trazabilidad estricta entre Análisis y Diseño para el caso de uso abrirTareas...
+
+**Resultado:** Se refactorizaron los diagramas del caso de uso `abrirTareas`. El diagrama de colaboración de Análisis (`colaboracion.puml`) se reescribió usando la nomenclatura BCE genérica con `Usuario` (Actor), `TareasView` (Boundary), `TareasController` (Control), y `TareaRepository`/`Tarea` (Entities). El diagrama de secuencia de Diseño (`secuencia.puml`) se reescribió como la evolución técnica exacta con `Usuario`, `TareasView`, `TareasController`, `TareasService`, `TareaRepository` y la base de datos `PostgreSQL`, mostrando el flujo de solicitud, delegación, consulta con `findAll()`, y retorno de objetos.
+
+**Decisión:** Garantizar trazabilidad estricta y homogeneidad de nombres y responsabilidades entre el análisis arquitectónico BCE y el diseño físico MVC en Python con el patrón repositorio.
+
+**Archivos modificados:**
+* [colaboracion.puml](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/gestion-tareas/abrirTareas/colaboracion.puml)
+* [secuencia.puml](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/abrirTareas/secuencia.puml)
+* [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
+
+
