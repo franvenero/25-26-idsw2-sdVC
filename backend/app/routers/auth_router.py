@@ -20,16 +20,10 @@ async def register(
     user_in: UserCreate,
     auth_service: AuthService = Depends(get_auth_service)
 ):
-    # Verificar si el usuario ya existe
-    if auth_service.repository.get_by_username(user_in.username):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="El nombre de usuario ya está registrado"
-        )
-    
-    # Crear usuario
-    user = auth_service.register_user(user_in)
-    return user
+    """
+    Registra un nuevo usuario delegando en AuthService.
+    """
+    return auth_service.register_user(user_in)
 
 @router.post("/login", response_model=Token)
 async def login(
@@ -37,7 +31,7 @@ async def login(
     auth_service: AuthService = Depends(get_auth_service)
 ):
     """
-    Endpoint de inicio de sesión estándar OAuth2.
+    Endpoint de inicio de sesión estándar OAuth2 que delega en AuthService.
     """
     access_token = auth_service.login(form_data.username, form_data.password)
     

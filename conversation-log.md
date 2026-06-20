@@ -588,6 +588,26 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 * [task_router.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/routers/task_router.py)
 * [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
 
+---
+
+## [20/06/2026] [14:40] Trazabilidad completa BCE-MVC-Código para 'iniciarSesion'
+
+**Prompt:** Actúa como mi Arquitecto de Software experto en RUP. NO generes scripts, utiliza tus herramientas para editar archivos directamente en mi entorno. TAREA A EJECUTAR: Vamos a garantizar la trazabilidad estricta entre Análisis, Diseño y Código para el caso de uso iniciarSesion...
+
+**Resultado:** Se refactorizó el caso de uso `iniciarSesion` de extremo a extremo en la rama `extraordinaria`. El diagrama de colaboración de Análisis (`colaboracion.puml`) se reescribió usando la nomenclatura BCE pura en forma de grafo (`Usuario` -> `LoginView` -> `SesionController` -> `UsuarioRepository` -> `Usuario`, e interacción con la sesión cerrada). El diagrama de secuencia de Diseño (`secuencia.puml`) se actualizó para reflejar la realización técnica del flujo (POST, llamada al servicio `AuthService.login`, consulta `buscarPorEmail` en `UsuarioRepository` y generación de JWT). En el código del backend, se añadió `buscarPorEmail` y `get_by_email` a `UserRepository`, se actualizó `AuthService` para encapsular la búsqueda por email y validaciones de existencia, y se simplificó `auth_router.py` delegando puramente en `AuthService`.
+
+**Decisión:** Asegurar que la verificación de existencia y credenciales de usuario se encapsule completamente en `AuthService` y la capa de datos en `UserRepository`, eliminando responsabilidades del router (controlador FastAPI) y manteniendo un mapeo terminológico unificado en todas las capas del diseño RUP.
+
+**Archivos modificados:**
+* [colaboracion.puml](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/gestion-sesion/iniciarSesion/colaboracion.puml)
+* [secuencia.puml](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/iniciarSesion/secuencia.puml)
+* [secuencia.puml](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/iniciarSesion/secuencia.puml)
+* [user_repository.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/repositories/user_repository.py)
+* [auth_service.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/services/auth_service.py)
+* [auth_router.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/routers/auth_router.py)
+* [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
+
+
 
 
 

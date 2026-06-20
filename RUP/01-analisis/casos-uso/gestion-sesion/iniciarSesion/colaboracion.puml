@@ -1,26 +1,18 @@
 @startuml iniciarSesion-analisis
 skinparam linetype polyline
+left to right direction
 
-actor UsuarioNoRegistrado
-package iniciarSesion as "iniciarSesion()" {
-    rectangle #629EF9 LoginView
-    rectangle #b5bd68 IniciarSesionController
-    rectangle #F2AC4E UsuarioRepository
-    rectangle #F2AC4E Usuario
-    rectangle #F2AC4E Sesion
-}
-rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
+actor Usuario
+boundary LoginView
+control SesionController
+entity UsuarioRepository
+entity "Usuario" as EntidadUsuario
+rectangle ":Sesión Cerrada" as SesionCerrada #FFB3BA
 
-UsuarioNoRegistrado -r-> LoginView: 1: iniciarSesion(usuario, contraseña)
-
-LoginView -d-> IniciarSesionController: 2: autenticar(usuario, contraseña)
-
-IniciarSesionController --> UsuarioRepository: 3: validarCredenciales(usuario, contraseña)
-
-UsuarioRepository -- Usuario
-
-IniciarSesionController --> Sesion: 4: crearSesion(usuario)
-
-LoginView -r-> SistemaDisponible: 5: sistemaDisponible(usuarioAutenticado)
+Usuario --> LoginView : 1: iniciarSesion(credenciales)
+LoginView --> SesionController : 2: autenticar(credenciales)
+SesionController --> UsuarioRepository : 3: buscarPorEmail(email)
+UsuarioRepository -- EntidadUsuario
+LoginView --> SesionCerrada : 4: actualizaEstado()
 
 @enduml

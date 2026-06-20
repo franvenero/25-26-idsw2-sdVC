@@ -4,10 +4,19 @@
 
 Este documento detalla la realización técnica del caso de uso `iniciarSesion`. La lógica de autenticación, validación de credenciales y generación del token JWT se ha delegado de manera exclusiva a un `AuthService` para mantener una alta cohesión y aislar las responsabilidades de negocio del controlador HTTP (router FastAPI).
 
+---
+
+## 1. Diagrama de Colaboración (Análisis RUP)
+
+A nivel de análisis conceptual (BCE), el diagrama de comunicación en formato de grafo modela las interacciones iniciales agnósticas a la tecnología.
+
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/iniciarSesion/iniciarSesion.svg)
+
+* [Código fuente PlantUML (.puml)](/RUP/01-analisis/casos-uso/gestion-sesion/iniciarSesion/colaboracion.puml)
 
 ---
 
-## 1. Diagrama de Secuencia (Diseño MVC)
+## 2. Diagrama de Secuencia (Diseño MVC)
 
 A nivel de diseño físico, la realización técnica detalla el flujo de mensajes asíncronos y la orquestación a través del controlador, el servicio de autenticación y el repositorio.
 
@@ -61,5 +70,5 @@ Para la autenticación, se sigue el estándar OAuth2 con Password Flow.
 | **Usuario** (Entity) | `models/user.py` (SQLAlchemy Model) | Definición estructural de los datos del usuario. |
 
 ---
-**Arquitecto:** Asistente de Documentación Técnica
+**Arquitecto:** Asistente de Documentación Técnico
 **Fecha:** 20 de junio de 2026
