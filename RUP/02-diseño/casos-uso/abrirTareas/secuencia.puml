@@ -1,0 +1,33 @@
+@startuml abrirTareas-secuencia
+!theme plain
+autonumber
+
+actor Usuario
+participant ListarTareasView <<UI React>>
+participant TareasController <<Router FastAPI>>
+participant TareasService <<Lógica>>
+participant TareaRepository <<Capa Datos SQLAlchemy>>
+database PostgreSQL
+
+Usuario -> ListarTareasView : Interactúa con la UI
+activate ListarTareasView
+ListarTareasView -> TareasController : GET /tareas
+activate TareasController
+TareasController -> TareasService : Delegar petición
+activate TareasService
+TareasService -> TareaRepository : obtenerTareasPorGrupo(grupo)
+activate TareaRepository
+TareaRepository -> PostgreSQL : SELECT
+activate PostgreSQL
+PostgreSQL --> TareaRepository : Resultados
+deactivate PostgreSQL
+TareaRepository --> TareasService : Devuelve resultados
+deactivate TareaRepository
+TareasService --> TareasController : Devuelve resultados
+deactivate TareasService
+TareasController --> ListarTareasView : Devuelve resultados
+deactivate TareasController
+ListarTareasView --> Usuario : Muestra lista
+deactivate ListarTareasView
+
+@enduml

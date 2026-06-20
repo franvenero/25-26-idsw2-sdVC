@@ -7,7 +7,6 @@ from app.services.task_service import TaskService
 from app.models.user import User
 
 router = APIRouter(prefix="/tasks", tags=["Tasks"])
-task_service = TaskService()
 
 @router.get("/", response_model=List[TaskResponse])
 def read_tasks(
@@ -16,8 +15,10 @@ def read_tasks(
 ):
     """
     Lista las tareas del grupo del usuario actual que no han sido eliminadas.
+    Delegación a la capa de servicio (obtenerTareasPorGrupo).
     """
-    return task_service.get_tasks_by_group(db, group_id=current_user.group_id)
+    service = TaskService(db)
+    return service.obtenerTareasPorGrupo(group_id=current_user.group_id)
 
 @router.post("/", response_model=TaskResponse, status_code=status.HTTP_201_CREATED)
 def create_task(
@@ -36,8 +37,8 @@ def create_task(
             detail="Los miembros no tienen permisos para crear tareas"
         )
         
-    return task_service.create_task(
-        db, 
+    service = TaskService(db)
+    return service.create_task(
         task_in, 
         owner_id=str(current_user.id), 
         group_id=current_user.group_id
@@ -54,8 +55,8 @@ def update_task(
     Actualiza una tarea. Incluye validación de dependencias si se marca como completada.
     Se aplican restricciones de rol para completar tareas.
     """
-    return task_service.update_task(
-        db, 
+    service = TaskService(db)
+    return service.update_task(
         task_id, 
         task_in, 
         user_id=str(current_user.id),
@@ -71,7 +72,8 @@ def delete_task(
     """
     Borrado lógico de una tarea.
     """
-    return task_service.soft_delete_task(db, task_id)
+    service = TaskService(db)
+    return service.soft_delete_task(task_id)
 
 @router.post("/{task_id}/dependencies", response_model=TaskResponse)
 def add_task_dependencies(
@@ -83,4 +85,5 @@ def add_task_dependencies(
     """
     Establece relaciones de dependencia entre tareas con validación de circularidad.
     """
-    return task_service.add_dependencies(db, task_id, dependency_in)
+    service = TaskService(db)
+    return service.add_dependencies(task_id, dependency_in)

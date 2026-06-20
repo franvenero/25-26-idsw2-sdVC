@@ -1,14 +1,20 @@
 @startuml abrirTareas-analisis
+skinparam linetype polyline
+left to right direction
 
 actor Usuario
-boundary TareasView
+boundary ListarTareasView
 control TareasController
 entity TareaRepository
 entity Tarea
+entity Grupo
+rectangle ":Sistema Disponible" as SistemaDisponible #C5E0B4
 
-Usuario -> TareasView : 1: solicita las tareas
-TareasView -> TareasController : 2: pide las tareas
-TareasController -> TareaRepository : 3: consulta al repository
-TareaRepository -> Tarea : 4: obtener lista de entidades
+Usuario --> ListarTareasView : 1: abrirTareas()
+ListarTareasView --> TareasController : 2: listarTareas(grupo)
+TareasController --> TareaRepository : 3: obtenerTareasPorGrupo(grupo)
+TareaRepository -- Tarea
+TareaRepository -- Grupo
+ListarTareasView --> SistemaDisponible : 4: sistemaDisponible(usuario)
 
 @enduml

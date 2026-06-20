@@ -557,4 +557,37 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 * [secuencia.puml](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/abrirTareas/secuencia.puml)
 * [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
 
+---
+
+## [20/06/2026] [14:12] Trazabilidad pura BCE-MVC para 'abrirTareas'
+
+**Prompt:** Actúa como mi Arquitecto de Software experto en RUP. NO generes scripts, utiliza tus herramientas para editar archivos directamente en mi entorno. TAREA A EJECUTAR: Vamos a refactorizar el caso de uso abrirTareas en la rama actual...
+
+**Resultado:** Se refactorizaron los diagramas del caso de uso `abrirTareas` en la rama `extraordinaria`. El diagrama de colaboración de Análisis (`colaboracion.puml`) se reestructuró como un diagrama de comunicación BCE puro (en formato grafo/red) vinculando `Usuario` (Actor), `ListarTareasView` (Boundary), `TareasController` (Control), `TareaRepository` (Entity), `Tarea` (Entity), `Grupo` (Entity) y el estado `SistemaDisponible`. El diagrama de secuencia de Diseño (`secuencia.puml`) se actualizó para reflejar la evolución técnica exacta con los mismos nombres de participantes (`Usuario`, `ListarTareasView` (React), `TareasController` (FastAPI), `TareasService`, `TareaRepository` (SQLAlchemy) y `PostgreSQL`), mostrando la interacción de la petición GET y el retorno en cascada.
+
+**Decisión:** Asegurar que los nombres de los componentes y clases (`ListarTareasView`, `TareasController`, `TareaRepository`) coincidan de forma exacta en el grafo de colaboración de análisis y en la secuencia de diseño, garantizando una trazabilidad RUP impecable.
+
+**Archivos modificados:**
+* [colaboracion.puml](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/gestion-tareas/abrirTareas/colaboracion.puml)
+* [secuencia.puml](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/abrirTareas/secuencia.puml)
+* [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
+
+---
+
+## [20/06/2026] [14:20] Creación de capa de servicios y repositorio para tareas
+
+**Prompt:** Actúa como mi Desarrollador Backend Senior. NO generes scripts de consola, quiero que analices mi proyecto y crees/edites los archivos directamente. TAREA A EJECUTAR: Acabamos de definir en nuestro Diseño RUP que el caso de uso abrirTareas utiliza un TareasService para intermediar entre el Controlador (Router FastAPI) y el Repositorio (SQLAlchemy). Necesito que esto se refleje en el código real...
+
+**Resultado:** Se implementó la refactorización arquitectónica de backend. Se creó `task_repository.py` definiendo la clase `TaskRepository` con el método `obtenerTareasPorGrupo(group_id)`. Se refactorizó `task_service.py` (`TaskService`) para recibir la sesión `db: Session` en el constructor, instanciar `TaskRepository` y delegar en él la obtención de tareas (añadiendo el método `obtenerTareasPorGrupo`). Finalmente, se refactorizó el router `task_router.py` para instanciar `TaskService` por petición con `Depends(get_db)` y llamar al servicio, eliminando dependencias directas del router con SQLAlchemy y aislando la lógica de negocio.
+
+**Decisión:** Adoptar el patrón Repository y la inyección de dependencias en el constructor para la entidad Task, garantizando la consistencia arquitectónica con el resto del backend (Users, Groups) y cumpliendo estrictamente con la trazabilidad RUP definida.
+
+**Archivos modificados:**
+* [task_repository.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/repositories/task_repository.py)
+* [task_service.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/services/task_service.py)
+* [task_router.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/routers/task_router.py)
+* [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
+
+
+
 
