@@ -6,7 +6,7 @@ from app.schemas.user import UserCreate, UserResponse
 from app.schemas.token import Token
 from app.repositories.user_repository import UserRepository
 from app.services.auth_service import AuthService
-from app.routers.deps import get_current_user
+from app.routers.deps import get_current_user, oauth2_scheme
 from app.models.user import User
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
@@ -43,6 +43,17 @@ async def login(
         )
     
     return {"access_token": access_token, "token_type": "bearer"}
+
+@router.post("/logout")
+async def logout(
+    token: str = Depends(oauth2_scheme),
+    auth_service: AuthService = Depends(get_auth_service)
+):
+    """
+    Endpoint de cierre de sesión que delega en AuthService para invalidar el token.
+    """
+    auth_service.logout(token)
+    return {"message": "Sesión cerrada correctamente"}
 
 @router.get("/me", response_model=UserResponse)
 async def get_me(current_user: User = Depends(get_current_user)):

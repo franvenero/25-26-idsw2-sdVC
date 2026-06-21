@@ -607,6 +607,45 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 * [auth_router.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/routers/auth_router.py)
 * [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
 
+---
+
+## [21/06/2026] [22:20] Trazabilidad y refactorización para el caso de uso 'cerrarSesion'
+
+**Prompt:** Actúa como mi Arquitecto de Software experto en RUP. NO generes scripts, utiliza tus herramientas para editar archivos directamente en mi entorno. TAREA A EJECUTAR: Vamos a garantizar la trazabilidad estricta para el caso de uso cerrarSesion...
+
+**Resultado:** Se completó la trazabilidad del caso de uso `cerrarSesion` en la rama `extraordinaria`. El diagrama de colaboración de Análisis (`colaboracion.puml`) se reescribió en formato de grafo BCE pura (`Usuario` -> `PrincipalView` -> `SesionController` -> `SesionCerrada`/`SistemaDisponible`). El diagrama de secuencia de Diseño (`secuencia.puml`) se actualizó para reflejar el flujo técnico MVC (POST /logout, invalidación en `AuthService.logout`, y borrado local en `NavbarView`). En el backend, se implementó el método `logout(token)` en `AuthService` y se añadió el correspondiente endpoint `POST /logout` en `auth_router.py`. Finalmente, se actualizaron los README.md de diseño para documentar y renderizar visualmente ambos diagramas.
+
+**Decisión:** Delegar la invalidación del token al servicio `AuthService` mediante la firma unificada `logout(token)` y simplificar el controlador HTTP (router), garantizando trazabilidad y uniformidad semántica entre los diagramas RUP y la implementación física.
+
+**Archivos modificados:**
+* [colaboracion.puml](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/gestion-sesion/cerrarSesion/colaboracion.puml)
+* [secuencia.puml](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/cerrarSesion/secuencia.puml)
+* [secuencia-diseno.puml](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/cerrarSesion/secuencia-diseno.puml)
+* [auth_service.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/services/auth_service.py)
+* [auth_router.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/routers/auth_router.py)
+* [README.md (casos-uso)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/cerrarSesion/README.md)
+* [README.md (diagramas-secuencia)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/cerrarSesion/README.md)
+* [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
+
+---
+
+## [21/06/2026] [22:36] Unificación de nomenclatura a 'NavbarView' en el caso de uso 'cerrarSesion'
+
+**Prompt:** Actúa como mi Arquitecto de Software. NO generes scripts, edita los archivos directamente. TAREA A EJECUTAR: Hemos detectado una pequeña ruptura de trazabilidad en el caso de uso cerrarSesion debido a una inconsistencia de nombres...
+
+**Resultado:** Se corrigió la inconsistencia de nombres en el caso de uso `cerrarSesion` para unificar la capa de presentación a `NavbarView`. En el diagrama de colaboración de Análisis (`colaboracion.puml`), se renombró `PrincipalView` a `NavbarView` y se eliminó el estado flotante `SistemaDisponible`. En el diagrama de secuencia de Diseño (`secuencia.puml` / `secuencia-diseno.puml`), se garantizó que el participante se llame exactamente `NavbarView`, asegurando consistencia nominal absoluta.
+
+**Decisión:** Unificar la nomenclatura de la vista a 'NavbarView' en los artefactos de análisis y diseño de RUP para resolver rupturas de trazabilidad y alinearse al 100% con los componentes físicos de React.
+
+**Archivos modificados:**
+* [colaboracion.puml (gestion-sesion)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/gestion-sesion/cerrarSesion/colaboracion.puml)
+* [colaboracion.puml (ruta directa)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/cerrarSesion/colaboracion.puml)
+* [secuencia.puml](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/cerrarSesion/secuencia.puml)
+* [secuencia-diseno.puml](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/cerrarSesion/secuencia-diseno.puml)
+* [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
+
+
+
 
 
 

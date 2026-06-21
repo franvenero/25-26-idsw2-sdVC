@@ -30,6 +30,15 @@ class AuthService:
             return None
         return create_access_token(subject=str(user.id))
 
+    def logout(self, token: str) -> bool:
+        """
+        Procesa la invalidación de la sesión (logout).
+        En un entorno stateless, este método registra la salida o podría añadir
+        el token a una blacklist (lista negra) en caché o base de datos.
+        """
+        # Simulación de la invalidación / registro de salida
+        return True
+
     def register_user(self, user_in: UserCreate) -> User:
         # El servicio valida si el usuario ya existe
         if self.repository.get_by_username(user_in.username):

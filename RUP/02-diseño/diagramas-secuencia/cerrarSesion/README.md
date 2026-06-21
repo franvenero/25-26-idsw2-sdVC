@@ -4,10 +4,19 @@
 
 Este documento detalla la realización técnica del caso de uso `cerrarSesion`. La lógica de cierre de sesión e invalidación del token JWT se ha delegado de manera exclusiva a un `AuthService` para mantener la cohesión y aislar las responsabilidades de negocio en el backend.
 
+---
+
+## 1. Diagrama de Colaboración (Análisis RUP)
+
+A nivel de análisis conceptual (BCE), el diagrama de comunicación en formato de grafo modela las interacciones iniciales de cierre de sesión de forma agnóstica a la tecnología.
+
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/cerrarSesion/cerrarSesion.svg)
+
+* [Código fuente PlantUML (.puml)](/RUP/01-analisis/casos-uso/gestion-sesion/cerrarSesion/colaboracion.puml)
 
 ---
 
-## 1. Diagrama de Secuencia (Diseño MVC)
+## 2. Diagrama de Secuencia (Diseño MVC)
 
 A nivel de diseño físico, la realización técnica detalla el flujo de mensajes y la orquestación a través de la barra de navegación React, el controlador de FastAPI y el servicio de autenticación.
 
