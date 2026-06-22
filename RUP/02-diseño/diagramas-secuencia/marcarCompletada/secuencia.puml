@@ -1,0 +1,34 @@
+@startuml marcarCompletada-secuencia
+!theme plain
+autonumber
+
+actor Usuario
+participant ListarTareasView <<UI React>>
+participant TareasController <<Router FastAPI>>
+participant TareasService <<Lógica de Negocio>>
+participant TareaRepository <<Capa Datos SQLAlchemy>>
+database PostgreSQL
+
+Usuario -> ListarTareasView : Hace clic en el checkbox
+activate ListarTareasView
+ListarTareasView -> TareasController : PATCH /tasks/{id}/estado
+activate TareasController
+TareasController -> TareasService : marcar_completada(id)
+activate TareasService
+TareasService -> TareasService : Verifica dependencias
+TareasService -> TareaRepository : actualizar_estado(id, True)
+activate TareaRepository
+TareaRepository -> PostgreSQL : UPDATE tasks SET is_completed = True
+activate PostgreSQL
+PostgreSQL --> TareaRepository : Devuelve fila actualizada
+deactivate PostgreSQL
+TareaRepository --> TareasService : Devuelve objeto Tarea
+deactivate TareaRepository
+TareasService --> TareasController : Devuelve objeto Tarea
+deactivate TareasService
+TareasController --> ListarTareasView : Respuesta JSON
+deactivate TareasController
+ListarTareasView --> Usuario : Actualiza estado reactivo de UI
+deactivate ListarTareasView
+
+@enduml

@@ -644,6 +644,29 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 * [secuencia-diseno.puml](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/cerrarSesion/secuencia-diseno.puml)
 * [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
 
+---
+
+## [22/06/2026] [20:37] Trazabilidad y refactorización para el caso de uso 'marcarCompletada'
+
+**Prompt:** Actúa como mi Arquitecto de Software experto en RUP. NO generes scripts, utiliza tus herramientas para editar archivos directamente en mi entorno. TAREA A EJECUTAR: Vamos a garantizar la trazabilidad estricta para el caso de uso marcarCompletada...
+
+**Resultado:** Se completó la trazabilidad del caso de uso `marcarCompletada` en la rama `extraordinaria`. El diagrama de colaboración de Análisis (`colaboracion.puml`) se reescribió en formato de grafo BCE puro (`Usuario` -> `ListarTareasView` -> `TareasController` -> `TareaRepository` -> `Tarea`, e interacción con `TareasAbierto`). El diagrama de secuencia de Diseño (`secuencia.puml`) se actualizó para reflejar el flujo técnico MVC (PATCH `/tasks/{id}/estado`, validación de dependencias y actualización delegada al método `actualizar_estado` de `TareaRepository` en base de datos). En el backend, se implementó `marcar_completada(task_id)` en `TaskService` y `actualizar_estado` en `TaskRepository`, y se añadió el correspondiente endpoint PATCH en `task_router.py`. Finalmente, se actualizaron los README.md de diseño para documentar y renderizar visualmente ambos diagramas.
+
+**Decisión:** Delegar el proceso de marcado como completado y validación de dependencias al servicio `TaskService.marcar_completada(task_id)` y la persistencia al `TaskRepository.actualizar_estado(task_id, True)`, garantizando desacoplamiento y trazabilidad RUP total en el backend.
+
+**Archivos modificados:**
+* [colaboracion.puml (gestion-tareas)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/gestion-tareas/marcarCompletada/colaboracion.puml)
+* [colaboracion.puml (ruta directa)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/marcarCompletada/colaboracion.puml)
+* [secuencia.puml (diagramas-secuencia)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/marcarCompletada/secuencia.puml)
+* [secuencia.puml (casos-uso)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/marcarCompletada/secuencia.puml)
+* [task_repository.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/repositories/task_repository.py)
+* [task_service.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/services/task_service.py)
+* [task_router.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/routers/task_router.py)
+* [README.md (casos-uso)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/marcarCompletada/README.md)
+* [README.md (diagramas-secuencia)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/marcarCompletada/README.md)
+* [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
+
+
 
 
 

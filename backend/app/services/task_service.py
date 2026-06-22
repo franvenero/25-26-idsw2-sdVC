@@ -28,6 +28,16 @@ class TaskService:
             raise HTTPException(status_code=404, detail="Tarea no encontrada")
         return task
 
+    def marcar_completada(self, task_id: str):
+        """
+        Marca una tarea como completada aplicando las reglas de negocio de dependencias.
+        """
+        db_task = self.get_task_by_id(task_id)
+        # Validar dependencias antes de completar
+        self._validate_dependencies_for_completion(db_task)
+        # Llamar al repositorio
+        return self.repo.actualizar_estado(task_id, True)
+
     def create_task(self, task_data: TaskCreate, owner_id: str, group_id: str):
         # Usamos el group_id proporcionado por el router (del usuario actual)
         # a menos que task_data explícitamente traiga uno (soporte futuro multi-grupo)

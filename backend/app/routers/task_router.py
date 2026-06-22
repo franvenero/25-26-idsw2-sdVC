@@ -63,6 +63,18 @@ def update_task(
         user_role=current_user.role
     )
 
+@router.patch("/{task_id}/estado", response_model=TaskResponse)
+def complete_task(
+    task_id: str,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Marca una tarea como completada (PATCH /tasks/{id}/estado).
+    """
+    service = TaskService(db)
+    return service.marcar_completada(task_id)
+
 @router.delete("/{task_id}")
 def delete_task(
     task_id: str,
