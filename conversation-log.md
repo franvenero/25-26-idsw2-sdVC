@@ -666,6 +666,26 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 * [README.md (diagramas-secuencia)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/marcarCompletada/README.md)
 * [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
 
+---
+
+## [22/06/2026] [20:48] Trazabilidad y documentación para el caso de uso 'completarGestion'
+
+**Prompt:** Actúa como mi Arquitecto de Software. NO generes scripts, utiliza tus herramientas para editar archivos directamente en mi entorno. TAREA A EJECUTAR: Vamos a garantizar la trazabilidad estricta para el caso de uso completarGestion...
+
+**Resultado:** Se completó la trazabilidad y la documentación del caso de uso `completarGestion` en la rama `extraordinaria`. El diagrama de colaboración de Análisis (`colaboracion.puml`) se reestructuró en formato de grafo BCE puro (`Usuario` -> `TareasView` -> `DashboardController` -> `SistemaDisponible`). El diagrama de secuencia de Diseño (`secuencia.puml`) se actualizó para modelar la navegación del frontend (manejador de rutas de React comprobando cambios pendientes y renderizando `DashboardView`). Finalmente, se actualizaron los README.md de diseño para documentar y enlazar los diagramas.
+
+**Decisión:** Modelar la transición del caso de uso 'completarGestion' puramente en la capa de presentación y control de rutas en el cliente de React al ser un flujo de navegación sin cambios directos en la persistencia del backend.
+
+**Archivos modificados:**
+* [colaboracion.puml (gestion-sesion)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/gestion-sesion/completarGestion/colaboracion.puml)
+* [colaboracion.puml (ruta directa)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/completarGestion/colaboracion.puml)
+* [secuencia.puml (diagramas-secuencia)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/completarGestion/secuencia.puml)
+* [secuencia-diseno.puml (casos-uso)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/completarGestion/secuencia-diseno.puml)
+* [README.md (casos-uso)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/completarGestion/README.md)
+* [README.md (diagramas-secuencia)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/completarGestion/README.md)
+* [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
+
+
 
 
 

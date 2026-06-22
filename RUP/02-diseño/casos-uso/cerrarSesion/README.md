@@ -17,7 +17,7 @@ A nivel de diseño físico, la realización técnica detalla el flujo de mensaje
 
 ---
 
-## 3. Trazabilidad: Análisis (BCE) a Diseño Técnico
+## 2. Trazabilidad: Análisis (BCE) a Diseño Técnico
 
 | Componente Análisis | Implementación Física (Diseño) | Responsabilidad |
 | :--- | :--- | :--- |

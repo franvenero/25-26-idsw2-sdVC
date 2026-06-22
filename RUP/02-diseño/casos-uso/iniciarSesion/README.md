@@ -17,7 +17,7 @@ A nivel de diseño físico, la realización técnica detalla el flujo de mensaje
 
 ---
 
-## 3. Especificación del Contrato de API (Endpoint)
+## 2. Especificación del Contrato de API (Endpoint)
 
 Para la autenticación, se sigue el estándar OAuth2 con Password Flow.
 

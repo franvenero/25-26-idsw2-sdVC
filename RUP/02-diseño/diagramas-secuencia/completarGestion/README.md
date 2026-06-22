@@ -6,6 +6,15 @@ Este documento detalla la realización técnica del caso de uso `completarGestio
 
 ---
 
+## 1. Diagrama de Colaboración (Análisis RUP)
+
+A nivel de análisis conceptual (BCE), el diagrama de comunicación en formato de grafo modela las interacciones iniciales agnósticas a la tecnología.
+
+![Diagrama de Colaboración](/images/RUP/analisis-diseno/completarGestion/completarGestion.svg)
+
+* [Código fuente PlantUML (.puml)](/RUP/01-analisis/casos-uso/gestion-sesion/completarGestion/colaboracion.puml)
+
+---
 
 ## 2. Diagrama de Secuencia (Diseño MVC)
 
@@ -17,7 +26,7 @@ A nivel de diseño físico, la realización técnica detalla el flujo de mensaje
 
 ---
 
-## 2. Trazabilidad: Análisis (BCE) a Diseño Técnico
+## 3. Trazabilidad: Análisis (BCE) a Diseño Técnico
 
 | Componente Análisis | Implementación Física (Diseño) | Responsabilidad |
 | :--- | :--- | :--- |
