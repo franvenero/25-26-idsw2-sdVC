@@ -7,7 +7,7 @@ Este documento detalla la realización técnica del caso de uso `completarGestio
 ---
 
 
-## 2. Diagrama de Secuencia (Diseño MVC)
+## 1. Diagrama de Secuencia (Diseño MVC)
 
 A nivel de diseño físico, la realización técnica detalla el flujo de mensajes asíncronos y la redirección de rutas del frontend.
 

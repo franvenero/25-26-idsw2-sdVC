@@ -1,23 +1,18 @@
 @startuml abrirInvitaciones-analisis
 skinparam linetype polyline
+left to right direction
 
 actor Usuario
-package abrirInvitaciones as "abrirInvitaciones()" {
-    rectangle #629EF9 ListarInvitacionesView
-    rectangle #b5bd68 InvitacionesController
-    rectangle #F2AC4E InvitacionRepository
-    rectangle #F2AC4E Invitacion
-}
-rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
+boundary InvitacionesView
+control InvitacionesController
+entity InvitacionRepository
+entity "Invitacion" as EntidadInvitacion
+rectangle ":Invitaciones Abierto" as InvitacionesAbierto #C5E0B4
 
-SistemaDisponible -r-> ListarInvitacionesView: 1: abrirInvitaciones()
-
-ListarInvitacionesView -d-> InvitacionesController: 2: obtenerInvitaciones(usuario)
-
-InvitacionesController --> InvitacionRepository: 3: buscarPendientesPorUsuario(usuario)
-
-InvitacionRepository -- Invitacion
-
-ListarInvitacionesView -r-> SistemaDisponible: 4: sistemaDisponible(usuario)
+Usuario --> InvitacionesView : 1: abrirInvitaciones()
+InvitacionesView --> InvitacionesController : 2: listarInvitaciones(usuario)
+InvitacionesController --> InvitacionRepository : 3: obtenerInvitaciones(usuario)
+InvitacionRepository -- EntidadInvitacion
+InvitacionesView --> InvitacionesAbierto : 4: actualizaEstado()
 
 @enduml

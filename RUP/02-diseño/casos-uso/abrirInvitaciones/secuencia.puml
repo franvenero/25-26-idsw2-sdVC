@@ -1,0 +1,33 @@
+@startuml abrirInvitaciones-secuencia
+!theme plain
+autonumber
+
+actor Usuario
+participant InvitacionesView <<UI React>>
+participant InvitacionesController <<Router FastAPI>>
+participant InvitacionesService <<Lógica de Negocio>>
+participant InvitacionRepository <<Capa Datos SQLAlchemy>>
+database PostgreSQL
+
+Usuario -> InvitacionesView : Hace clic en Invitaciones
+activate InvitacionesView
+InvitacionesView -> InvitacionesController : GET /invitaciones
+activate InvitacionesController
+InvitacionesController -> InvitacionesService : obtener_invitaciones(usuario_id)
+activate InvitacionesService
+InvitacionesService -> InvitacionRepository : findAllByUsuario(usuario_id)
+activate InvitacionRepository
+InvitacionRepository -> PostgreSQL : SELECT * FROM invitations WHERE user_id = ...
+activate PostgreSQL
+PostgreSQL --> InvitacionRepository : Devuelve lista de invitaciones
+deactivate PostgreSQL
+InvitacionRepository --> InvitacionesService : Devuelve lista de invitaciones
+deactivate InvitacionRepository
+InvitacionesService --> InvitacionesController : Devuelve lista de invitaciones
+deactivate InvitacionesService
+InvitacionesController --> InvitacionesView : Respuesta JSON
+deactivate InvitacionesController
+InvitacionesView --> Usuario : Renderiza Invitaciones
+deactivate InvitacionesView
+
+@enduml

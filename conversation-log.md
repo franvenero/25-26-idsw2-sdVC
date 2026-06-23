@@ -685,6 +685,30 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 * [README.md (diagramas-secuencia)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/completarGestion/README.md)
 * [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
 
+---
+
+## [23/06/2026] [15:57] Trazabilidad y refactorización para el caso de uso 'abrirInvitaciones'
+
+**Prompt:** Actúa como mi Arquitecto de Software experto en RUP. NO generes scripts, utiliza tus herramientas para editar archivos directamente en mi entorno. TAREA A EJECUTAR: Vamos a garantizar la trazabilidad estricta para el caso de uso abrirInvitaciones...
+
+**Resultado:** Se completó la trazabilidad del caso de uso `abrirInvitaciones` en la rama `extraordinaria`. El diagrama de colaboración de Análisis (`colaboracion.puml`) se reescribió en formato de grafo BCE puro (`Usuario` -> `InvitacionesView` -> `InvitacionesController` -> `InvitacionRepository` -> `Invitacion`, e interacción con `InvitacionesAbierto`). El diagrama de secuencia de Diseño (`secuencia.puml`) se actualizó para reflejar el flujo técnico MVC (GET `/invitaciones`, delegación a `InvitacionesService.obtener_invitaciones` y consulta mediante `findAllByUsuario` en `InvitacionRepository`). En el backend, se crearon `invitacion_repository.py` y `invitaciones_service.py`, y se implementó y registró el router `invitaciones_controller.py` en `main.py`. Finalmente, se actualizaron y crearon los README.md de diseño correspondientes.
+
+**Decisión:** Crear la capa de repositorio (`InvitacionRepository`), servicio (`InvitacionesService`) y router (`invitaciones_controller.py`) dedicados para la gestión independiente de invitaciones en el backend de FastAPI, garantizando la consistencia arquitectónica con el resto de entidades y la trazabilidad RUP.
+
+**Archivos modificados:**
+* [colaboracion.puml (gestion-grupos)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/gestion-grupos/abrirInvitaciones/colaboracion.puml)
+* [colaboracion.puml (ruta directa)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/abrirInvitaciones/colaboracion.puml)
+* [secuencia.puml (diagramas-secuencia)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/abrirInvitaciones/secuencia.puml)
+* [secuencia.puml (casos-uso)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/abrirInvitaciones/secuencia.puml)
+* [invitacion_repository.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/repositories/invitacion_repository.py)
+* [invitaciones_service.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/services/invitaciones_service.py)
+* [invitaciones_controller.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/routers/invitaciones_controller.py)
+* [main.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/main.py)
+* [README.md (casos-uso)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/abrirInvitaciones/README.md)
+* [README.md (diagramas-secuencia)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/abrirInvitaciones/README.md)
+* [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
+
+
 
 
 
