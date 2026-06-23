@@ -708,6 +708,27 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 * [README.md (diagramas-secuencia)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/abrirInvitaciones/README.md)
 * [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
 
+---
+
+## [23/06/2026] [16:15] Trazabilidad y alineación de código para el caso de uso 'editarInvitacion'
+
+**Prompt:** Actúa como mi Arquitecto de Software experto en RUP. NO generes scripts, utiliza tus herramientas para editar archivos directamente en mi entorno. TAREA A EJECUTAR: Vamos a garantizar la trazabilidad estricta para el caso de uso editarInvitacion...
+
+**Resultado:** Se completó la trazabilidad y alineación del caso de uso `editarInvitacion` en la rama `extraordinaria`. El diagrama de colaboración de Análisis (`colaboracion.puml`) se estructuró en formato de grafo BCE puro (`Usuario` -> `EditarInvitacionView` -> `InvitacionesController` -> `InvitacionRepository` -> `Invitacion`, con transición a `InvitacionesAbierto`). El diagrama de secuencia de Diseño (`secuencia.puml`) se modeló para reflejar el flujo técnico MVC (PUT `/invitaciones/{id}`, delegación a `InvitacionesService.editar_invitacion`, actualización en `InvitacionRepository.actualizar` y confirmación persistida en PostgreSQL). En el backend, se completó la implementación del método `editar_invitacion` en el servicio y se implementó el router endpoint `PUT /invitaciones/{id}` en `invitaciones_controller.py`. Finalmente, se crearon los documentos README.md de diseño correspondientes para renderizar los diagramas SVG.
+
+**Decisión:** Implementar el endpoint `PUT /invitaciones/{id}` delegando la lógica de negocio a `InvitacionesService.editar_invitacion(id, datos)` y delegando la persistencia mediante `InvitacionRepository.actualizar(id, datos)`, respetando la arquitectura MVC de tres capas y asegurando la trazabilidad desde los modelos conceptuales (BCE) de RUP.
+
+**Archivos modificados:**
+* [colaboracion.puml (gestion-grupos)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/gestion-grupos/editarInvitacion/colaboracion.puml)
+* [colaboracion.puml (ruta directa)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/editarInvitacion/colaboracion.puml)
+* [secuencia.puml (diagramas-secuencia)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/editarInvitacion/secuencia.puml)
+* [secuencia.puml (casos-uso)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/editarInvitacion/secuencia.puml)
+* [invitaciones_controller.py](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/backend/app/routers/invitaciones_controller.py)
+* [README.md (casos-uso)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/editarInvitacion/README.md)
+* [README.md (diagramas-secuencia)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/editarInvitacion/README.md)
+* [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
+
+
 
 
 

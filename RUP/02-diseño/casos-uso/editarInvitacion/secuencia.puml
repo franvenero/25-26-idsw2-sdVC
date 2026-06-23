@@ -1,0 +1,34 @@
+@startuml editarInvitacion-secuencia
+!theme plain
+autonumber
+
+actor Usuario
+participant EditarInvitacionView <<UI React>>
+participant InvitacionesController <<Router FastAPI>>
+participant InvitacionesService <<Lógica de Negocio>>
+participant InvitacionRepository <<Capa Datos SQLAlchemy>>
+database PostgreSQL
+
+Usuario -> EditarInvitacionView : Envía formulario de edición
+activate EditarInvitacionView
+EditarInvitacionView -> InvitacionesController : PUT /invitaciones/{id}
+activate InvitacionesController
+InvitacionesController -> InvitacionesService : editar_invitacion(id, datos)
+activate InvitacionesService
+InvitacionesService -> InvitacionesService : Valida reglas de negocio
+InvitacionesService -> InvitacionRepository : actualizar(id, datos)
+activate InvitacionRepository
+InvitacionRepository -> PostgreSQL : UPDATE invitations
+activate PostgreSQL
+PostgreSQL --> InvitacionRepository : Devuelve confirmación
+deactivate PostgreSQL
+InvitacionRepository --> InvitacionesService : Devuelve objeto Invitacion
+deactivate InvitacionRepository
+InvitacionesService --> InvitacionesController : Devuelve objeto Invitacion
+deactivate InvitacionesService
+InvitacionesController --> EditarInvitacionView : Respuesta JSON
+deactivate InvitacionesController
+EditarInvitacionView --> Usuario : Actualiza vista e informa éxito
+deactivate EditarInvitacionView
+
+@enduml

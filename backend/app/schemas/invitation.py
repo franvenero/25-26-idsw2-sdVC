@@ -9,6 +9,9 @@ class InvitationBase(BaseModel):
 class InvitationCreate(InvitationBase):
     email: EmailStr
 
+class InvitationUpdate(BaseModel):
+    status: Optional[InvitationStatus] = None
+
 class InvitationResponse(InvitationBase):
     id: str
     user_id: str

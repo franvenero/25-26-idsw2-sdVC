@@ -11,3 +11,9 @@ class InvitacionesService:
         Obtiene las invitaciones del usuario delegando al repositorio correspondiente.
         """
         return self.repo.findAllByUsuario(usuario_id)
+
+    def editar_invitacion(self, invitation_id: str, data: dict):
+        """
+        Edita una invitación aplicando validaciones y delegando la persistencia.
+        """
+        return self.repo.actualizar(invitation_id, data)

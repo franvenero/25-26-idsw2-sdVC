@@ -12,3 +12,15 @@ class InvitacionRepository:
         return self.db.query(Invitation).filter(
             Invitation.user_id == str(user_id)
         ).all()
+
+    def actualizar(self, invitation_id: str, data: dict) -> Invitation:
+        """
+        Actualiza los campos de una invitación específica.
+        """
+        inv = self.db.query(Invitation).filter(Invitation.id == invitation_id).first()
+        if inv:
+            for key, value in data.items():
+                setattr(inv, key, value)
+            self.db.commit()
+            self.db.refresh(inv)
+        return inv

@@ -1,28 +1,18 @@
 @startuml editarInvitacion-analisis
 skinparam linetype polyline
+left to right direction
 
 actor Usuario
-package editarInvitacion as "editarInvitacion()" {
-    rectangle #629EF9 ListarInvitacionesView
-    rectangle #b5bd68 InvitacionesController
-    rectangle #F2AC4E InvitacionRepository
-    rectangle #F2AC4E MiembroRepository
-    rectangle #F2AC4E Invitacion
-    rectangle #F2AC4E MiembroGrupo
-}
-rectangle #CDEBA5 ":Sistema Disponible" as SistemaDisponible
+boundary EditarInvitacionView
+control InvitacionesController
+entity InvitacionRepository
+entity "Invitacion" as EntidadInvitacion
+rectangle ":Invitaciones Abierto" as InvitacionesAbierto #C5E0B4
 
-SistemaDisponible -r-> ListarInvitacionesView: 1: procesarInvitacion(invitacion, respuesta)
-
-ListarInvitacionesView -d-> InvitacionesController: 2: resolverInvitacion(id, respuesta)
-
-InvitacionesController --> InvitacionRepository: 3: actualizarEstado(id, respuesta)
-
-InvitacionesController --> MiembroRepository: 4 [respuesta == ACEPTADA]: crearMiembro(grupo, usuario)
-MiembroRepository -- MiembroGrupo
-
-InvitacionRepository -- Invitacion
-
-ListarInvitacionesView -r-> SistemaDisponible: 5: sistemaDisponible(usuario)
+Usuario --> EditarInvitacionView : 1: editarInvitacion(datosActualizados)
+EditarInvitacionView --> InvitacionesController : 2: actualizarInvitacion(id, datosActualizados)
+InvitacionesController --> InvitacionRepository : 3: modificarDatos(id, datosActualizados)
+InvitacionRepository -- EntidadInvitacion
+EditarInvitacionView --> InvitacionesAbierto : 4: actualizaEstado()
 
 @enduml
