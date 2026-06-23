@@ -1,6 +1,6 @@
 # Diseño Técnico: Caso de Uso - iniciarSesion
 
-> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/gestion-sesion/iniciarSesion/README.md) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
 
 Este documento detalla la realización técnica del caso de uso `iniciarSesion`. La lógica de autenticación, validación de credenciales y generación del token JWT se ha delegado de manera exclusiva a un `AuthService` para mantener una alta cohesión y aislar las responsabilidades de negocio del controlador HTTP (router FastAPI).
 

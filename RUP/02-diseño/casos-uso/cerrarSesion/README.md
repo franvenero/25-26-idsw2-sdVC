@@ -1,6 +1,6 @@
 # Diseño Técnico: Caso de Uso - cerrarSesion
 
-> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/gestion-sesion/cerrarSesion/README.md) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
 
 Este documento detalla la realización técnica del caso de uso `cerrarSesion`. La lógica de cierre de sesión e invalidación del token JWT se ha delegado de manera exclusiva a un `AuthService` para mantener la cohesión y aislar las responsabilidades de negocio en el backend.
 

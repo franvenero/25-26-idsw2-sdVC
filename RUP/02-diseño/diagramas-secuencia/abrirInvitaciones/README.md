@@ -1,6 +1,6 @@
 # Diseño Técnico: Caso de Uso - abrirInvitaciones
 
-> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/gestion-grupos/abrirInvitaciones/README.md) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
 
 Este documento detalla la realización técnica del caso de uso `abrirInvitaciones`. La lógica de negocio para obtener las invitaciones del usuario actual se ha encapsulado en un `InvitacionesService` delegando el acceso a datos al `InvitacionRepository`.
 

@@ -1,6 +1,6 @@
 # Diseño Técnico: Caso de Uso - marcarCompletada
 
-> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/gestion-tareas/marcarCompletada/README.md) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
 
 Este documento detalla la realización técnica del caso de uso `marcarCompletada`. La lógica de validación de dependencias y el cambio de estado de las tareas se ha encapsulado en un `TareasService` para mantener la cohesión en la capa de negocio y delegar la persistencia física al `TareaRepository`.
 

@@ -1,22 +1,12 @@
 # Diseño Técnico: Caso de Uso - editarInvitacion
 
-> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/gestion-grupos/editarInvitacion/README.md) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
 
 Este documento detalla la realización técnica del caso de uso `editarInvitacion`. La lógica de negocio para la validación y edición de las invitaciones se ha encapsulado en `InvitacionesService`, delegando la persistencia de datos en `InvitacionRepository`.
 
 ---
 
-## 1. Diagrama de Colaboración (Análisis RUP)
-
-A nivel de análisis conceptual (BCE), el diagrama de comunicación en formato de grafo modela las interacciones iniciales agnósticas a la tecnología.
-
-![Diagrama de Colaboración](/images/RUP/analisis-diseno/editarInvitacion/editarInvitacion.svg)
-
-* [Código fuente PlantUML (.puml)](/RUP/01-analisis/casos-uso/gestion-grupos/editarInvitacion/colaboracion.puml)
-
----
-
-## 2. Diagrama de Secuencia (Diseño MVC)
+## 1. Diagrama de Secuencia (Diseño MVC)
 
 A nivel de diseño físico, la realización técnica detalla el flujo de mensajes asíncronos y la orquestación a través de la interfaz de React, el controlador FastAPI, el servicio y la base de datos PostgreSQL utilizando SQLAlchemy.
 
@@ -26,7 +16,7 @@ A nivel de diseño físico, la realización técnica detalla el flujo de mensaje
 
 ---
 
-## 3. Trazabilidad: Análisis (BCE) a Diseño Técnico
+## 2. Trazabilidad: Análisis (BCE) a Diseño Técnico
 
 | Componente Análisis | Implementación Física (Diseño) | Responsabilidad |
 | :--- | :--- | :--- |

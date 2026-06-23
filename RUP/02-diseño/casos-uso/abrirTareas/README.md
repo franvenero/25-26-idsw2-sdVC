@@ -1,6 +1,6 @@
 # Diseño Técnico: Caso de Uso - abrirTareas
 
-> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/gestion-tareas/abrirTareas/README.md) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
 
 Este documento detalla la realización técnica del caso de uso `abrirTareas`, transformando el análisis conceptual en una especificación lista para implementación bajo el stack React + FastAPI.
 

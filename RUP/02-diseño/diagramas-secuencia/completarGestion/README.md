@@ -1,6 +1,6 @@
 # Diseño Técnico: Caso de Uso - completarGestion
 
-> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/gestion-sesion/completarGestion/README.md) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
 
 Este documento detalla la realización técnica del caso de uso `completarGestion`. Este flujo modela la navegación del usuario de vuelta a la vista principal tras finalizar la gestión, y al ser una transición de rutas del frontend, se encapsula principalmente en la capa de presentación y control de rutas en React sin requerir base de datos directa en este paso exacto.
 

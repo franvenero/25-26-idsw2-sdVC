@@ -1,6 +1,6 @@
 # Diseño Técnico: Caso de Uso - editarInvitacion
 
-> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/gestion-grupos/editarInvitacion/README.md) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
 
 Este documento detalla la realización técnica del caso de uso `editarInvitacion`. La lógica de negocio para la validación y edición de las invitaciones se ha encapsulado en `InvitacionesService`, delegando la persistencia de datos en `InvitacionRepository`.
 

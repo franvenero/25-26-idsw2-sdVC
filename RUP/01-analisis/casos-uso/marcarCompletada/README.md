@@ -1,6 +1,6 @@
 # Análisis: Caso de Uso - marcarCompletada
 
-> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño/diagramas-secuencia/marcarCompletada/README.md) | [💻 Desarrollo](/frontend/src) |
 
 ## Propósito
 Este documento describe el análisis conceptual del caso de uso `marcarCompletada` utilizando la nomenclatura BCE genérica. Este flujo detalla el proceso mediante el cual un usuario completa una tarea y se valida su estado.

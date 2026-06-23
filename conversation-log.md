@@ -728,6 +728,22 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 * [README.md (diagramas-secuencia)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/diagramas-secuencia/editarInvitacion/README.md)
 * [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
 
+---
+
+## [23/06/2026] [16:30] Enlace bidireccional de navegación cruzada en READMEs de casos de uso
+
+**Prompt:** Actúa como mi Asistente de Documentación Técnica. NO generes scripts, utiliza tus herramientas para editar los archivos directamente en mi entorno. TAREA A EJECUTAR: Necesito enlazar de forma cruzada y específica los botones de la barra de navegación en los README.md de nuestros casos de uso...
+
+**Resultado:** Se actualizó la barra de navegación superior en los archivos `README.md` de análisis y diseño de los 7 casos de uso principales (`iniciarSesion`, `cerrarSesion`, `abrirTareas`, `marcarCompletada`, `completarGestion`, `abrirInvitaciones` y `editarInvitacion`). El botón `🎨 Diseño` en cada `README.md` de análisis se modificó para apuntar a la ruta exacta del diseño del correspondiente caso de uso, y el botón `🏗️ Análisis` en cada `README.md` de diseño se modificó para apuntar a la ruta exacta del análisis del caso de uso.
+
+**Decisión:** Implementar enlaces directos y específicos entre los artefactos correspondientes de Análisis y Diseño de cada caso de uso para facilitar la trazabilidad bidireccional y navegación interactiva sin romper los enlaces de Inicio y Desarrollo de la barra estándar.
+
+**Archivos modificados:**
+* 7 README.md de análisis bajo `RUP/01-analisis/casos-uso/`
+* 7 README.md de diseño bajo `RUP/02-diseño/` (tanto en `casos-uso/` como en `diagramas-secuencia/`)
+* [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
+
+
 
 
 
