@@ -743,14 +743,16 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 * 7 README.md de diseño bajo `RUP/02-diseño/` (tanto en `casos-uso/` como en `diagramas-secuencia/`)
 * [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
 
+---
 
+## [25/06/2026] [11:58] Aplanado de la estructura de casos de uso en la fase de análisis
 
+**Prompt:** Actúa como mi Asistente de Sistema de Archivos. NO generes scripts, utiliza tus herramientas para ejecutar esta refactorización de directorios directamente en mi entorno. TAREA A EJECUTAR: Necesito aplanar la estructura del directorio RUP/01-analisis/casos-uso/...
 
+**Resultado:** Se aplanó la estructura del directorio `RUP/01-analisis/casos-uso/`. Se reubicaron los 19 casos de uso que residían dentro de las subcarpetas `gestion-grupos/`, `gestion-sesion/` y `gestion-tareas/` para que dependan directamente del directorio `casos-uso/`. Una vez verificado que las subcarpetas estaban completamente vacías, se eliminaron.
 
+**Decisión:** Aplanar la estructura de directorios en la fase de análisis de casos de uso eliminando las subcarpetas de agrupación intermedia para mejorar la accesibilidad directa de los archivos, manteniendo intactos todos los diagramas y documentos relacionados.
 
-
-
-
-
-
-
+**Archivos modificados:**
+* 19 subdirectorios de casos de uso bajo [casos-uso](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/) (reubicados)
+* [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
