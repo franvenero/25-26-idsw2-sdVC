@@ -2,15 +2,11 @@
 
 <div align="center">
 
-[![Inicio](https://img.shields.io/badge/Inicio-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./)
-[![RUP](https://img.shields.io/badge/RUP-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./RUP)
-[![Modelo del dominio](https://img.shields.io/badge/Modelo_del_dominio-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./_contexto/modelosUML/modeloDeDominio)
-[![Actores & Casos de Uso](https://img.shields.io/badge/Actores_%26_Casos_de_Uso-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./_contexto/01-analisis/casos-uso)
-[![Diagrama de contexto](https://img.shields.io/badge/Diagrama_de_contexto-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./_contexto/actoresYCasosDeUso/diagramaContexto)
-[![Detalle & Prototipo](https://img.shields.io/badge/Detalle_%26_Prototipo-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./frontend/src)
-[![Análisis](https://img.shields.io/badge/Análisis-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./RUP/01-analisis)
-<br>
-[![Log de conversación](https://img.shields.io/badge/Log_de_conversación-F5F5F5?style=flat-square&labelColor=F5F5F5&color=F5F5F5)](./conversation-log.md)
+[![Proceso RUP](https://img.shields.io/badge/⚙️_PROCESO_RUP-003b6f?style=for-the-badge)](./RUP) [![Modelo del Dominio](https://img.shields.io/badge/🗂️_MODELO_DEL_DOMINIO-003b6f?style=for-the-badge)](./_contexto/modelosUML/modeloDeDominio) [![Casos de Uso](https://img.shields.io/badge/👥_CASOS_DE_USO-003b6f?style=for-the-badge)](./_contexto/01-analisis/casos-uso) [![Diagramas de Contexto](https://img.shields.io/badge/📊_DIAGRAMAS_DE_CONTEXTO-003b6f?style=for-the-badge)](./_contexto/actoresYCasosDeUso/diagramaContexto)
+
+[![Detalle](https://img.shields.io/badge/🔍_DETALLE-003b6f?style=for-the-badge)](./_contexto/actoresYCasosDeUso/detalladoYPrototipado) [![Análisis](https://img.shields.io/badge/🧱_ANÁLISIS-003b6f?style=for-the-badge)](./RUP/01-analisis) [![Diseño](https://img.shields.io/badge/🎨_DISEÑO-003b6f?style=for-the-badge)](./RUP/02-diseño) [![Desarrollo](https://img.shields.io/badge/💻_DESARROLLO-003b6f?style=for-the-badge)](./frontend/src) 
+
+[![Reuniones](https://img.shields.io/badge/🎥_REUNIONES-003b6f?style=for-the-badge)](./_contexto/modelosUML)  [![Log de Conversación](https://img.shields.io/badge/💬_LOG_DE_CONVERSACIÓN-003b6f?style=for-the-badge)](./conversation-log.md)
 
 </div>
 

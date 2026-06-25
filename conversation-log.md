@@ -820,3 +820,17 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 * [abrirInvitaciones/README.md (Análisis)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/abrirInvitaciones/README.md)
 * [editarInvitacion/README.md (Análisis)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/editarInvitacion/README.md)
 * [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
+
+---
+
+## [25/06/2026] [13:03] Rediseño visual del menú de navegación en README principal con badges de Shields.io
+
+**Prompt:** Actúa como mi Ingeniero de UX/UI para Documentación. NO generes scripts, utiliza tus herramientas para editar los archivos directamente. TAREA A EJECUTAR: Necesito rediseñar el menú de navegación principal del archivo README.md que se encuentra en la raíz del proyecto...
+
+**Resultado:** Se actualizó el menú de navegación en el archivo `README.md` de la raíz del proyecto. Se reemplazó el menú de texto simple por una estructura de 3 filas de badges con estilo `for-the-badge` de color azul oscuro (`#003b6f`), organizados temáticamente e integrados con iconos representativos, manteniendo exactamente las rutas relativas originales a los directorios y documentos del proyecto.
+
+**Decisión:** Dotar al punto de entrada del proyecto de una interfaz gráfica moderna, legible e interactiva a nivel de documentación, facilitando el acceso a las diferentes disciplinas del proceso RUP, al código fuente de desarrollo y a las bitácoras mediante botones de estilo insignia estandarizados.
+
+**Archivos modificados:**
+* [README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/README.md)
+* [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
