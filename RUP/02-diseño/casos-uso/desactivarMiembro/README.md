@@ -1,26 +1,23 @@
 # Diseño Técnico: Caso de Uso - desactivarMiembro
 
-> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/eliminarMiembro/README.md) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
 
-Este documento detalla la realización técnica del caso de uso `desactivarMiembro`, transformando el análisis conceptual en una especificación lista para implementación bajo el stack React + FastAPI.
+---
 
-## 1. Diagrama de Secuencia de Diseño
+## 1. Diagrama de Colaboración (Análisis RUP)
 
-![Diagrama de Secuencia](/images/RUP/analisis-diseno/diagramas-secuencia/desactivarMiembro/secuencia-desactivarMiembro.svg)
+A nivel de análisis conceptual (BCE), el diagrama de comunicación en formato de grafo modela las interacciones iniciales agnósticas a la tecnología.
 
-Código fuente: [secuencia.puml](./secuencia.puml)
+![Diagrama de Colaboración](../../../../images/RUP/analisis-diseno/eliminarMiembro/eliminarMiembro.svg)
 
-## 2. Trazabilidad y Realización
+* [Código fuente PlantUML (.puml)](../../../01-analisis/casos-uso/eliminarMiembro/colaboracion.puml)
 
-| Componente Análisis | Implementación Física (Diseño) | Responsabilidad |
-| :--- | :--- | :--- |
-| **VistaMiembros** (Boundary) | `GroupManagementPage.tsx` | Lista de miembros con opción de eliminación/desactivación. |
-| **Cliente API** (Boundary) | `member.service.ts` | Petición `DELETE` para remover un miembro del grupo. |
-| **Router Grupos** (Control) | `group_router.py` | Endpoint `DELETE /groups/{id}/members/{uid}`. |
-| **Servicio Grupos** (Control) | `group_service.py` | Lógica para remover la asociación del usuario con el grupo. |
-| **Repositorio** (Entity Abstr.) | `user_repository.py` | Actualización de la relación en la base de datos. |
-| **Entidad Usuario** (Entity) | `user.py` | Representación del miembro en el sistema. |
+---
 
---- 
-**Arquitecto:** Gemini CLI Agent 
-**Fecha:** 14 de junio de 2026
+## 2. Diagrama de Secuencia (Diseño MVC)
+
+A nivel de diseño físico, la realización técnica detalla el flujo de mensajes asíncronos y la orquestación a través del controlador, el servicio y el repositorio.
+
+![Diagrama de Secuencia](../../../../images/RUP/analisis-diseno/diagramas-secuencia/desactivarMiembro/secuencia-desactivarMiembro.svg)
+
+* [Código fuente PlantUML (.puml)](./secuencia.puml)

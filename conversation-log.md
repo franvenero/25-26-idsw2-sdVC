@@ -756,3 +756,47 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 **Archivos modificados:**
 * 19 subdirectorios de casos de uso bajo [casos-uso](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/) (reubicados)
 * [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
+
+---
+
+## [25/06/2026] [12:11] Estandarización visual de los READMEs de la fase de diseño
+
+**Prompt:** Actúa como mi Asistente de Documentación Técnica. NO generes scripts, utiliza tus herramientas para inspeccionar y editar los archivos directamente en mi entorno. TAREA A EJECUTAR: Necesito estandarizar visualmente todos los README.md de la fase de diseño...
+
+**Resultado:** Se realizó una auditoría y actualización de los 11 archivos `README.md` bajo `RUP/02-diseño/casos-uso/`. Se sobrescribieron aquellos que no cumplían con el formato estructurado para que incluyan la barra de navegación corregida, la sección del Diagrama de Colaboración (Análisis BCE) y la sección del Diagrama de Secuencia (Diseño MVC) con sus respectivos textos descriptivos, imágenes SVG referenciadas mediante rutas relativas resueltas y enlaces a sus correspondientes archivos de código fuente PlantUML (`.puml`).
+
+**Decisión:** Estandarizar la documentación de diseño técnico mediante comparativas visuales y directas entre el modelado BCE de análisis (grafo de colaboración) y el modelado MVC de diseño físico (secuencia), facilitando la trazabilidad bidireccional inmediata y la correcta visualización de diagramas en GitHub/VS Code mediante direccionamiento relativo preciso.
+
+**Archivos modificados:**
+* [abrirInvitaciones/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/abrirInvitaciones/README.md)
+* [abrirTareas/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/abrirTareas/README.md)
+* [cerrarSesion/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/cerrarSesion/README.md)
+* [completarGestion/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/completarGestion/README.md)
+* [crearTarea/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/crearTarea/README.md)
+* [desactivarMiembro/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/desactivarMiembro/README.md)
+* [editarInvitacion/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/editarInvitacion/README.md)
+* [editarTarea/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/editarTarea/README.md)
+* [iniciarSesion/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/iniciarSesion/README.md)
+* [invitarMiembro/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/invitarMiembro/README.md)
+* [marcarCompletada/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/marcarCompletada/README.md)
+* [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
+
+---
+
+## [25/06/2026] [12:20] Restauración de especificaciones de API y tablas de trazabilidad en READMEs de diseño
+
+**Prompt:** Actúa como mi Arquitecto de Software. NO generes scripts, utiliza tus herramientas para editar los archivos directamente. TAREA A EJECUTAR: En la estandarización anterior de los README.md en RUP/02-diseño/casos-uso/... se eliminaron accidentalmente las secciones 3 y 4. Necesito que recorras de nuevo los 7 casos de uso y añadas estas dos secciones al final de cada archivo...
+
+**Resultado:** Se restauraron las especificaciones técnicas en los 7 READMEs de casos de uso principales de diseño. Se leyeron dinámicamente los diagramas de secuencia (.puml) y se añadieron la Sección 3 (Especificación del Contrato de API con método HTTP, ruta, Request Body, Response 200 y tabla de errores manejados) y la Sección 4 (Tabla de Trazabilidad desde componentes BCE a su implementación en React/FastAPI/SQLAlchemy).
+
+**Decisión:** Garantizar que la documentación de la fase de diseño integre tanto la vista comparativa de diagramas como la especificación detallada de los endpoints del backend y las tablas de trazabilidad estructural, asegurando que toda la información refleje fielmente la arquitectura técnica FastAPI + React.
+
+**Archivos modificados:**
+* [abrirInvitaciones/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/abrirInvitaciones/README.md)
+* [abrirTareas/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/abrirTareas/README.md)
+* [cerrarSesion/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/cerrarSesion/README.md)
+* [completarGestion/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/completarGestion/README.md)
+* [editarInvitacion/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/editarInvitacion/README.md)
+* [iniciarSesion/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/iniciarSesion/README.md)
+* [marcarCompletada/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/marcarCompletada/README.md)
+* [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)

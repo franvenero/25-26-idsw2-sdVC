@@ -1,23 +1,30 @@
 # Diseño Técnico: Caso de Uso - iniciarSesion
 
-> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/gestion-sesion/iniciarSesion/README.md) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
-
-Este documento detalla la realización técnica del caso de uso `iniciarSesion`. La lógica de autenticación, validación de credenciales y generación del token JWT se ha delegado de manera exclusiva a un `AuthService` para mantener una alta cohesión y aislar las responsabilidades de negocio del controlador HTTP (router FastAPI).
-
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/iniciarSesion/README.md) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
 
 ---
 
-## 1. Diagrama de Secuencia (Diseño MVC)
+## 1. Diagrama de Colaboración (Análisis RUP)
 
-A nivel de diseño físico, la realización técnica detalla el flujo de mensajes asíncronos y la orquestación a través del controlador, el servicio de autenticación y el repositorio.
+A nivel de análisis conceptual (BCE), el diagrama de comunicación en formato de grafo modela las interacciones iniciales agnósticas a la tecnología.
 
-![Diagrama de Secuencia](/images/RUP/analisis-diseno/diagramas-secuencia/iniciarSesion/secuencia-iniciarSesion.svg)
+![Diagrama de Colaboración](../../../../images/RUP/analisis-diseno/iniciarSesion/iniciarSesion.svg)
 
-* [Código fuente PlantUML (.puml)](/RUP/02-diseño/diagramas-secuencia/iniciarSesion/secuencia.puml)
+* [Código fuente PlantUML (.puml)](../../../01-analisis/casos-uso/iniciarSesion/colaboracion.puml)
 
 ---
 
-## 2. Especificación del Contrato de API (Endpoint)
+## 2. Diagrama de Secuencia (Diseño MVC)
+
+A nivel de diseño físico, la realización técnica detalla el flujo de mensajes asíncronos y la orquestación a través del controlador, el servicio y el repositorio.
+
+![Diagrama de Secuencia](../../../../images/RUP/analisis-diseno/diagramas-secuencia/iniciarSesion/secuencia-iniciarSesion.svg)
+
+* [Código fuente PlantUML (.puml)](./secuencia.puml)
+
+---
+
+## 3. Especificación del Contrato de API (Endpoint)
 
 Para la autenticación, se sigue el estándar OAuth2 con Password Flow.
 
@@ -59,7 +66,3 @@ Para la autenticación, se sigue el estándar OAuth2 con Password Flow.
 | **AuthService** (Control) | `auth_service.py` | Lógica de autenticación: verificación de hashes (bcrypt) y generación del JWT. |
 | **UsuarioRepository** (Entity Abstr.) | `user_repository.py` | Consulta de la entidad `User` mediante SQLAlchemy con `buscarPorEmail`. |
 | **Usuario** (Entity) | `models/user.py` (SQLAlchemy Model) | Definición estructural de los datos del usuario. |
-
----
-**Arquitecto:** Asistente de Documentación Técnica
-**Fecha:** 20 de junio de 2026

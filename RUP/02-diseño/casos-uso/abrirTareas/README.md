@@ -1,26 +1,70 @@
 # Diseño Técnico: Caso de Uso - abrirTareas
 
-> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/gestion-tareas/abrirTareas/README.md) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/abrirTareas/README.md) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
 
-Este documento detalla la realización técnica del caso de uso `abrirTareas`, transformando el análisis conceptual en una especificación lista para implementación bajo el stack React + FastAPI.
+---
 
-## 1. Diagrama de Secuencia de Diseño
+## 1. Diagrama de Colaboración (Análisis RUP)
 
-![Diagrama de Secuencia](/images/RUP/analisis-diseno/diagramas-secuencia/abrirTareas/secuencia-abrirTareas.svg)
+A nivel de análisis conceptual (BCE), el diagrama de comunicación en formato de grafo modela las interacciones iniciales agnósticas a la tecnología.
 
-Código fuente: [secuencia.puml](./secuencia.puml)
+![Diagrama de Colaboración](../../../../images/RUP/analisis-diseno/abrirTareas/abrirTareas.svg)
 
-## 2. Trazabilidad y Realización
+* [Código fuente PlantUML (.puml)](../../../01-analisis/casos-uso/abrirTareas/colaboracion.puml)
+
+---
+
+## 2. Diagrama de Secuencia (Diseño MVC)
+
+A nivel de diseño físico, la realización técnica detalla el flujo de mensajes asíncronos y la orquestación a través del controlador, el servicio y el repositorio.
+
+![Diagrama de Secuencia](../../../../images/RUP/analisis-diseno/diagramas-secuencia/abrirTareas/secuencia-abrirTareas.svg)
+
+* [Código fuente PlantUML (.puml)](./secuencia.puml)
+
+---
+
+## 3. Especificación del Contrato de API (Endpoint)
+
+Para listar todas las tareas pertenecientes al grupo del usuario actual.
+
+- **Endpoint:** `GET /api/v1/tareas`
+- **Content-Type:** `application/json`
+
+### Request Headers
+```http
+Authorization: Bearer <token_jwt>
+```
+
+### Response (Success 200 OK)
+```json
+[
+  {
+    "id": 1,
+    "titulo": "Comprar pan",
+    "descripcion": "Ir a la panadería de la esquina",
+    "is_completed": false,
+    "grupo_id": 2
+  }
+]
+```
+
+### Errores Manejados
+| Código | Razón | Detalle |
+| :--- | :--- | :--- |
+| **401** | Unauthorized | Token inválido o ausente. |
+| **422** | Unprocessable Entity | Error de validación en los parámetros de entrada. |
+| **500** | Internal Server Error | Error interno en la base de datos o servidor. |
+
+---
+
+## 4. Trazabilidad: Análisis (BCE) a Diseño Técnico
 
 | Componente Análisis | Implementación Física (Diseño) | Responsabilidad |
 | :--- | :--- | :--- |
-| **VistaTareas** (Boundary) | `DashboardPage.tsx` | Visualización de la lista de tareas del usuario. |
-| **Cliente API** (Boundary) | `task.service.ts` | Gestión de peticiones HTTP para obtener tareas. |
-| **Router Tareas** (Control) | `task_router.py` | Endpoint `GET /tasks/` y validación de sesión. |
-| **Servicio Tareas** (Control) | `task_service.py` | Lógica para filtrar tareas por el grupo del usuario. |
-| **Repositorio** (Entity Abstr.) | `task_repository.py` | Acceso a la base de datos mediante SQLAlchemy. |
-| **Entidad Tarea** (Entity) | `task.py` | Modelo de datos de la tarea. |
-
---- 
-**Arquitecto:** Gemini CLI Agent 
-**Fecha:** 14 de junio de 2026
+| **ListarTareasView** (Boundary) | `DashboardPage.tsx` (React Component) | UI para visualizar la lista de tareas y lanzar la carga inicial. |
+| **ListarTareasView** (Boundary) | `task.service.ts` (Axios) | Realización de la petición HTTP GET /tareas. |
+| **TareasController** (Control) | `task_router.py` (FastAPI Router) | Endpoint `GET /tareas` para recibir la petición y validar la sesión. |
+| **TareasService** (Control) | `task_service.py` | Lógica de negocio: obtención de tareas filtradas por el grupo del usuario. |
+| **TareaRepository** (Entity Abstr.) | `task_repository.py` | Consulta a la base de datos mediante SQLAlchemy con `obtenerTareasPorGrupo`. |
+| **Tarea** (Entity) | `models/task.py` (SQLAlchemy Model) | Definición estructural de los datos de la tarea. |

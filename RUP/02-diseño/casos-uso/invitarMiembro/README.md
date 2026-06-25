@@ -1,26 +1,23 @@
 # Diseño Técnico: Caso de Uso - invitarMiembro
 
-> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
+> | [🏠 Inicio](/README.md) | [🏗️ Análisis](/RUP/01-analisis/casos-uso/invitarUsuario/README.md) | [🎨 Diseño](/RUP/02-diseño) | [💻 Desarrollo](/frontend/src) |
 
-Este documento detalla la realización técnica del caso de uso `invitarMiembro`, transformando el análisis conceptual en una especificación lista para implementación bajo el stack React + FastAPI.
+---
 
-## 1. Diagrama de Secuencia de Diseño
+## 1. Diagrama de Colaboración (Análisis RUP)
 
-![Diagrama de Secuencia](/images/RUP/analisis-diseno/diagramas-secuencia/invitarMiembro/secuencia-invitarMiembro.svg)
+A nivel de análisis conceptual (BCE), el diagrama de comunicación en formato de grafo modela las interacciones iniciales agnósticas a la tecnología.
 
-Código fuente: [secuencia.puml](./secuencia.puml)
+![Diagrama de Colaboración](../../../../images/RUP/analisis-diseno/invitarUsuario/invitarUsuario.svg)
 
-## 2. Trazabilidad y Realización
+* [Código fuente PlantUML (.puml)](../../../01-analisis/casos-uso/invitarUsuario/colaboracion.puml)
 
-| Componente Análisis | Implementación Física (Diseño) | Responsabilidad |
-| :--- | :--- | :--- |
-| **VistaInvitacion** (Boundary) | `InvitationForm.tsx` | UI para ingresar el nombre de usuario a invitar. |
-| **Cliente API** (Boundary) | `member.service.ts` | Petición `POST` para generar una nueva invitación. |
-| **Router Grupos** (Control) | `group_router.py` | Endpoint `POST /groups/{id}/invitations`. |
-| **Servicio Grupos** (Control) | `group_service.py` | Lógica de creación de invitación y validación de existencia de usuario. |
-| **Repositorio** (Entity Abstr.) | `invitation_repository.py` | Registro de la invitación en la base de datos. |
-| **Entidad Invitacion** (Entity) | `invitation.py` | Modelo de datos de la invitación. |
+---
 
---- 
-**Arquitecto:** Gemini CLI Agent 
-**Fecha:** 14 de junio de 2026
+## 2. Diagrama de Secuencia (Diseño MVC)
+
+A nivel de diseño físico, la realización técnica detalla el flujo de mensajes asíncronos y la orquestación a través del controlador, el servicio y el repositorio.
+
+![Diagrama de Secuencia](../../../../images/RUP/analisis-diseno/diagramas-secuencia/invitarMiembro/secuencia-invitarMiembro.svg)
+
+* [Código fuente PlantUML (.puml)](./secuencia.puml)
