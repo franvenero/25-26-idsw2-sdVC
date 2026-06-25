@@ -800,3 +800,23 @@ Decisión: He consolidado la experiencia de usuario del módulo de sesión media
 * [iniciarSesion/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/iniciarSesion/README.md)
 * [marcarCompletada/README.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/02-diseño/casos-uso/marcarCompletada/README.md)
 * [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
+
+---
+
+## [25/06/2026] [12:38] Corrección de rutas de navegación cruzada en READMEs de casos de uso (Análisis y Diseño)
+
+**Prompt:** Actúa como mi Asistente de Documentación Técnica. NO generes scripts, edita los archivos directamente. TAREA A EJECUTAR: Necesito corregir las rutas de la barra de navegación cruzada en los archivos README.md de los 7 casos de uso principales...
+
+**Resultado:** Se actualizaron los enlaces del botón `🎨 Diseño` en la barra de navegación superior de los 7 READMEs de análisis (`RUP/01-analisis/casos-uso/[NombreCasoUso]/README.md`) para que apunten a la ruta final de diseño `/RUP/02-diseño/casos-uso/[NombreCasoUso]/README.md`, corrigiendo la referencia obsoleta a `diagramas-secuencia`. Asimismo, se verificó que los botones `🏗️ Análisis` en los 7 READMEs de diseño apunten correctamente a `/RUP/01-analisis/casos-uso/[NombreCasoUso]/README.md`.
+
+**Decisión:** Consolidar una barra de navegación cruzada y coherente basada en la estructura final de directorios aplanados tanto para la fase de análisis como de diseño, garantizando un flujo ágil de navegación entre los artefactos correspondientes.
+
+**Archivos modificados:**
+* [iniciarSesion/README.md (Análisis)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/iniciarSesion/README.md)
+* [cerrarSesion/README.md (Análisis)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/cerrarSesion/README.md)
+* [abrirTareas/README.md (Análisis)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/abrirTareas/README.md)
+* [marcarCompletada/README.md (Análisis)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/marcarCompletada/README.md)
+* [completarGestion/README.md (Análisis)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/completarGestion/README.md)
+* [abrirInvitaciones/README.md (Análisis)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/abrirInvitaciones/README.md)
+* [editarInvitacion/README.md (Análisis)](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/RUP/01-analisis/casos-uso/editarInvitacion/README.md)
+* [conversation-log.md](file:///C:/Users/franv/Desktop/Proyecto%20IDSW2/25-26-idsw2-sdVC/conversation-log.md)
